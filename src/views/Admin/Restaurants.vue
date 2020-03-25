@@ -134,15 +134,19 @@ import axios from 'axios'
       },
     },
 
-    created () {
+    async created () {
       this.initialize()
     },
     methods: {
-      initialize () {
-        axios.get('http://localhost:8001/api/restaurants')
-        .then(response => this.restaurants = response.data);
+      async initialize () {
+        await this.getRestaurants()
         // axios.get('http://localhost:8001/api/types')
         // .then(response => this.types = response.data);
+      },
+
+      async getRestaurants() {
+        await axios.get('http://localhost:8001/api/restaurants')
+        .then(response => this.restaurants = response.data);
       },
 
       editItem (item) {
@@ -153,16 +157,17 @@ import axios from 'axios'
         this.dialog = true
       },
 
-      deleteItem (item) {
-        const index = this.restaurants.indexOf(item)
-        confirm('Are you sure you want to delete this item?') 
-        && this.restaurants.splice(index, 1) 
-        && axios.delete('http://localhost:8001/api/restaurants/'+item.id)
-        .then(response => {response})
-        .catch(e => {
+      async deleteItem (item) {
+
+        if (confirm('Are you sure you want to delete this item?')){
+          await axios.delete('http://localhost:8001/api/restaurants/'+item.id)
+          .then()
+          .catch(e => {
             this.errors.push(e)
             console.log(this.errors)
         })
+        }
+        await this.getRestaurants()
 
       },
 
@@ -174,35 +179,33 @@ import axios from 'axios'
         }, 300)
       },
 
-      save () {
+      async save () {
         if (this.editedIndex > -1) {
-          axios.put('http://localhost:8001/api/restaurants/' + this.editedItem.id, {
+          await axios.put('http://localhost:8001/api/restaurants/' + this.editedItem.id, {
             adresse: this.editedItem.adresse,
             libelle: this.editedItem.libelle,
             longitude:this.editedItem.longitude,
             latitude: this.editedItem.latitude,
             type:this.editedItem.type.id
           })
-          .then(
-              Object.assign(this.restaurants[this.editedIndex], this.editedItem)
-          )
+          .then()
           .catch(e => {
             this.errors.push(e)
         })
+        await this.getRestaurants()
         } else {
-          axios.post('http://localhost:8001/api/restaurants', {
+          await axios.post('http://localhost:8001/api/restaurants', {
             adresse: this.editedItem.adresse,
             libelle: this.editedItem.libelle,
             longitude:this.editedItem.longitude,
             latitude: this.editedItem.latitude,
             type:this.editedItem.type
           })
-          .then(
-            this.editedItem.type = this.types.find(x => x.id == this.editedItem.type),
-            this.restaurants.push(this.editedItem))
+          .then()
           .catch(e => {
             this.errors.push(e)
         })
+        await this.getRestaurants()
         }
         this.close()
       },
