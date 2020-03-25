@@ -2,12 +2,16 @@
   <v-data-table
     :headers="headers"
     :items="restaurants"
-    sort-by="calories"
+    items-per-page="15"
+    :loading="loading ? true : false"
+    loading-text="Chargement des données"
+    sort-by="created"
     class="elevation-1"
+
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-toolbar-title>My CRUD</v-toolbar-title>
+        <v-toolbar-title>CRUD Restaurants</v-toolbar-title>
         
         <v-divider
           class="mx-4"
@@ -87,13 +91,15 @@ import axios from 'axios'
     data () {
       return {
         errors:[],
-        types:[{'type' : 'Italien', id : 1},{'type' : 'ST', id : 2}],
+        types:[],
+        restaurants:[],
         dialog: false,
+        loading:false,
         headers: [
           {
             text: 'Restaurants',
             align: 'start',
-            sortable: false,
+            sortable: true,
             value: 'libelle',
           },
           { text: 'Adresse', value: 'adresse' },
@@ -103,7 +109,6 @@ import axios from 'axios'
           { text: 'Date de création', value: 'created' },
           { text: 'Actions', value: 'actions', sortable: false },
         ],
-        restaurants:[],
         editedIndex: -1,
         editedItem: {
             libelle: '',
@@ -139,14 +144,20 @@ import axios from 'axios'
     },
     methods: {
       async initialize () {
-        await this.getRestaurants()
-        // axios.get('http://localhost:8001/api/types')
-        // .then(response => this.types = response.data);
+        this.loading = true;
+        await this.getRestaurants();
+        await this.getRestaurantsTypes();
+        this.loading = false;
       },
 
       async getRestaurants() {
         await axios.get('http://localhost:8001/api/restaurants')
         .then(response => this.restaurants = response.data);
+      },
+
+      async getRestaurantsTypes() {
+        await axios.get('http://localhost:8001/api/restaurants-types')
+        .then(response => this.types = response.data);
       },
 
       editItem (item) {
@@ -158,8 +169,8 @@ import axios from 'axios'
       },
 
       async deleteItem (item) {
-
         if (confirm('Are you sure you want to delete this item?')){
+          this.loading = true;
           await axios.delete('http://localhost:8001/api/restaurants/'+item.id)
           .then()
           .catch(e => {
@@ -168,7 +179,7 @@ import axios from 'axios'
         })
         }
         await this.getRestaurants()
-
+        this.loading = false;
       },
 
       close () {
@@ -180,6 +191,7 @@ import axios from 'axios'
       },
 
       async save () {
+        this.loading = true;
         if (this.editedIndex > -1) {
           await axios.put('http://localhost:8001/api/restaurants/' + this.editedItem.id, {
             adresse: this.editedItem.adresse,
@@ -205,8 +217,9 @@ import axios from 'axios'
           .catch(e => {
             this.errors.push(e)
         })
-        await this.getRestaurants()
+        await this.getRestaurants()       
         }
+        this.loading = false;
         this.close()
       },
     },
