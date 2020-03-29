@@ -1,34 +1,10 @@
 <template>
   <div class="plats">
+
     <h1 class="lead-title text-center">Nos Restaurants</h1>
     <section class="container-fluid d-flex flex-row filter-sort-container">
-        <form class="row row-cols-2">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                <label class="form-check-label" for="defaultCheck1">
-                  Filtre 1
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-                <label class="form-check-label" for="defaultCheck2">
-                  Filtre 2
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
-                <label class="form-check-label" for="defaultCheck3">
-                  Filtre 3
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="defaultCheck4">
-                <label class="form-check-label" for="defaultCheck4">
-                  Filtre 4
-                </label>
-            </div>
-        </form>
-        <div class="d-flex p-2 bd-highlight justify-content-center">
+
+        <!-- <div class="d-flex p-2 bd-highlight justify-content-center">
             <div class="dropdown">
                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-display="static" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Trie
@@ -39,16 +15,27 @@
                   <a class="dropdown-item" href="#">Par popularité</a>
                 </div>
               </div>
-        </div>
+        </div> -->
+        <v-select
+        :items="types"
+        label="Vous recherchez un type de restaurant en particulier ?"
+        :loading="loading ? true : false"
+        item-text="type"
+        item-value="type"
+        @change="filterData"
+        ></v-select>
+        <v-layout row class="mb-3">
+          <v-btn small text color="grey" @click="sortByRating()">
+            <v-icon left small>mdi-heart</v-icon>
+            <span class="caption text-lowercase"> By rating</span>
+          </v-btn>
+          <v-btn small text color="grey" @click="sortByTitle()">
+            <v-icon left small>mdi-format-title</v-icon>
+            <span class="caption text-lowercase"> By name</span>
+          </v-btn>
+        </v-layout>
     </section>
-    <section class="container">
-        <div class="search-group">
-            <input class="search-input" placeholder="Recherche">
-            <button class="btn btn-primary search-button" type="submit">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-    </section>
+
 
 
 
@@ -86,7 +73,7 @@
       lg="4"
       xl="3"
       
-        v-for="restaurant in restaurants"
+        v-for="restaurant in filteredData"
         :key="restaurant.route"
       >
         <v-card
@@ -139,35 +126,6 @@
       </v-col>
     </v-row>
   </v-container>
-  <!-- <v-row
-      class="mb-6"
-      v-else
-      no-gutters
-    >
-      <v-col
-      cols="12"
-      md="6"
-      lg="4"
-      xl="3"
-      
-      >
-      <v-skeleton-loader
-      class="mx-auto my-12"
-      max-width="374"
-      type="image,list-item-two-line, article, actions"
-    ></v-skeleton-loader>
-    <v-skeleton-loader
-      class="mx-auto my-12"
-      max-width="374"
-      type="image,list-item-two-line, article, actions"
-    ></v-skeleton-loader>
-    <v-skeleton-loader
-      class="mx-auto my-12"
-      max-width="374"
-      type="image,list-item-two-line, article, actions"
-    ></v-skeleton-loader>
-      </v-col>
-      </v-row> -->
   </section>
   </div>
 </template>
@@ -178,22 +136,15 @@ export default {
   data() {
     return {
       restaurants : [],
+      filteredData:[],
       loading: true,
+      types : [],
       transition: 'fade-transition',
-      transitions: [
-        {
-          text: 'None',
-          value: undefined,
-        },
-        {
-          text: 'Fade Transition',
-          value: 'fade-transition',
-        },
-        {
-          text: 'Scale Transition',
-          value: 'scale-transition',
-        },
-      ],
+    }
+  },
+  watch: {
+    months: function (newVal) {
+      this.gotoMonth(newVal);
     }
   },
   async created() {
@@ -204,12 +155,30 @@ export default {
     async initialize() {
       this.loading = true;
       await this.getRestaurants();
+      await this.getRestaurantsTypes();
+      this.filteredData = this.restaurants;
       this.loading = false;
     },
 
     async getRestaurants() {
-      await Axios.get('http://localhost:8000/api/restaurants')
+      await Axios.get('http://localhost:8001/api/restaurants')
       .then(response => this.restaurants = response.data);
+    },
+    async getRestaurantsTypes() {
+      await Axios.get('http://localhost:8001/api/restaurants-types')
+      .then(response => this.types = response.data);
+    },
+
+    sortByRating() {
+      this.filteredData.sort((a,b) => a.rating > b.rating ? -1 : 1)
+    },
+    sortByTitle() {
+      this.filteredData.sort((a,b) => a.libelle.charAt(0).toUpperCase() < b.libelle.charAt(0).toUpperCase() ? -1 : 1)
+    },
+    filterData(type) {
+      this.filteredData = this.restaurants.filter(function(restaurant){
+        return restaurant.type.type.match(type)
+      })
     }
   }
 }

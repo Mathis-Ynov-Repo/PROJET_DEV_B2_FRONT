@@ -10,6 +10,23 @@
    
             ></v-img>
         </v-toolbar-title>
+        
+        <v-autocomplete
+      v-model="select"
+      :loading="loading"
+      :items="restaurants"
+      item-text="libelle"
+      item-value="id"
+      :search-input.sync="search"
+      cache-items
+      class="mx-4"
+      flat
+      hide-no-data
+      hide-details
+      label="Rechercher un restaurant ?"
+      solo-inverted
+      @change="goToRestaurantPage"
+    ></v-autocomplete>
         <v-spacer></v-spacer>
         <v-btn text color="primary">
             <span>Connexion</span>
@@ -33,19 +50,43 @@
             </v-list-item>
         </v-list>
     </v-navigation-drawer>
+    
   </nav>
 </template>
 
 <script>
+import Axios from 'axios';
 export default {
     data() {
         return  {
             drawer: false,
+            search:null,
+            select:null,
+            loading:true,
+            restaurants : [],
             links: [
                 {icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/'},
                 {icon: 'mdi-food-fork-drink', text: 'Plats', route: '/plats'},
                 {icon: 'mdi-home-variant', text: 'Restaurants', route: '/restaurants'}
             ]
+        }
+    },
+    async created() {
+        this.initialize();
+    },
+    methods: {
+        async initialize() {
+            this.loading = true;
+            await this.getRestaurants();
+            this.loading = false;
+        },
+        async getRestaurants() {
+            
+            await Axios.get('http://localhost:8001/api/restaurants')
+            .then(response => this.restaurants = response.data);
+        },
+        goToRestaurantPage() {
+            window.location.href = '/restaurants/'+this.select
         }
     }
 }
