@@ -1,7 +1,7 @@
 <template>
-  <div class="restaurants">
+  <div class="plats">
 
-    <h1 class="lead-title text-center">Nos Restaurants</h1>
+    <h1 class="lead-title text-center">Nos Plats</h1>
     <section class="container-fluid d-flex flex-row filter-sort-container">
 
         <!-- <div class="d-flex p-2 bd-highlight justify-content-center">
@@ -20,7 +20,7 @@
         :items="types"
         label="Vous recherchez un type de restaurant en particulier ?"
         :loading="loading ? true : false"
-        item-text="type"
+        item-text="libelle"
         item-value="type"
         @change="filterData"
         ></v-select>
@@ -39,7 +39,7 @@
 
 
 
-  <section id="restaurants_list" class="secondary">
+  <section id="plats_list" class="secondary">
   <v-container class="secondary">
     <v-row
       class="mb-6 flex-row"
@@ -73,8 +73,8 @@
       lg="4"
       xl="3"
       
-        v-for="restaurant in filteredData"
-        :key="restaurant.route"
+        v-for="plat in filteredData"
+        :key="plat.route"
       >
         <v-card
         class="mx-auto my-12"
@@ -85,7 +85,7 @@
             src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
           ></v-img>
 
-          <v-card-title>{{restaurant.libelle}}</v-card-title>
+          <v-card-title>{{plat.libelle}}</v-card-title>
 
           <v-card-text>
             <v-row
@@ -93,7 +93,7 @@
               class="mx-0"
             >
               <v-rating
-                :value="restaurant.rating"
+                :value="plat.rating"
                 color="amber"
                 dense
                 half-increments
@@ -101,25 +101,24 @@
                 size="14"
               ></v-rating>
 
-              <div class="grey--text ml-4">{{restaurant.rating}} (413)</div>
+              <div class="grey--text ml-4">{{plat.rating}} (413)</div>
             </v-row>
 
             <div class="my-4 subtitle-1">
-              $ • {{restaurant.type.type}}
+              $ • {{plat.platType.type}}
             </div>
 
-            <div>{{restaurant.description}}</div>
+            <div>{{plat.description}}</div>
           </v-card-text>
 
 
           <v-card-actions class="justify-center">
             <v-btn 
-              router :to="'/restaurants/'+restaurant.id"
+              router :to="'/plats/'+plat.id"
               color="deep-purple lighten-2"
               text
-              
             >
-              Visiter
+              Ajouter au panier
             </v-btn>
           </v-card-actions>
       </v-card>
@@ -135,37 +134,38 @@ import Axios from 'axios'
 export default {
   data() {
     return {
-      restaurants : [],
+      plats : [],
       filteredData:[],
       loading: true,
       types : [],
       transition: 'fade-transition',
     }
   },
-  watch: {
-    months: function (newVal) {
-      this.gotoMonth(newVal);
-    }
-  },
   async created() {
+      //this.$store.dispatch('getPlats');
     this.initialize()
   },
+//   computed: {
+//       plats() {
+//           return this.$store.state.plats;
+//       }
+//   },
 
   methods: {
     async initialize() {
       this.loading = true;
-      await this.getRestaurants();
-      await this.getRestaurantsTypes();
-      this.filteredData = this.restaurants;
+      await this.getPlats();
+      await this.getPlatsTypes();
+      this.filteredData = this.plats;
       this.loading = false;
     },
 
-    async getRestaurants() {
-      await Axios.get('http://localhost:8001/api/restaurants')
-      .then(response => this.restaurants = response.data);
+    async getPlats() {
+      await Axios.get('http://localhost:8001/api/plats')
+      .then(response => this.plats = response.data);
     },
-    async getRestaurantsTypes() {
-      await Axios.get('http://localhost:8001/api/restaurants-types')
+    async getPlatsTypes() {
+      await Axios.get('http://localhost:8001/api/plats-types')
       .then(response => this.types = response.data);
     },
 
@@ -176,8 +176,8 @@ export default {
       this.filteredData.sort((a,b) => a.libelle.charAt(0).toUpperCase() < b.libelle.charAt(0).toUpperCase() ? -1 : 1)
     },
     filterData(type) {
-      this.filteredData = this.restaurants.filter(function(restaurant){
-        return restaurant.type.type.match(type)
+      this.filteredData = this.plats.filter(function(plat){
+        return plat.platType.libelle.match(type)
       })
     }
   }

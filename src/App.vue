@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Navbar />
-    <v-content>
+    <v-content class="mx-4">
       <router-view></router-view>
     </v-content>
 
@@ -10,6 +10,7 @@
 
 <script>
 import Navbar from '@/components/Navbar'
+
 export default {
   name: 'App',
 

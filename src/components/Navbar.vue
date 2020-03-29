@@ -3,7 +3,7 @@
 
     <v-app-bar text app color="grey lighten-4">
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-toolbar-title >
+        <v-toolbar-title class="d-none d-sm-flex">
             <v-img
               src="/images/logo.jpg"
               width="90"
@@ -19,7 +19,7 @@
       item-value="id"
       :search-input.sync="search"
       cache-items
-      class="mx-4"
+      class="mx-4 d-none d-sm-flex"
       flat
       hide-no-data
       hide-details
@@ -36,6 +36,12 @@
             <span>Inscription</span>
             <v-icon right>mdi-exit-to-app</v-icon>
         </v-btn>
+        <div class="mx-5">
+        <v-badge left color="green ">
+            <PopupCart />
+            <span slot="badge">{{cartItemCount}}</span>
+        </v-badge>
+        </div>
     </v-app-bar>
           
     <v-navigation-drawer app v-model="drawer" class="accent">
@@ -55,8 +61,10 @@
 </template>
 
 <script>
+import PopupCart from './PopupCart'
 import Axios from 'axios';
 export default {
+    components: { PopupCart },
     data() {
         return  {
             drawer: false,
@@ -69,6 +77,11 @@ export default {
                 {icon: 'mdi-food-fork-drink', text: 'Plats', route: '/plats'},
                 {icon: 'mdi-home-variant', text: 'Restaurants', route: '/restaurants'}
             ]
+        }
+    },
+    computed: {
+        cartItemCount(){
+            return this.$store.getters.cartItemCount;
         }
     },
     async created() {

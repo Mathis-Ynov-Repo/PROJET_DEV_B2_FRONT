@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+  <div id="app">
   <v-app id="inspire">
     <v-content>
       <v-container
@@ -82,3 +82,15 @@
   </v-app>
 </div>
 </template>
+
+<script>
+export default {
+data () {
+  
+}
+}
+</script>
+
+<style>
+
+</style>
