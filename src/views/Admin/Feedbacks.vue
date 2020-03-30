@@ -1,17 +1,17 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="restaurants"
+    :items="feedbacks"
     items-per-page="5"
     :loading="loading ? true : false"
     loading-text="Chargement des données"
-    sort-by="created"
+    sort-by="id"
     class="elevation-1"
 
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-toolbar-title>CRUD Restaurants</v-toolbar-title>
+        <v-toolbar-title>CRUD Feedbacks</v-toolbar-title>
         
         <v-divider
           class="mx-4"
@@ -31,25 +31,8 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.libelle" label="Nom"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.adresse" label="Adresse"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.longitude" label="Longitude"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.latitude" label="Latitude"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                      <v-select
-                        :items="types"
-                        item-text="type"
-                        item-value="id"
-                        label="Type"
-                        v-model="editedItem.type"></v-select>
+                  <v-col >
+                    <v-textarea v-model="editedItem.message" label="Message"></v-textarea>
                   </v-col>
                 </v-row>
               </v-container>
@@ -91,38 +74,28 @@ import axios from 'axios'
     data () {
       return {
         errors:[],
-        types:[],
-        restaurants:[],
+        feedbacks:[],
         dialog: false,
         loading:false,
         headers: [
           {
-            text: 'Restaurants',
+            text: 'ID',
             align: 'start',
             sortable: true,
-            value: 'libelle',
+            value: 'id',
           },
-          { text: 'Adresse', value: 'adresse' },
-          { text: 'Longitude', value: 'longitude' },
-          { text: 'Latitude', value: 'latitude' },
-          { text: 'Type', value: 'type.type' },
+          { text: 'Message', value: 'message' },
           { text: 'Date de création', value: 'created' },
           { text: 'Actions', value: 'actions', sortable: false },
         ],
         editedIndex: -1,
         editedItem: {
-            libelle: '',
-            adresse: '',
-            longitude: 0,
-            latitude: 0,
-            type: 1
+            id:1,
+            message: '',
         },
         defaultItem: {
-            libelle: '',
-            adresse: '',
-            longitude: 0,
-            latitude: 0,
-            type: 1
+            id:1,
+            message: '',
         },
       }
     },
@@ -145,25 +118,19 @@ import axios from 'axios'
     methods: {
       async initialize () {
         this.loading = true;
-        await this.getRestaurants();
-        await this.getRestaurantsTypes();
+        await this.getFeedbacks();
         this.loading = false;
       },
 
-      async getRestaurants() {
-        await axios.get('http://localhost:8001/api/restaurants')
-        .then(response => this.restaurants = response.data);
+      async getFeedbacks() {
+        await axios.get('http://localhost:8001/api/feedbacks')
+        .then(response => this.feedbacks = response.data);
       },
 
-      async getRestaurantsTypes() {
-        await axios.get('http://localhost:8001/api/restaurants-types')
-        .then(response => this.types = response.data);
-      },
 
       editItem (item) {
-        this.editedIndex = this.restaurants.indexOf(item)
+        this.editedIndex = this.feedbacks.indexOf(item)
         this.editedItem = Object.assign({}, item)
-        this.editedItem.type = this.types.find(x => x.type == item.type.type)
         
         this.dialog = true
       },
@@ -171,14 +138,14 @@ import axios from 'axios'
       async deleteItem (item) {
         if (confirm('Are you sure you want to delete this item?')){
           this.loading = true;
-          await axios.delete('http://localhost:8001/api/restaurants/'+item.id)
+          await axios.delete('http://localhost:8001/api/feedbacks/'+item.id)
           .then()
           .catch(e => {
             this.errors.push(e)
             console.log(this.errors)
         })
         }
-        await this.getRestaurants()
+        await this.getFeedbacks()
         this.loading = false;
       },
 
@@ -193,31 +160,23 @@ import axios from 'axios'
       async save () {
         this.loading = true;
         if (this.editedIndex > -1) {
-          await axios.put('http://localhost:8001/api/restaurants/' + this.editedItem.id, {
-            adresse: this.editedItem.adresse,
-            libelle: this.editedItem.libelle,
-            longitude:this.editedItem.longitude,
-            latitude: this.editedItem.latitude,
-            type:this.editedItem.type.id
+          await axios.put('http://localhost:8001/api/feedbacks/' + this.editedItem.id, {
+            message: this.editedItem.message
           })
           .then()
           .catch(e => {
             this.errors.push(e)
         })
-        await this.getRestaurants()
+        await this.getFeedbacks()
         } else {
-          await axios.post('http://localhost:8001/api/restaurants', {
-            adresse: this.editedItem.adresse,
-            libelle: this.editedItem.libelle,
-            longitude:this.editedItem.longitude,
-            latitude: this.editedItem.latitude,
-            type:this.editedItem.type
+          await axios.post('http://localhost:8001/api/feedbacks', {
+            message: this.editedItem.message
           })
           .then()
           .catch(e => {
             this.errors.push(e)
         })
-        await this.getRestaurants()       
+        await this.getFeedbacks()       
         }
         this.loading = false;
         this.close()

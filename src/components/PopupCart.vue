@@ -2,7 +2,7 @@
 
   <div class="text-center">
 
-    <v-dialog width="800">
+    <v-dialog width="800" height="400">
 
       <template v-slot:activator="{ on }">
 
@@ -14,8 +14,9 @@
       </template>
 
       <v-card flat class="px-3">
-        <h1 v-if="cart.length == 0">Votre Panier est vide</h1>
+        <h1 v-if="cart.length == 0">Panier vide</h1>
         <h1 v-else>Votre Panier</h1>
+        
         <v-row row wrap align="center" v-for="item in cart" :key="item.plat.id">
 
           <v-col cols="12" md="4">
@@ -58,7 +59,15 @@
 
             </v-col>
           </v-row>
-        <h2 v-if="cart.length > 0">Total : {{price}}$</h2>
+          <v-divider :inset="inset"></v-divider>
+          <div v-if="cart.length > 0">
+            <h2 >Total : {{price + 2.99}}$</h2>
+            <p class="font-weight-light caption">Frais de livraison : 2.99$</p>
+            
+            <v-row justify="center">
+            <v-btn color="success" class="my-2" @click="passerCommande()">Passer commande</v-btn>
+            </v-row>
+          </div>
       </v-card>
     </v-dialog>
   </div>
@@ -78,6 +87,9 @@ export default {
   methods: {
     removePlatFromCart(plat) {
       this.$store.dispatch("removePlatFromCart", plat);
+    },
+    passerCommande() {
+      
     }
   }
 

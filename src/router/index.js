@@ -6,6 +6,7 @@ import Restaurants from '../views/Restaurants.vue'
 import AdminRestaurants from '../views/Admin/Restaurants.vue'
 import Plats from '../views/Plats.vue'
 import ListePlat from '../views/ListePlat.vue'
+import AdminFeedbacks from '../views/Admin/Feedbacks.vue'
 
 
 Vue.use(VueRouter)
@@ -40,6 +41,11 @@ const routes = [
     path: '/admin/restaurants',
     name: 'AdminRestaurants',
     component: AdminRestaurants
+  },
+  {
+    path: '/admin/feedbacks',
+    name: 'AdminFeedbacks',
+    component: AdminFeedbacks
   },
   {
     path: '/about',

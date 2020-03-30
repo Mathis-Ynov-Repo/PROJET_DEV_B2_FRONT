@@ -1,5 +1,6 @@
 <template>
   <div>
+      <h1>Tous les plats</h1>
       <plat-list />
   </div>
 </template>

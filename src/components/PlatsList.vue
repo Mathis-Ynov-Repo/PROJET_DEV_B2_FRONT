@@ -1,10 +1,10 @@
 <template>
   <section id="plats_list" class="secondary">
   <v-container class="secondary">
-    <!-- <v-row
+    <v-row
       class="mb-6 flex-row"
       no-gutters
-      v-if="loading">
+      v-if="plats.length == 0">
       <v-col
         cols="12"
         md="6"
@@ -15,13 +15,13 @@
         <v-skeleton-loader
           class="mx-auto my-12"
           max-width="374"
-          v-if="loading"
+          v-if="plats.length == 0"
           type="image,list-item-two-line, article, actions"
         ></v-skeleton-loader>
     
       </v-col>
     
-    </v-row> -->
+    </v-row>
     <v-row
       class="mb-6 flex-row"
       no-gutters
@@ -36,19 +36,21 @@
 <script>
 import Plat from './Plat'
 export default {
-    // data() {
-    //     loading : true
-    // },
+    data() {
+      return {
+        loading : true
+      }
+
+    },
     components: {
-        Plat
+      Plat
     },
     computed: {
       plats() {
-          return this.$store.state.plats;
+        return this.$store.state.plats;
       }
   },
   mounted() {
-    //   this.loading = false;
       this.$store.dispatch("getPlats");
   }
 }

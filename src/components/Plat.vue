@@ -27,7 +27,7 @@
 
 
           <v-card-actions class="justify-center">
-            <v-btn 
+            <v-btn class="primary"
               @click="addToCart()"
             >
               Ajouter au panier
