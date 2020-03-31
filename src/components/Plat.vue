@@ -26,6 +26,14 @@
           </v-card-text>
 
 
+          <v-slider
+            v-model.number="quantity"
+            step="1"
+            :min="1"
+            :max="10"
+            thumb-label
+            type="number"
+          />
           <v-card-actions class="justify-center">
             <v-btn class="primary"
               @click="addToCart()"
@@ -38,15 +46,24 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
     props: ["plat"],
+    data() {
+      return {
+        quantity: 1
+      }
+      
+    },
 
 methods: {
-    addToCart() {
-        this.$store.dispatch('addPlatToCart', {
-          plat: this.plat,
-          quantity: 1
-        });
+
+  ...mapActions(['addPlatToCart']),
+  addToCart() {
+    this.addPlatToCart({
+        plat: this.plat,
+        quantity: this.quantity
+      })
     }
 }
 }

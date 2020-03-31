@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import {mapGetters } from 'vuex'
 import PopupCart from './PopupCart'
 import Axios from 'axios';
 export default {
@@ -80,9 +81,7 @@ export default {
         }
     },
     computed: {
-        cartItemCount(){
-            return this.$store.getters.cartItemCount;
-        }
+        ...mapGetters(['cartItemCount']),
     },
     async created() {
         this.initialize();

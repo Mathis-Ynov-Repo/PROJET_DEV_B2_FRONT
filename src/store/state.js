@@ -1,4 +1,5 @@
 export default{
     plats: [],
-    cart: []
+    cart: [],
+    order: []
 }

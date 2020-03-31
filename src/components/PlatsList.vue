@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { mapState , mapActions}from 'vuex'
 import Plat from './Plat'
 export default {
     data() {
@@ -46,12 +47,13 @@ export default {
       Plat
     },
     computed: {
-      plats() {
-        return this.$store.state.plats;
-      }
+      ...mapState(['plats']),
   },
   mounted() {
-      this.$store.dispatch("getPlats");
+      this.getPlats()
+  },
+  methods: {
+    ...mapActions(["getPlats"])
   }
 }
 </script>
