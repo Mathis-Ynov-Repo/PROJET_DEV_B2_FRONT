@@ -50,7 +50,6 @@ export const getCartItems = ({commit}) => {
 }
 
 export const placeOrder = ({ commit }, price) => {
-    console.log(price);
     commit('ORDER_PLAT', price );
 
     Commande.store({

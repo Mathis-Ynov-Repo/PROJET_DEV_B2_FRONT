@@ -2,7 +2,7 @@
   <v-data-table
     :headers="headers"
     :items="feedbacks"
-    items-per-page="5"
+    :items-per-page= 10
     :loading="loading ? true : false"
     loading-text="Chargement des données"
     sort-by="id"
