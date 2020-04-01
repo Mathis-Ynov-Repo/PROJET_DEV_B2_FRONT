@@ -6,19 +6,26 @@ export const SET_PLATS = (state, plats) => {
 
 export const ADD_TO_CART = (state, {plat, quantity}) => {
     
-    let productInCart = state.cart.find(item=> {
-        return item.plat.id === plat.id;
-    });
-
-    if(productInCart) {
-        productInCart.quantity += quantity;
-        return;
-    }
-    
     state.cart.push({
         plat, quantity
     })
 }
+
+export const INCREASE_QUANTITY = (state,product) => {
+    console.log(product)
+    state.cart = [
+       ...state.cart.filter(element => element.id !== product.id),
+       product
+    ]
+  }
+
+// export const INCREASE_QUANTITY = (state, {productInCart, quantity}) => {
+//     console.log(productInCart);
+//     console.log(quantity);
+//     state.cart.
+//     //productInCart.quantity += quantity;
+//     return;
+// }
 
 export const REMOVE_PLAT_FROM_CART = (state, plat) => {
     state.cart = state.cart.filter(item => {

@@ -10,23 +10,42 @@ export const getPlats = ({ commit }) => {
     })
 }
 
-export const addPlatToCart = ({commit}, {plat, quantity}) => {
-    commit('ADD_TO_CART', { plat, quantity });
+export const addPlatToCart = ({commit, getters}, {plat, quantity}) => {
 
-    Panier.getOne(plat.id).then( response => {
-        let panier = response.data;
-        if(panier) {
-            Panier.patch(panier.id, {
-                quantity: panier.quantity += 1
-            })
-        } else {
-            Panier.store({
-                plat : plat.id,
-                panier: 41,
-                quantity
-            });
-        }
-    })
+    let productInCart = getters.getCart.find(item=> {
+        return item.plat.id === plat.id;
+    });
+
+    if(productInCart) {
+        
+        productInCart.quantity += quantity
+        commit('INCREASE_QUANTITY', productInCart)
+        Panier.patchWithPlat(productInCart.plat.id, {
+            quantity: productInCart.quantity
+        })
+    } else {
+        commit('ADD_TO_CART', { plat, quantity });
+        Panier.store({
+            plat : plat.id,
+            panier: 41,
+            quantity
+        });
+    }
+
+    //commit('ADD_TO_CART', { plat, quantity });
+
+
+
+    // return Panier.getOne(plat.id).then( response => {
+    //     let panier = response.data;
+    //     if(panier) {
+    //         Panier.patch(panier.id, {
+    //             quantity: panier.quantity += 1
+    //         })
+    //     } else {
+            
+    //     }
+    // })
     
 
 }

@@ -12,6 +12,9 @@ export default {
     patch(id,data) {
         return Api.patch(END_POINT + '/'+ id, data)
     },
+    patchWithPlat(plat_id,data) {
+        return Api.patch(END_POINT + '?panier=41&plat=' +plat_id, data)
+    },
     delete(id) {
         return Api.delete(END_POINT + '/' +id)
     },
@@ -19,7 +22,7 @@ export default {
         return Api.delete(END_POINT + '?panier=41&plat=' +plat_id)
     },
     getOne(plat_id) {
-        return Api.get(END_POINT+'-single?panier=41&plat='+plat_id)
+        return Api.get(END_POINT + '-single?panier=41&plat=' + plat_id)
     }
 
 }

@@ -11,3 +11,7 @@ export const cartTotalPrice = (state) => {
 
     return total;
 }
+
+export const getCart = (state) => {
+    return state.cart;
+}
