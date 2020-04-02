@@ -15,57 +15,42 @@
           ></v-img>
 
           <v-card-title>{{plat.libelle}}</v-card-title>
-
-          <v-card-text>
-
-            <div class="my-4 subtitle-1">
-              {{plat.prix}} $ • {{plat.platType.libelle}}
-            </div>
-
-            <div>{{plat.restaurant.libelle}}</div>
-          </v-card-text>
-
-
-          <v-slider
-            v-model.number="quantity"
-            step="1"
-            :min="1"
-            :max="10"
-            thumb-label
-            type="number"
-          />
+          <v-card-subtitle>{{plat.restaurant.libelle}}</v-card-subtitle>
+          <v-card-title class="grey--text py-0">
+            {{plat.prix}} $ • {{plat.platType.libelle}}
+          </v-card-title>
           <v-card-actions class="justify-center">
-            <v-btn class="primary"
-              @click="addToCart()"
-            >
-              Ajouter au panier
-            </v-btn>
+              <PlatDetail :plat="plat"/>
           </v-card-actions>
       </v-card>
       </v-col>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import PlatDetail from './PlatDetail'
+// import { mapActions } from 'vuex'
 export default {
+  components: {
+    PlatDetail
+  },
     props: ["plat"],
-    data() {
-      return {
-        quantity: 1
-      }
+    // data() {
+    //   return {
+    //     quantity: 1
+    //   }
       
-    },
+    // },
 
-methods: {
+// methods: {
 
-  ...mapActions(['addPlatToCart']),
-  addToCart() {
-    this.addPlatToCart({
-        plat: this.plat,
-        quantity: this.quantity
-      })
-    }
-}
+//   ...mapActions(['addPlatToCart']),
+//   addToCart() {
+//     this.addPlatToCart({
+//         plat: this.plat,
+//         quantity: this.quantity
+//       })
+//     }
+// }
 }
 </script>
 

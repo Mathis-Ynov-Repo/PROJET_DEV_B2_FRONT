@@ -12,20 +12,11 @@ export const ADD_TO_CART = (state, {plat, quantity}) => {
 }
 
 export const INCREASE_QUANTITY = (state,product) => {
-    console.log(product)
     state.cart = [
        ...state.cart.filter(element => element.id !== product.id),
        product
     ]
   }
-
-// export const INCREASE_QUANTITY = (state, {productInCart, quantity}) => {
-//     console.log(productInCart);
-//     console.log(quantity);
-//     state.cart.
-//     //productInCart.quantity += quantity;
-//     return;
-// }
 
 export const REMOVE_PLAT_FROM_CART = (state, plat) => {
     state.cart = state.cart.filter(item => {
