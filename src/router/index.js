@@ -5,6 +5,7 @@ import Login from '../views/Login.vue'
 import Restaurants from '../views/Restaurants.vue'
 import AdminRestaurants from '../views/Admin/Restaurants.vue'
 import Plats from '../views/Plats.vue'
+import Checkout from '../views/Checkout.vue'
 import ListePlat from '../views/ListePlat.vue'
 import AdminFeedbacks from '../views/Admin/Feedbacks.vue'
 import AdminCommandes from '../views/Admin/Commandes.vue'
@@ -27,6 +28,11 @@ const routes = [
     path: '/plats',
     name: 'Plats',
     component: Plats
+  },
+  {
+    path: '/checkout',
+    name: 'Checkout',
+    component: Checkout
   },
   {
     path: '/plat-liste',

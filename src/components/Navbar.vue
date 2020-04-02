@@ -36,8 +36,8 @@
             <span>Inscription</span>
             <v-icon right>mdi-exit-to-app</v-icon>
         </v-btn>
-        <div class="mx-5">
-        <v-badge left color="green ">
+        <div class="mx-5" v-if="$route.name != 'Checkout'">
+        <v-badge left color="green">
             <PopupCart />
             <span slot="badge">{{cartItemCount}}</span>
         </v-badge>
