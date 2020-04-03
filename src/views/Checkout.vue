@@ -46,7 +46,7 @@
             
             
             <v-row justify="center">
-            <v-btn color="success" class="my-2" @click.prevent="passerCommande(price)">Passer commande</v-btn>
+            <v-btn color="success" class="my-2" @click.prevent="passerCommande({price, cart})">Passer commande</v-btn>
             </v-row>
           </div>
       </v-card>
