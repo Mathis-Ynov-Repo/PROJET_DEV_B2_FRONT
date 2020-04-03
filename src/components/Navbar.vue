@@ -78,6 +78,7 @@ export default {
                 {icon: 'mdi-food-fork-drink', text: 'Plats', route: '/plats'},
                 {icon: 'mdi-home-variant', text: 'Restaurants', route: '/restaurants'},
                 {icon: 'mdi-home-variant', text: 'ListePlats', route: '/plat-liste'},
+                {icon: 'mdi-home-variant', text: 'ListeRestaurants', route: '/restaurant-liste'},
                 {icon: 'mdi-home-variant', text: 'AdminCommandes', route: '/admin/commandes'}
             ]
         }

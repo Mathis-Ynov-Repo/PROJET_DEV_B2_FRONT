@@ -1,12 +1,20 @@
 
-import Plats from '../apis/Plats'
-import Panier from '../apis/Panier'
+import Plats from '../apis/Plats';
+import Panier from '../apis/Panier';
 import Commande from '../apis/Commande';
+import Restaurants from '../apis/Restaurants';
 
 export const getPlats = ({ commit }) => {
     Plats.all()
     .then(response => {
         commit('SET_PLATS', response.data);
+    })
+}
+
+export const getRestaurants = ({ commit }) => {
+    Restaurants.all()
+    .then(response => {
+        commit('SET_RESTAURANTS', response.data);
     })
 }
 
@@ -69,11 +77,13 @@ export const getCartItems = ({commit}) => {
 }
 
 export const placeOrder = ({ commit }, price) => {
+    
     commit('ORDER_PLAT', price );
 
     Commande.store({
         prix : price,
         statut : 'en cours',
         frais : '2.99'
-    })
+    }),
+    Panier.deleteAll()
 }

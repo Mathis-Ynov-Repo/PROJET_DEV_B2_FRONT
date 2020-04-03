@@ -4,6 +4,10 @@ export const SET_PLATS = (state, plats) => {
     state.plats = plats
 }
 
+export const SET_RESTAURANTS = (state, restaurants) => {
+    state.restaurants = restaurants
+}
+
 export const ADD_TO_CART = (state, {plat, quantity}) => {
     
     state.cart.push({
@@ -36,5 +40,6 @@ export const SET_PANIER = (state, cartItems) => {
 export const ORDER_PLAT = (state, price) => {
     state.order.push({
         price
-    })
+    }),
+    state.cart = [];
 }

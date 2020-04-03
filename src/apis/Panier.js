@@ -21,6 +21,9 @@ export default {
     deleteWithPlat(plat_id) {
         return Api.delete(END_POINT + '?panier=41&plat=' +plat_id)
     },
+    deleteAll() {
+        return Api.delete(END_POINT + '-delete?panier=41')
+    },
     getOne(plat_id) {
         return Api.get(END_POINT + '-single?panier=41&plat=' + plat_id)
     }
