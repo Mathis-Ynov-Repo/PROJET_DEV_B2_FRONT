@@ -15,5 +15,8 @@ export default {
     delete(id) {
         return Api.delete(END_POINT + '/' +id)
     },
+    allPlatsFromRestaurant(id) {
+        return Api.get(END_POINT + '/'+  id + '/plats')
+    }
 
 }

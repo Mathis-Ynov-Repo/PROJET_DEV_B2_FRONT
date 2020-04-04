@@ -4,7 +4,7 @@
     <v-row
       class="mb-6 flex-row"
       no-gutters
-      v-if="plats.length == 0">
+      v-if="loading == true">
       <v-col
         cols="12"
         md="6"
@@ -15,7 +15,7 @@
         <v-skeleton-loader
           class="mx-auto my-12"
           max-width="374"
-          v-if="plats.length == 0"
+          v-if="loading == true"
           type="image,list-item-two-line, article, actions"
         ></v-skeleton-loader>
     
@@ -26,7 +26,7 @@
       class="mb-6 flex-row"
       no-gutters
       >
-      <Plat v-for="plat in plats" :key="plat.id" :plat="plat"/>
+      <Plat v-for="plat in platsFromRestaurant" :key="plat.id" :plat="plat"/>
     </v-row>
   </v-container>
   </section>
@@ -47,13 +47,18 @@ export default {
       Plat
     },
     computed: {
-      ...mapState("plat", ["plats"]),
+      ...mapState("plat",  ['platsFromRestaurant']),
   },
-  mounted() {
-      this.getPlats()
+   mounted() {
+      this.initialize()  
   },
   methods: {
-    ...mapActions("plat", ["getPlats"])
+      async initialize() {
+        this.loading = true;
+        await this.getRestaurantPlats(this.$route.params.id);
+        this.loading = false;
+      },
+    ...mapActions("plat", ["getRestaurantPlats"])
   }
 }
 </script>

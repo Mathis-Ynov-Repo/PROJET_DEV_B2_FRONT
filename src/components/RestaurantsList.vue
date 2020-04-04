@@ -47,13 +47,13 @@ export default {
       Restaurant
     },
     computed: {
-      ...mapState(['restaurants']),
+      ...mapState("restaurant", ['restaurants']),
   },
   mounted() {
       this.getRestaurants()
   },
   methods: {
-    ...mapActions(["getRestaurants"])
+    ...mapActions("restaurant", ["getRestaurants"])
   }
 }
 </script>

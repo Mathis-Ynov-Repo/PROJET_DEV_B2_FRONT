@@ -84,7 +84,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['cartItemCount']),
+        ...mapGetters("cart",['cartItemCount']),
     },
     async created() {
         this.initialize();

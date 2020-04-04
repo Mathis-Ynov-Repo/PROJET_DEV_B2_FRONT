@@ -7,6 +7,7 @@ import AdminRestaurants from '../views/Admin/Restaurants.vue'
 import Plats from '../views/Plats.vue'
 import Checkout from '../views/Checkout.vue'
 import ListePlat from '../views/ListePlat.vue'
+import ListePlatFromRestaurant from '../views/RestaurantPage.vue'
 import AdminFeedbacks from '../views/Admin/Feedbacks.vue'
 import AdminCommandes from '../views/Admin/Commandes.vue'
 import ListeRestaurant from '../views/RestaurantVuex.vue'
@@ -39,6 +40,11 @@ const routes = [
     path: '/plat-liste',
     name: 'ListePlat',
     component: ListePlat
+  },
+  {
+    path: '/restaurants/:id',
+    name: 'ListePlatFromRestaurant',
+    component: ListePlatFromRestaurant
   },
   {
     path: '/restaurant-liste',

@@ -154,10 +154,12 @@ export default {
   methods: {
     async initialize() {
       this.loading = true;
+      console.log(this.loading)
       await this.getRestaurants();
       await this.getRestaurantsTypes();
       this.filteredData = this.restaurants;
       this.loading = false;
+      console.log(this.loading)
     },
 
     async getRestaurants() {

@@ -68,7 +68,7 @@ export default {
 
 methods: {
 
-  ...mapActions(['addPlatToCart']),
+  ...mapActions("cart", ['addPlatToCart']),
   addToCart() {
     this.addPlatToCart({
         plat: this.plat,

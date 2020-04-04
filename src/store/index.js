@@ -8,10 +8,22 @@ import * as getters from './getters';
 import * as mutations from './mutations';
 import * as actions from './actions';
 
+import plat from "./modules/plat"
+import cart from "./modules/cart"
+import restaurant from "./modules/restaurant"
+import order from "./modules/order"
+
 export default new Vuex.Store({
     state,
     getters,
     mutations,
-    actions
+    actions,
+
+    modules: {
+        plat,
+        cart,
+        restaurant,
+        order
+    }
 
 });

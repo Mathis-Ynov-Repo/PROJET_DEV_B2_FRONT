@@ -83,19 +83,19 @@
 import { mapState, mapGetters, mapActions } from 'vuex'
 export default {
   computed: {
-    ...mapState(['cart']),
+    ...mapState("cart", ["cart"]),
     ...mapGetters({
-      price: 'cartTotalPrice'
+      price: 'cart/cartTotalPrice'
     })
 
   },
   methods: {
 
     ...mapActions({
-      removePlatFromCart : "removePlatFromCart",
-      clearCartItems: "clearCart",
-      getCartItems: "getCartItems",
-      passerCommande : "placeOrder"
+      removePlatFromCart : "cart/removePlatFromCart",
+      clearCartItems: "cart/clearCart",
+      getCartItems: "cart/getCartItems",
+      passerCommande : " order/placeOrder"
     }),
 
   },
