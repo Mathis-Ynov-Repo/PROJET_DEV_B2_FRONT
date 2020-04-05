@@ -11,7 +11,8 @@
         >
           <v-img
             height="250"
-            src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+            lazy-src="/images/logo.jpg"
+            src="https://source.unsplash.com/random"
           ></v-img>
 
           <v-card-title>{{restaurant.libelle}}</v-card-title>
@@ -59,6 +60,9 @@
 export default {
 
     props: ["restaurant"],
+    data: () => ({
+      isActive:false,
+    })
 
 }
 </script>
