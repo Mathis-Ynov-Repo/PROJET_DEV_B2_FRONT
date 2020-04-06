@@ -1,6 +1,26 @@
 <template>
 <div>
-    
+      POUR CREATION RESTAURANT ET COMPTE
+        <v-snackbar
+      v-model="snackbar"
+      :multi-line="true"
+      bottom="true"
+      right="true"
+      timeout=320000
+      vertical="true"
+    >
+      {{ text }}
+      <v-btn
+        color="pink"
+        flat
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+
+
+
     <v-divider class="mx-4"></v-divider>
 
     <v-card-title>Tonight's availability</v-card-title>

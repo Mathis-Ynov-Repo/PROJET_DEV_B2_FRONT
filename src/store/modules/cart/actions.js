@@ -1,6 +1,6 @@
 import Panier from '../../../apis/Panier';
 
-export const addPlatToCart = ({commit, getters}, {plat, quantity}) => {
+export const addPlatToCart = async ({commit, getters, dispatch}, {plat, quantity}) => {
 
     let productInCart = getters.getCart.find(item=> {
         return item.plat.id === plat.id;
@@ -10,17 +10,21 @@ export const addPlatToCart = ({commit, getters}, {plat, quantity}) => {
         
         productInCart.quantity += quantity
         commit('INCREASE_QUANTITY', productInCart)
-        Panier.patchWithPlat(productInCart.plat.id, {
+        await Panier.patchWithPlat(productInCart.plat.id, {
             quantity: productInCart.quantity
         })
     } else {
         commit('ADD_TO_CART', { plat, quantity });
-        Panier.store({
+        await Panier.store({
             plat : plat.id,
             panier: 41,
             quantity
         });
     }
+    dispatch('notifications/addNotification', {
+        type:'success',
+        message: 'Product added to cart.'
+    }, {root: true})
 
     //commit('ADD_TO_CART', { plat, quantity });
 
@@ -40,10 +44,16 @@ export const addPlatToCart = ({commit, getters}, {plat, quantity}) => {
 
 }
 
-export const removePlatFromCart = ({commit}, panierDetail) => {
+export const removePlatFromCart = async ({commit, dispatch}, panierDetail) => {
     commit('REMOVE_PLAT_FROM_CART', panierDetail.plat);
+
     //Panier.delete(panierDetail.id)
-    Panier.deleteWithPlat(panierDetail.plat.id)
+    await Panier.deleteWithPlat(panierDetail.plat.id)
+
+    dispatch('notifications/addNotification', {
+        type:'error',
+        message: 'Product removed from cart.'
+    }, {root: true});
 
 }
 

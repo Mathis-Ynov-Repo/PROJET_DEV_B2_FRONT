@@ -69,8 +69,8 @@ export default {
 methods: {
 
   ...mapActions("cart", ['addPlatToCart']),
-  addToCart() {
-    this.addPlatToCart({
+  async addToCart() {
+    await this.addPlatToCart({
         plat: this.plat,
         quantity: this.quantity
       }),

@@ -12,6 +12,7 @@ import plat from "./modules/plat"
 import cart from "./modules/cart"
 import restaurant from "./modules/restaurant"
 import order from "./modules/order"
+import notifications from "./modules/notifications"
 
 export default new Vuex.Store({
     state,
@@ -23,7 +24,8 @@ export default new Vuex.Store({
         plat,
         cart,
         restaurant,
-        order
+        order,
+        notifications
     }
 
 });
