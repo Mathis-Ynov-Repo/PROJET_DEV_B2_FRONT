@@ -1,50 +1,46 @@
 <template>
-  <div id="app">
-    <v-snackbar v-if="authStatus == 'success'">
-      Hé
-      <v-btn color="pink" text @click="snackbar = false">Close</v-btn>
-    </v-snackbar>
-    <v-app id="inspire">
-      <v-content>
-        <v-container fluid fill-height>
-          <v-layout align-center justify-center>
-            <v-flex xs12 sm8 md4>
-              <v-card class="elevation-12">
-                <v-toolbar color="primary" dark flat>
-                  <v-toolbar-title>Login form</v-toolbar-title>
-                  <v-spacer></v-spacer>
-                </v-toolbar>
-                <v-card-text>
-                  <v-form>
-                    <v-text-field
-                      label="Login"
-                      v-model="email"
-                      name="login"
-                      prepend-icon="mdi-account"
-                      type="text"
-                    ></v-text-field>
+  <v-container fluid fill-height>
+    <v-layout align-center justify-center>
+      <v-flex xs12 sm8 md4>
+        <v-alert v-if="this.authStatus == 'error'" dense outlined type="error">Crédentiels invalides</v-alert>
+        <v-card class="elevation-12">
+          <v-toolbar color="primary" dark flat>
+            <v-toolbar-title>Login form</v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
 
-                    <v-text-field
-                      id="password"
-                      label="Password"
-                      v-model="password"
-                      name="password"
-                      prepend-icon="mdi-lock"
-                      type="password"
-                    ></v-text-field>
-                  </v-form>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" @click="login()">Login</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-content>
-    </v-app>
-  </div>
+          <v-card-text>
+            <v-form v-model="valid">
+              <v-text-field
+                label="Login"
+                :rules="[v => !!v || 'Mail requis']"
+                v-model="email"
+                name="login"
+                prepend-icon="mdi-account"
+                type="text"
+                required
+              ></v-text-field>
+
+              <v-text-field
+                id="password"
+                :rules="[v => !!v || 'Mot de passe requis']"
+                label="Password"
+                v-model="password"
+                name="password"
+                prepend-icon="mdi-lock"
+                type="password"
+                required
+              ></v-text-field>
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" :disabled="!valid" @click="login()">Login</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -54,7 +50,9 @@ export default {
     return {
       email: "",
       password: "",
-      snackbar: true
+      snackbar: true,
+      valid: false,
+      error: ""
     };
   },
   methods: {
