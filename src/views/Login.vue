@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <v-snackbar v-if="authStatus == 'success'">
+      Hé
+      <v-btn color="pink" text @click="snackbar = false">Close</v-btn>
+    </v-snackbar>
     <v-app id="inspire">
       <v-content>
         <v-container fluid fill-height>
@@ -44,11 +48,13 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      snackbar: true
     };
   },
   methods: {
@@ -60,6 +66,11 @@ export default {
         .then(() => this.$router.push("/"))
         .catch(err => console.log(err));
     }
+  },
+  computed: {
+    ...mapGetters({
+      authStatus: "authentication/authStatus"
+    })
   }
 };
 </script>

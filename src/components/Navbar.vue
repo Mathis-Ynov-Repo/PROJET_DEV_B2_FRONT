@@ -23,15 +23,20 @@
         @change="goToRestaurantPage"
       ></v-autocomplete>
       <v-spacer></v-spacer>
-      <v-btn text color="primary">
-        <span>Connexion</span>
-        <v-icon right>mdi-exit-to-app</v-icon>
-      </v-btn>
-      <v-btn color="primary">
-        <span>Inscription</span>
-        <v-icon right>mdi-exit-to-app</v-icon>
-      </v-btn>
-      <div class="mx-5" v-if="$route.name != 'Checkout'">
+      <div class="auth-container" v-if="!$store.getters['authentication/isLoggedIn']">
+        <v-btn text color="primary" to="Login">
+          <span>Connexion</span>
+          <v-icon right>mdi-exit-to-app</v-icon>
+        </v-btn>
+        <v-btn color="primary" to="Register">
+          <span>Inscription</span>
+          <v-icon right>mdi-exit-to-app</v-icon>
+        </v-btn>
+      </div>
+      <div
+        class="mx-5"
+        v-if="$route.name != 'Checkout' || $store.getters['authentication/isLoggedIn']"
+      >
         <v-badge left color="green">
           <PopupCart />
           <span slot="badge">{{cartItemCount}}</span>
@@ -49,13 +54,21 @@
             <v-list-item-title class="white--text">{{link.text}}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item @click.prevent="logout()">
+          <v-list-item-action>
+            <v-icon class="white--text">mdi-logout</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title class="white--text">Se déconnecter</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
   </nav>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import PopupCart from "./PopupCart";
 import Axios from "axios";
 export default {
@@ -97,10 +110,10 @@ export default {
     this.initialize();
   },
   methods: {
+    ...mapActions("authentication", ["logout"]),
     async initialize() {
       this.loading = true;
       await this.getRestaurants();
-      console.log(this.restaurants);
       this.loading = false;
     },
     async getRestaurants() {

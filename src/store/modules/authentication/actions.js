@@ -22,7 +22,7 @@ import axios from "axios";
 //   });
 // };
 
-export const login = ({ commit }, user) => {
+export const login = ({ commit, dispatch }, user) => {
   return new Promise((resolve, reject) => {
     commit("AUTH_REQUEST");
     axios({
@@ -35,36 +35,45 @@ export const login = ({ commit }, user) => {
         const user = resp.data.user;
         localStorage.setItem("token", token);
         axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-        commit("AUTH_SUCCESS", token, user);
+        commit("AUTH_SUCCESS", { token, user });
         resolve(resp);
       })
       .catch(err => {
         commit("AUTH_ERROR");
+        dispatch(
+          "notifications/addNotification",
+          {
+            type: "error",
+            message: "Identifiants erronés."
+          },
+          { root: true }
+        );
         localStorage.removeItem("token");
         reject(err);
       });
   });
 };
 
-export const register = ({ commit }, user) => {
+export const register = ({ commit, dispatch }, user) => {
   return new Promise((resolve, reject) => {
-    commit("auth_request");
+    commit("AUTH_REQUEST");
+    const password = user.password;
     axios({
       url: "http://localhost:3000/api/register",
       data: user,
       method: "POST"
     })
       .then(resp => {
-        const token = resp.data.token;
-        const user = resp.data.user;
-        localStorage.setItem("token", token);
-        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-        commit("auth_success", token, user);
+        const username = resp.data.email;
+        console.log(username, password);
+        dispatch("login", {
+          username,
+          password
+        });
         resolve(resp);
       })
       .catch(err => {
-        commit("auth_error", err);
-        localStorage.removeItem("token");
+        commit("AUTH_ERROR", err);
         reject(err);
       });
   });
@@ -72,17 +81,9 @@ export const register = ({ commit }, user) => {
 
 export const logout = ({ commit }) => {
   return new Promise(resolve => {
-    commit("logout");
+    commit("LOGOUT");
     localStorage.removeItem("token");
     delete axios.defaults.headers.common["Authorization"];
     resolve();
   });
 };
-// export const AUTH_LOGOUT = ({ commit }) => {
-//   return new Promise(resolve => {
-//     commit("AUTH_LOGOUT");
-//     localStorage.removeItem("user-token"); // clear your user's token from localstorage
-//     delete axios.defaults.headers.common["Authorization"];
-//     resolve();
-//   });
-// };
