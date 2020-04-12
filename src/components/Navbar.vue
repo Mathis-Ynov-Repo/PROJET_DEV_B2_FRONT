@@ -1,12 +1,16 @@
 <template>
   <nav>
     <v-app-bar text app color="grey lighten-4">
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon
+        @click="drawer = !drawer"
+        v-if="$store.getters['authentication/isLoggedIn']"
+      ></v-app-bar-nav-icon>
       <v-toolbar-title class="d-none d-sm-flex">
         <v-img src="/images/logo.jpg" width="90"></v-img>
       </v-toolbar-title>
 
       <v-autocomplete
+        v-if="$store.getters['authentication/isLoggedIn']"
         v-model="select"
         :loading="loading"
         :items="restaurants"
@@ -35,7 +39,7 @@
       </div>
       <div
         class="mx-5"
-        v-if="$route.name != 'Checkout' || $store.getters['authentication/isLoggedIn']"
+        v-if="$route.name != 'Checkout' && $store.getters['authentication/isLoggedIn']"
       >
         <v-badge left color="green">
           <PopupCart />
@@ -44,9 +48,40 @@
       </div>
     </v-app-bar>
 
-    <v-navigation-drawer app v-model="drawer" class="accent">
+    <v-navigation-drawer
+      app
+      v-model="drawer"
+      class="accent"
+      v-if="$store.getters['authentication/isLoggedIn']"
+    >
+      <v-list v-if="this.$store.getters['authentication/authUser'].roles.includes('ROLE_ADMIN')">
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="white--text">Accès Administrateur</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-for="link in AdminLinks" :key="link.route" router :to="{name:link.route}">
+          <v-list-item-action>
+            <v-icon class="white--text">{{link.icon}}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title class="white--text">{{link.text}}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
       <v-list>
-        <v-list-item v-for="link in links" :key="link.text" router :to="link.route">
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="white--text">Accès Utilisateur</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-for="link in links"
+          :key="link.route"
+          exact="true"
+          router
+          :to="{name:link.route}"
+        >
           <v-list-item-action>
             <v-icon class="white--text">{{link.icon}}</v-icon>
           </v-list-item-action>
@@ -81,25 +116,38 @@ export default {
       loading: true,
       restaurants: [],
       links: [
-        { icon: "mdi-view-dashboard", text: "Dashboard", route: "/" },
-        { icon: "mdi-food-fork-drink", text: "Plats", route: "/plats" },
+        { icon: "mdi-view-dashboard", text: "Dashboard", route: "Home" },
+        { icon: "mdi-food-fork-drink", text: "Plats", route: "Plats" },
         {
           icon: "mdi-home-variant",
           text: "Restaurants",
-          route: "/restaurants"
+          route: "Restaurants"
         },
-        { icon: "mdi-home-variant", text: "ListePlats", route: "/plat-liste" },
+        { icon: "mdi-home-variant", text: "ListePlats", route: "ListePlat" },
         {
           icon: "mdi-home-variant",
           text: "ListeRestaurants",
-          route: "/restaurant-liste"
+          route: "ListeRestaurant"
         },
+        { icon: "mdi-home-variant", text: "Profil", route: "Profile" }
+      ],
+      AdminLinks: [
+        {
+          icon: "mdi-home-variant",
+          text: "AdminRestaurants",
+          route: "AdminRestaurants"
+        },
+
         {
           icon: "mdi-home-variant",
           text: "AdminCommandes",
-          route: "/admin/commandes"
+          route: "AdminCommandes"
         },
-        { icon: "mdi-home-variant", text: "Profil", route: "/profile" }
+        {
+          icon: "mdi-home-variant",
+          text: "AdminFeedbacks",
+          route: "AdminFeedbacks"
+        }
       ]
     };
   },

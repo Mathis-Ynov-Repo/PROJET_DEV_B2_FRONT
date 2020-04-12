@@ -5,3 +5,7 @@ export const isLoggedIn = state => {
 export const authStatus = state => {
   return state.status;
 };
+
+export const authUser = state => {
+  return state.user;
+};

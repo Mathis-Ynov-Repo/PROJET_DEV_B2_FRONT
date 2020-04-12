@@ -22,7 +22,7 @@ import axios from "axios";
 //   });
 // };
 
-export const login = ({ commit, dispatch }, user) => {
+export const login = ({ commit }, user) => {
   return new Promise((resolve, reject) => {
     commit("AUTH_REQUEST");
     axios({
@@ -34,21 +34,15 @@ export const login = ({ commit, dispatch }, user) => {
         const token = resp.data.token;
         const user = resp.data.user;
         localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
         axios.defaults.headers.common["Authorization"] = "Bearer " + token;
         commit("AUTH_SUCCESS", { token, user });
         resolve(resp);
       })
       .catch(err => {
         commit("AUTH_ERROR");
-        dispatch(
-          "notifications/addNotification",
-          {
-            type: "error",
-            message: "Identifiants erronés."
-          },
-          { root: true }
-        );
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         reject(err);
       });
   });
@@ -83,6 +77,7 @@ export const logout = ({ commit }) => {
   return new Promise(resolve => {
     commit("LOGOUT");
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     delete axios.defaults.headers.common["Authorization"];
     resolve();
   });

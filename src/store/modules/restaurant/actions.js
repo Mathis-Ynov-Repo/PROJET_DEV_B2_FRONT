@@ -1,10 +1,7 @@
-
-import Restaurants from '../../../apis/Restaurants';
-
+import Restaurants from "../../../apis/Restaurants";
 
 export const getRestaurants = ({ commit }) => {
-    Restaurants.all()
-    .then(response => {
-        commit('SET_RESTAURANTS', response.data);
-    })
-}
+  Restaurants.all().then(response => {
+    commit("SET_RESTAURANTS", response.data["hydra:member"]);
+  });
+};

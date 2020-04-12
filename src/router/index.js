@@ -45,47 +45,77 @@ const routes = [
   {
     path: "/plats",
     name: "Plats",
-    component: Plats
+    component: Plats,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/checkout",
     name: "Checkout",
-    component: Checkout
+    component: Checkout,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/plat-liste",
     name: "ListePlat",
-    component: ListePlat
+    component: ListePlat,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/restaurants/:id",
     name: "ListePlatFromRestaurant",
-    component: ListePlatFromRestaurant
+    component: ListePlatFromRestaurant,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/restaurant-liste",
     name: "ListeRestaurant",
-    component: ListeRestaurant
+    component: ListeRestaurant,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/restaurants",
     name: "Restaurants",
-    component: Restaurants
+    component: Restaurants,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/admin/restaurants",
     name: "AdminRestaurants",
-    component: AdminRestaurants
+    component: AdminRestaurants,
+    meta: {
+      requiresAuth: true,
+      is_admin: true
+    }
   },
   {
     path: "/admin/feedbacks",
     name: "AdminFeedbacks",
-    component: AdminFeedbacks
+    component: AdminFeedbacks,
+    meta: {
+      requiresAuth: true,
+      is_admin: true
+    }
   },
   {
     path: "/admin/commandes",
     name: "AdminCommandes",
-    component: AdminCommandes
+    component: AdminCommandes,
+    meta: {
+      requiresAuth: true,
+      is_admin: true
+    }
   },
   {
     path: "/about",
@@ -104,10 +134,20 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters["authentication/isLoggedIn"]) {
+      let user = store.getters["authentication/authUser"];
+      if (to.matched.some(record => record.meta.is_admin)) {
+        if (user.roles.includes("ROLE_ADMIN")) {
+          next();
+        } else {
+          next({ name: "Login" });
+        }
+      } else {
+        next();
+      }
       next();
       return;
     }
-    next("/login");
+    next({ name: "Login" });
   } else {
     next();
   }
