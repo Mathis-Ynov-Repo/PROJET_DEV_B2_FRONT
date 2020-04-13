@@ -45,7 +45,12 @@
         </v-list-item>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="confirmDelivery(item)">mdi-check-outline</v-icon>
+        <v-icon
+          v-if="item.statut == 'en cours'"
+          small
+          class="mr-2"
+          @click="confirmDelivery(item)"
+        >mdi-check-outline</v-icon>
         <v-icon small @click="AbandonCommand(item)">mdi-delete</v-icon>
       </template>
     </v-data-table>
