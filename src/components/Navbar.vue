@@ -28,11 +28,11 @@
       ></v-autocomplete>
       <v-spacer></v-spacer>
       <div class="auth-container" v-if="!$store.getters['authentication/isLoggedIn']">
-        <v-btn text color="primary" to="Login">
+        <v-btn text color="primary" :to="{name:'Login'}">
           <span>Connexion</span>
           <v-icon right>mdi-exit-to-app</v-icon>
         </v-btn>
-        <v-btn color="primary" to="Register">
+        <v-btn color="primary" :to="{name:'Register'}">
           <span>Inscription</span>
           <v-icon right>mdi-exit-to-app</v-icon>
         </v-btn>
