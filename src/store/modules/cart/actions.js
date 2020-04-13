@@ -8,28 +8,43 @@ export const addPlatToCart = async (
     return item.plat.id === plat.id;
   });
 
-  if (productInCart) {
-    productInCart.quantity += quantity;
-    commit("INCREASE_QUANTITY", productInCart);
-    await Panier.patchWithPlat(productInCart.plat.id, {
-      quantity: productInCart.quantity
-    });
+  let MatchRestaurant = getters.getCart.find(item => {
+    return item.plat.restaurant.id != plat.restaurant.id;
+  });
+
+  if (!MatchRestaurant) {
+    if (productInCart) {
+      productInCart.quantity += quantity;
+      commit("INCREASE_QUANTITY", productInCart);
+      await Panier.patchWithPlat(productInCart.plat.id, {
+        quantity: productInCart.quantity
+      });
+    } else {
+      commit("ADD_TO_CART", { plat, quantity });
+      await Panier.store({
+        plat: plat.id,
+        panier: 41,
+        quantity
+      });
+    }
+    dispatch(
+      "notifications/addNotification",
+      {
+        type: "success",
+        message: "Product added to cart."
+      },
+      { root: true }
+    );
   } else {
-    commit("ADD_TO_CART", { plat, quantity });
-    await Panier.store({
-      plat: plat.id,
-      panier: 41,
-      quantity
-    });
+    dispatch(
+      "notifications/addNotification",
+      {
+        type: "error",
+        message: "You can only order products from the same restaurant"
+      },
+      { root: true }
+    );
   }
-  dispatch(
-    "notifications/addNotification",
-    {
-      type: "success",
-      message: "Product added to cart."
-    },
-    { root: true }
-  );
 
   //commit('ADD_TO_CART', { plat, quantity });
 
