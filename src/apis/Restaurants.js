@@ -14,5 +14,8 @@ export default {
   },
   delete(id) {
     return Api.delete(END_POINT + "/" + id);
+  },
+  RestaurantWithUser(id) {
+    return Api.get(END_POINT + "?user.id=" + id);
   }
 };

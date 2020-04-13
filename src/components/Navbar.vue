@@ -69,6 +69,28 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <v-list
+        v-if="this.$store.getters['authentication/authUser'].roles.includes('ROLE_RESTAURATEUR')"
+      >
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="white--text">Accès Restaurateur</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-for="link in RestaurateurLinks"
+          :key="link.route"
+          router
+          :to="{name:link.route}"
+        >
+          <v-list-item-action>
+            <v-icon class="white--text">{{link.icon}}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title class="white--text">{{link.text}}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
       <v-list>
         <v-list-item>
           <v-list-item-content>
@@ -131,6 +153,13 @@ export default {
         },
         { icon: "mdi-home-variant", text: "Profil", route: "Profile" }
       ],
+      RestaurateurLinks: [
+        {
+          icon: "mdi-home-variant",
+          text: "Mon Restaurant",
+          route: "RestaurateurRestaurant"
+        }
+      ],
       AdminLinks: [
         {
           icon: "mdi-home-variant",
@@ -143,6 +172,7 @@ export default {
           text: "AdminCommandes",
           route: "AdminCommandes"
         },
+
         {
           icon: "mdi-home-variant",
           text: "AdminFeedbacks",

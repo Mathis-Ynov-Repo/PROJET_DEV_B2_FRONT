@@ -1,4 +1,4 @@
 export default {
-    plats: [],
-    platsFromRestaurant:[]
-}
+  plats: [],
+  platsFromRestaurant: []
+};

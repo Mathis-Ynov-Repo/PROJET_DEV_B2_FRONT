@@ -50,7 +50,6 @@ export default {
     return {
       email: "",
       password: "",
-      snackbar: true,
       valid: false,
       error: ""
     };

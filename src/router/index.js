@@ -8,6 +8,7 @@ import Plats from "../views/Plats.vue";
 import Checkout from "../views/Checkout.vue";
 import ListePlat from "../views/ListePlat.vue";
 import ListePlatFromRestaurant from "../views/RestaurantPage.vue";
+import RestaurateurRestaurant from "../views/Restaurateur/Restaurant.vue";
 import AdminFeedbacks from "../views/Admin/Feedbacks.vue";
 import AdminCommandes from "../views/Admin/Commandes.vue";
 import ListeRestaurant from "../views/RestaurantVuex.vue";
@@ -91,6 +92,15 @@ const routes = [
     }
   },
   {
+    path: "/restaurateur/restaurant",
+    name: "RestaurateurRestaurant",
+    component: RestaurateurRestaurant,
+    meta: {
+      requiresAuth: true,
+      is_restaurateur: true
+    }
+  },
+  {
     path: "/admin/restaurants",
     name: "AdminRestaurants",
     component: AdminRestaurants,
@@ -137,6 +147,12 @@ router.beforeEach((to, from, next) => {
       let user = store.getters["authentication/authUser"];
       if (to.matched.some(record => record.meta.is_admin)) {
         if (user.roles.includes("ROLE_ADMIN")) {
+          next();
+        } else {
+          next({ name: "Login" });
+        }
+      } else if (to.matched.some(record => record.meta.is_restaurateur)) {
+        if (user.roles.includes("ROLE_RESTAURATEUR")) {
           next();
         } else {
           next({ name: "Login" });
