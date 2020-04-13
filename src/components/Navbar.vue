@@ -78,7 +78,7 @@
         <v-list-item
           v-for="link in links"
           :key="link.route"
-          exact="true"
+          :exact="true"
           router
           :to="{name:link.route}"
         >
