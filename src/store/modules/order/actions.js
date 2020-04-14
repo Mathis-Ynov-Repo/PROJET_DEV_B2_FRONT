@@ -2,16 +2,19 @@ import Panier from "../../../apis/Panier";
 import Commande from "../../../apis/Commande";
 import CommandeDetails from "../../../apis/CommandeDetails";
 
-export const placeOrder = ({ commit }, { price, cart, user }) => {
+export const placeOrder = async (
+  { commit, dispatch },
+  { price, cart, user }
+) => {
   commit("ORDER_PLAT", price);
   commit("cart/CLEAR_CART", null, { root: true });
 
-  Commande.store({
+  await Commande.store({
     prix: price,
     statut: "en cours",
     frais: 2.99,
     user: "/api/users/" + user.id
-  }).then(response => {
+  }).then(async response => {
     let commande = response.data;
     console.log(cart);
     let commandeArray = [];
@@ -33,7 +36,15 @@ export const placeOrder = ({ commit }, { price, cart, user }) => {
         commandeArray.push(commandeDetail);
       }
     });
-    CommandeDetails.store(commandeArray);
+    await CommandeDetails.store(commandeArray);
+    dispatch(
+      "notifications/addNotification",
+      {
+        type: "success",
+        message: "Commande passée"
+      },
+      { root: true }
+    );
   });
   Panier.deleteAll();
 };

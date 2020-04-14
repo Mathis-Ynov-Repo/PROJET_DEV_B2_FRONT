@@ -32,6 +32,7 @@ export const login = ({ commit }, user) => {
     })
       .then(resp => {
         const token = resp.data.token;
+        console.log(token);
         const user = resp.data.user;
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
@@ -53,14 +54,13 @@ export const register = ({ commit, dispatch }, user) => {
     commit("AUTH_REQUEST");
     const password = user.password;
     axios({
-      url: "http://localhost:3000/api/register",
+      url: "http://localhost:3000/api/users",
       data: user,
       method: "POST"
     })
-      .then(resp => {
+      .then(async resp => {
         const username = resp.data.email;
-        console.log(username, password);
-        dispatch("login", {
+        await dispatch("login", {
           username,
           password
         });
