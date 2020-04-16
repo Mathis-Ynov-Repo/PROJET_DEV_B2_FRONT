@@ -57,14 +57,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      getCartItems: "cart/getCartItems",
       passerCommande: "order/placeOrder"
     })
-  },
-  mounted() {
-    if (this.cart.length == 0) {
-      this.getCartItems();
-    }
   }
 };
 </script>

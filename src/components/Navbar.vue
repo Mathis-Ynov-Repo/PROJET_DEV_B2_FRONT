@@ -9,23 +9,8 @@
         <v-img src="/images/logo.jpg" width="90"></v-img>
       </v-toolbar-title>
 
-      <v-autocomplete
-        v-if="$store.getters['authentication/isLoggedIn']"
-        v-model="select"
-        :loading="loading"
-        :items="restaurants"
-        item-text="libelle"
-        item-value="id"
-        :search-input.sync="search"
-        cache-items
-        class="mx-4 d-none d-sm-flex"
-        flat
-        hide-no-data
-        hide-details
-        label="Rechercher un restaurant ?"
-        solo-inverted
-        @change="goToRestaurantPage"
-      ></v-autocomplete>
+      <Searchbar v-if="$store.getters['authentication/isLoggedIn']"></Searchbar>
+
       <v-spacer></v-spacer>
       <div class="auth-container" v-if="!$store.getters['authentication/isLoggedIn']">
         <v-btn text color="primary" :to="{name:'Login'}">
@@ -127,16 +112,13 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import PopupCart from "./PopupCart";
-import Axios from "axios";
+import Searchbar from "./Searchbar";
 export default {
-  components: { PopupCart },
+  components: { PopupCart, Searchbar },
   data() {
     return {
       drawer: false,
-      search: null,
-      select: null,
-      loading: true,
-      restaurants: [],
+
       links: [
         { icon: "mdi-view-dashboard", text: "Dashboard", route: "Home" },
         { icon: "mdi-food-fork-drink", text: "Plats", route: "Plats" },
@@ -184,24 +166,21 @@ export default {
   computed: {
     ...mapGetters("cart", ["cartItemCount"])
   },
-  async created() {
-    this.initialize();
-  },
+  // async created() {
+  //   this.unwatch = this.$store.watch(
+  //     (state, getters) => getters["authentication/isLoggedIn"],
+  //     (newValue, oldValue) => {
+  //       console.log(`Updating from ${oldValue} to ${newValue}`);
+
+  //       // Do whatever makes sense now
+  //       if (newValue === true) {
+  //         this.initialize();
+  //       }
+  //     }
+  //   );
+  // },
   methods: {
-    ...mapActions("authentication", ["logout"]),
-    async initialize() {
-      this.loading = true;
-      await this.getRestaurants();
-      this.loading = false;
-    },
-    async getRestaurants() {
-      await Axios.get("http://localhost:3000/api/restaurants").then(
-        response => (this.restaurants = response.data["hydra:member"])
-      );
-    },
-    goToRestaurantPage() {
-      window.location.href = "/restaurants/" + this.select;
-    }
+    ...mapActions("authentication", ["logout"])
   }
 };
 </script>
