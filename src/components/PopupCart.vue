@@ -72,12 +72,8 @@ export default {
     ...mapActions({
       removePlatFromCart: "cart/removePlatFromCart",
       clearCartItems: "cart/clearCart",
-      getCartItems: "cart/getCartItems",
       passerCommande: " order/placeOrder"
     })
-  },
-  mounted() {
-    this.getCartItems();
   }
 };
 </script>

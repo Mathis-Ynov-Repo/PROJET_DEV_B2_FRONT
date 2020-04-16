@@ -1,14 +1,12 @@
-import Panier from "../../../apis/Panier";
-
 export const addPlatToCart = async (
   { commit, getters, dispatch },
   { plat, quantity }
 ) => {
-  let productInCart = getters.getCart.find(item => {
+  let productInCart = getters.getCart.find((item) => {
     return item.plat.id === plat.id;
   });
 
-  let MatchRestaurant = getters.getCart.find(item => {
+  let MatchRestaurant = getters.getCart.find((item) => {
     return item.plat.restaurant.id != plat.restaurant.id;
   });
 
@@ -16,22 +14,24 @@ export const addPlatToCart = async (
     if (productInCart) {
       productInCart.quantity += quantity;
       commit("INCREASE_QUANTITY", productInCart);
-      await Panier.patchWithPlat(productInCart.plat.id, {
-        quantity: productInCart.quantity
-      });
+      // await Panier.patchWithPlat(productInCart.plat.id, {
+      //   quantity: productInCart.quantity
+      // });
     } else {
       commit("ADD_TO_CART", { plat, quantity });
-      await Panier.store({
-        plat: plat.id,
-        panier: 41,
-        quantity
-      });
+      // window.localStorage.setItem("cart", state.cart);
+      // await Panier.store({
+      //   plat: plat.id,
+      //   panier: 41,
+      //   quantity
+      // });
     }
+    commit("SAVE_CART");
     dispatch(
       "notifications/addNotification",
       {
         type: "success",
-        message: "Product added to cart."
+        message: "Product added to cart.",
       },
       { root: true }
     );
@@ -40,7 +40,7 @@ export const addPlatToCart = async (
       "notifications/addNotification",
       {
         type: "error",
-        message: "You can only order products from the same restaurant"
+        message: "You can only order products from the same restaurant",
       },
       { root: true }
     );
@@ -67,24 +67,34 @@ export const removePlatFromCart = async (
   commit("REMOVE_PLAT_FROM_CART", panierDetail.plat);
 
   //Panier.delete(panierDetail.id)
-  await Panier.deleteWithPlat(panierDetail.plat.id);
-
+  // await Panier.deleteWithPlat(panierDetail.plat.id);
+  commit("SAVE_CART");
   dispatch(
     "notifications/addNotification",
     {
       type: "error",
-      message: "Product removed from cart."
+      message: "Product removed from cart.",
     },
     { root: true }
   );
 };
 
-export const clearCart = ({ commit }) => {
+export const clearCart = ({ commit, dispatch }) => {
   commit("CLEAR_CART");
+  dispatch(
+    "notifications/addNotification",
+    {
+      type: "warning",
+      message: "Cleared Cart",
+    },
+    { root: true }
+  );
 };
 
-export const getCartItems = ({ commit }) => {
-  Panier.all().then(response => {
-    commit("SET_PANIER", response.data);
-  });
-};
+// export const getCartItems = ({ commit }) => {
+//   // Panier.all().then((response) => {
+//   //   commit("SET_PANIER", response.data);
+//   // });
+//   // commit("SET_CART");
+//   // commit("SET_PANIER", localStorage.getItem("panier"));
+// };
