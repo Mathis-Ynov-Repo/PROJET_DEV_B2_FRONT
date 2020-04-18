@@ -167,8 +167,7 @@
   </v-form>
 </template>
 <script>
-import { mapState } from "vuex";
-import Restaurants from "../apis/Restaurants";
+import { mapState, mapActions } from "vuex";
 export default {
   data: () => ({
     valid: true,
@@ -221,7 +220,7 @@ export default {
   },
 
   methods: {
-    // ...mapActions("restaurant", ["createRestaurant"]),
+    ...mapActions("restaurant", ["createRestaurant"]),
     validate() {
       if (this.$refs.form.validate()) {
         this.register();
@@ -248,12 +247,9 @@ export default {
           adresse: this.restaurantAdress,
           libelle: this.restaurantTitle,
           description: this.restaurantDescription,
-          type: this.restaurantSelect,
-          user: "api/users/" + this.user.id
+          type: this.restaurantSelect
         };
-        console.log(restaurant);
-        Restaurants.store(restaurant);
-        // this.createRestaurant(restaurant);
+        this.createRestaurant(restaurant);
       } else {
         let user = {
           surname: this.surname,

@@ -1,6 +1,5 @@
 <template>
   <v-autocomplete
-    v-if="$store.getters['authentication/isLoggedIn']"
     v-model="select"
     :loading="loading"
     :items="restaurants"
@@ -30,9 +29,7 @@ export default {
     };
   },
   async created() {
-    if (this.$store.getters["authentication/isLoggedIn"]) {
-      this.initialize();
-    }
+    this.initialize();
   },
   methods: {
     async initialize() {

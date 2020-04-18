@@ -28,11 +28,10 @@ export const login = ({ commit }, user) => {
     axios({
       url: "http://localhost:3000/api/login_check",
       data: user,
-      method: "POST"
+      method: "POST",
     })
-      .then(resp => {
+      .then((resp) => {
         const token = resp.data.token;
-        console.log(token);
         const user = resp.data.user;
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
@@ -40,7 +39,7 @@ export const login = ({ commit }, user) => {
         commit("AUTH_SUCCESS", { token, user });
         resolve(resp);
       })
-      .catch(err => {
+      .catch((err) => {
         commit("AUTH_ERROR");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
@@ -56,17 +55,17 @@ export const register = ({ commit, dispatch }, user) => {
     axios({
       url: "http://localhost:3000/api/users",
       data: user,
-      method: "POST"
+      method: "POST",
     })
-      .then(async resp => {
+      .then(async (resp) => {
         const username = resp.data.email;
         await dispatch("login", {
           username,
-          password
+          password,
         });
         resolve(resp);
       })
-      .catch(err => {
+      .catch((err) => {
         commit("AUTH_ERROR", err);
         reject(err);
       });
@@ -74,7 +73,7 @@ export const register = ({ commit, dispatch }, user) => {
 };
 
 export const logout = ({ commit }) => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     commit("LOGOUT");
     localStorage.removeItem("token");
     localStorage.removeItem("user");

@@ -9,7 +9,9 @@
         <v-img src="/images/logo.jpg" width="90"></v-img>
       </v-toolbar-title>
 
-      <Searchbar v-if="$store.getters['authentication/isLoggedIn']"></Searchbar>
+      <Searchbar
+        v-if="$store.getters['authentication/isLoggedIn'] && !$store.getters['authentication/isRestaurateur']"
+      ></Searchbar>
 
       <v-spacer></v-spacer>
       <div class="auth-container" v-if="!$store.getters['authentication/isLoggedIn']">
@@ -39,6 +41,16 @@
       class="accent"
       v-if="$store.getters['authentication/isLoggedIn']"
     >
+      <v-list>
+        <v-list-item :exact="true" router :to="{name:'Home'}">
+          <v-list-item-action>
+            <v-icon class="white--text">mdi-view-dashboard</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title class="white--text">Dashboard</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
       <v-list v-if="this.$store.getters['authentication/authUser'].roles.includes('ROLE_ADMIN')">
         <v-list-item>
           <v-list-item-content>
@@ -76,7 +88,9 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-list>
+      <v-list
+        v-if="this.$store.getters['authentication/authUser'].roles.includes('ROLE_USER') && this.$store.getters['authentication/authUser'].roles.length === 1"
+      >
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title class="white--text">Accès Utilisateur</v-list-item-title>
@@ -96,7 +110,17 @@
             <v-list-item-title class="white--text">{{link.text}}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click.prevent="logout()">
+      </v-list>
+      <v-list>
+        <v-list-item router :to="{name:'Profile'}">
+          <v-list-item-action>
+            <v-icon class="white--text">mdi-user</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title class="white--text">Profil</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click.prevent="logout()" router :exact="true" :to="{name:'Home'}">
           <v-list-item-action>
             <v-icon class="white--text">mdi-logout</v-icon>
           </v-list-item-action>
@@ -120,7 +144,6 @@ export default {
       drawer: false,
 
       links: [
-        { icon: "mdi-view-dashboard", text: "Dashboard", route: "Home" },
         { icon: "mdi-food-fork-drink", text: "Plats", route: "Plats" },
         {
           icon: "mdi-home-variant",
@@ -132,8 +155,7 @@ export default {
           icon: "mdi-home-variant",
           text: "ListeRestaurants",
           route: "ListeRestaurant"
-        },
-        { icon: "mdi-home-variant", text: "Profil", route: "Profile" }
+        }
       ],
       RestaurateurLinks: [
         {

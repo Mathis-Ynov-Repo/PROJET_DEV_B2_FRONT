@@ -23,73 +23,79 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
   },
   {
     path: "/login",
     name: "Login",
-    component: Login
+    component: Login,
   },
   {
     path: "/register",
     name: "Register",
-    component: Register
+    component: Register,
   },
   {
     path: "/profile",
     name: "Profile",
     component: Profile,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
   {
     path: "/plats",
     name: "Plats",
     component: Plats,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+      is_user: true,
+    },
   },
   {
     path: "/checkout",
     name: "Checkout",
     component: Checkout,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+      is_user: true,
+    },
   },
   {
     path: "/plat-liste",
     name: "ListePlat",
     component: ListePlat,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+      is_user: true,
+    },
   },
   {
     path: "/restaurants/:id",
     name: "ListePlatFromRestaurant",
     component: ListePlatFromRestaurant,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+      is_user: true,
+    },
   },
   {
     path: "/restaurant-liste",
     name: "ListeRestaurant",
     component: ListeRestaurant,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+      is_user: true,
+    },
   },
   {
     path: "/restaurants",
     name: "Restaurants",
     component: Restaurants,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+      is_user: true,
+    },
   },
   {
     path: "/restaurateur/restaurant",
@@ -97,8 +103,8 @@ const routes = [
     component: RestaurateurRestaurant,
     meta: {
       requiresAuth: true,
-      is_restaurateur: true
-    }
+      is_restaurateur: true,
+    },
   },
   {
     path: "/admin/restaurants",
@@ -106,8 +112,8 @@ const routes = [
     component: AdminRestaurants,
     meta: {
       requiresAuth: true,
-      is_admin: true
-    }
+      is_admin: true,
+    },
   },
   {
     path: "/admin/feedbacks",
@@ -115,8 +121,8 @@ const routes = [
     component: AdminFeedbacks,
     meta: {
       requiresAuth: true,
-      is_admin: true
-    }
+      is_admin: true,
+    },
   },
   {
     path: "/admin/commandes",
@@ -124,35 +130,41 @@ const routes = [
     component: AdminCommandes,
     meta: {
       requiresAuth: true,
-      is_admin: true
-    }
+      is_admin: true,
+    },
   },
   {
     path: "/about",
     name: "About",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
-  }
+      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (store.getters["authentication/isLoggedIn"]) {
       let user = store.getters["authentication/authUser"];
-      if (to.matched.some(record => record.meta.is_admin)) {
+      if (to.matched.some((record) => record.meta.is_admin)) {
         if (user.roles.includes("ROLE_ADMIN")) {
           next();
         } else {
           next({ name: "Login" });
         }
-      } else if (to.matched.some(record => record.meta.is_restaurateur)) {
+      } else if (to.matched.some((record) => record.meta.is_restaurateur)) {
         if (user.roles.includes("ROLE_RESTAURATEUR")) {
+          next();
+        } else {
+          next({ name: "Login" });
+        }
+      } else if (to.matched.some((record) => record.meta.is_user)) {
+        if (user.roles.length === 1 && user.roles.includes("ROLE_USER")) {
           next();
         } else {
           next({ name: "Login" });
