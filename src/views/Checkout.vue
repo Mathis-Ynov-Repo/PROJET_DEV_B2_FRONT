@@ -38,7 +38,7 @@
         <v-btn
           color="success"
           class="my-2"
-          @click.prevent="passerCommande({price, cart, user})"
+          @click.prevent="passerCommande({price, cart})"
         >Passer commande</v-btn>
       </v-row>
     </div>

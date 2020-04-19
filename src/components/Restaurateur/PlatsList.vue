@@ -12,7 +12,7 @@
         </v-col>
       </v-row>
       <v-row class="mb-6 flex-row" no-gutters>
-        <Plat v-for="plat in OwnerRestaurant.plats" :key="plat.id" :plat="plat" />
+        <Plat :types="types" v-for="plat in OwnerRestaurant.plats" :key="plat.id" :plat="plat" />
       </v-row>
     </v-container>
     <v-card-text class="white" style="height: 100px; position: relative">
