@@ -81,3 +81,15 @@ export const logout = ({ commit }) => {
     resolve();
   });
 };
+
+export const updateUser = ({ commit, dispatch }, user) => {
+  commit("UPDATE_USER", user);
+  dispatch(
+    "notifications/addNotification",
+    {
+      type: "success",
+      message: "Profile updated successfully",
+    },
+    { root: true }
+  );
+};

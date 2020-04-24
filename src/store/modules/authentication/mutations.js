@@ -1,4 +1,4 @@
-export const AUTH_REQUEST = state => {
+export const AUTH_REQUEST = (state) => {
   state.status = "loading";
 };
 
@@ -8,11 +8,15 @@ export const AUTH_SUCCESS = (state, { token, user }) => {
   state.user = user;
 };
 
-export const AUTH_ERROR = state => {
+export const AUTH_ERROR = (state) => {
   state.status = "error";
 };
 
-export const LOGOUT = state => {
+export const LOGOUT = (state) => {
   state.status = "";
   state.token = "";
+};
+
+export const UPDATE_USER = (state, user) => {
+  state.user = user;
 };

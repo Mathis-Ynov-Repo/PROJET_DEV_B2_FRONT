@@ -18,7 +18,7 @@ export default {
 
   components: {
     Navbar,
-    NotificationsList
+    NotificationsList,
   },
   created() {
     let store = this.$store;
@@ -38,6 +38,6 @@ export default {
 
   data: () => ({
     //
-  })
+  }),
 };
 </script>
