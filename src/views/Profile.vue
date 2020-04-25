@@ -1,7 +1,6 @@
 <template>
   <div class="container align-center d-flex flex-column">
     Profil
-
     <!-- <v-file-input
       :rules="rules"
       v-model="avatar"
@@ -9,7 +8,7 @@
       placeholder="Pick an avatar"
       prepend-icon="mdi-camera"
       label="Avatar"
-    ></v-file-input> -->
+    ></v-file-input>-->
 
     <v-card max-width="374">
       <v-img
@@ -23,17 +22,15 @@
 
       <v-card-text style="position: relative" class="py-0">
         <v-btn absolute dark fab top right color="pink" @click="editPicture()">
-          <v-icon>mdi-pencil</v-icon>
+          <v-icon>mdi-camera</v-icon>
         </v-btn>
       </v-card-text>
 
       <v-card-title>{{ user.name }} {{ user.surname }}</v-card-title>
-      <v-card-title>Email </v-card-title>
-      <v-card-subtitle>{{ user.email }} </v-card-subtitle>
+      <v-card-title>Email</v-card-title>
+      <v-card-subtitle>{{ user.email }}</v-card-subtitle>
 
-      <v-card-title v-if="user.adress"
-        >Adresse : {{ user.adress }}</v-card-title
-      >
+      <v-card-title v-if="user.adress">Adresse : {{ user.adress }}</v-card-title>
       <v-card-text v-else>Pas d'adresse enregistrée</v-card-text>
 
       <v-card-text>Solde : {{ user.balance ? user.balance : 0 }} $</v-card-text>
@@ -41,9 +38,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn text color="primary" @click="editProfile(user)"
-          >Edit Profile</v-btn
-        >
+        <v-btn text color="primary" @click="editProfile(user)">Edit Profile</v-btn>
       </v-card-actions>
     </v-card>
     <v-dialog v-model="imgDialog" max-width="600px" class="white--background">
@@ -64,13 +59,10 @@
               required
             />
 
-            <v-btn
-              :disabled="!valid"
-              color="success"
-              class="mr-5"
-              @click="validate"
-              >Upload <v-icon>mdi-upload</v-icon></v-btn
-            >
+            <v-btn :disabled="!valid" color="success" class="mr-5" @click="validate">
+              Upload
+              <v-icon>mdi-upload</v-icon>
+            </v-btn>
           </v-col>
         </v-card>
       </v-form>
@@ -101,12 +93,7 @@
                 ></v-text-field>
               </v-col>
             </v-row>
-            <v-text-field
-              v-model="updatedUser.email"
-              :rules="emailRules"
-              label="Email"
-              required
-            ></v-text-field>
+            <v-text-field v-model="updatedUser.email" :rules="emailRules" label="Email" required></v-text-field>
             <v-text-field
               v-model="updatedUser.adress"
               :rules="[(v) => !!v || 'Une adresse est requise']"
@@ -132,8 +119,7 @@
               color="primary"
               :disabled="!validUserForm"
               @click="updateUser(updatedUser)"
-              >Sauvegarder</v-btn
-            >
+            >Sauvegarder</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -147,7 +133,7 @@ import VImageInput from "vuetify-image-input/a-la-carte";
 
 export default {
   components: {
-    VImageInput,
+    VImageInput
   },
   data: () => ({
     dialog: false,
@@ -157,18 +143,17 @@ export default {
     avatar2: null,
     valid: true,
     emailRules: [
-      (v) => !!v || "Une adresse mail est requise",
-      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      v => !!v || "Une adresse mail est requise",
+      v => /.+@.+\..+/.test(v) || "E-mail must be valid"
     ],
     updatedUser: {},
     newUser: {},
     rules: [
-      (v) => !!v || "Une adresse mail est requise",
-      (value) =>
+      value =>
         !value ||
         value.size < 2000000 ||
-        "Avatar size should be less than 2 MB!",
-    ],
+        "Avatar size should be less than 2 MB!"
+    ]
   }),
   methods: {
     validate() {
@@ -179,7 +164,6 @@ export default {
 
     editProfile(user) {
       this.dialog = true;
-      this.valid = false;
       this.updatedUser = Object.assign({}, user);
     },
     editPicture() {
@@ -193,11 +177,11 @@ export default {
           surname: this.updatedUser.surname,
           adress: this.updatedUser.adress,
           email: this.updatedUser.email,
-          balance: this.updatedUser.balance,
+          balance: this.updatedUser.balance
         })
-        .then((response) => {
+        .then(response => {
           this.newUser = response.data;
-          if (this.newUser.image) {
+          if (this.newUser.image != null) {
             this.newUser.image = this.newUser.image.filePath;
           }
           this.$store.dispatch("authentication/updateUser", this.newUser);
@@ -240,15 +224,15 @@ export default {
       await this.$http
         .post("http://localhost:3000/api/images", formData, {
           headers: {
-            "Content-Type": "multipart/form-data",
-          },
+            "Content-Type": "multipart/form-data"
+          }
         })
-        .then((response) =>
+        .then(response =>
           this.$http
             .put("http://localhost:3000/api/users/" + this.user.id, {
-              image: response.data["@id"],
+              image: response.data["@id"]
             })
-            .then((response) => {
+            .then(response => {
               this.newUser = this.user;
               this.newUser.image = response.data.image.filePath;
               this.$store.dispatch("authentication/updateUser", this.newUser);
@@ -256,11 +240,11 @@ export default {
             })
         );
       this.imgDialog = false;
-    },
+    }
   },
   computed: {
-    ...mapState("authentication", ["user"]),
-  },
+    ...mapState("authentication", ["user"])
+  }
 };
 </script>
 

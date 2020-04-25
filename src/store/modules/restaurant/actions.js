@@ -23,3 +23,15 @@ export const createRestaurant = async ({ commit }, restaurant) => {
     commit("SET_OWNER_RESTAURANT", response.data);
   });
 };
+
+export const updateRestaurant = ({ commit, dispatch }, restaurant) => {
+  commit("SET_OWNER_RESTAURANT", restaurant);
+  dispatch(
+    "notifications/addNotification",
+    {
+      type: "success",
+      message: "Profile updated successfully",
+    },
+    { root: true }
+  );
+};

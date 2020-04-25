@@ -6,8 +6,8 @@ export const placeOrder = async ({ commit, dispatch }, { price, cart }) => {
   commit("ORDER_PLAT", price);
   commit("cart/CLEAR_CART", null, { root: true });
 
-  console.log(cart);
-  console.log(cart.plat);
+  // console.log(cart);
+  // console.log(cart.plat);
 
   await Commande.store({
     prix: price,

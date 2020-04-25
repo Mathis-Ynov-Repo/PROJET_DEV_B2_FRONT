@@ -1,5 +1,6 @@
 <template>
   <div>
+    <restaurant-profile></restaurant-profile>
     <h1>Tous les plats de votre resto</h1>
     <plat-list />
     <commandes-list v-if="OwnerRestaurant.id" />
@@ -8,12 +9,14 @@
 
 <script>
 import PlatList from "@/components/Restaurateur/PlatsList.vue";
+import RestaurantProfile from "@/components/Restaurateur/RestaurantProfile.vue";
 import CommandesList from "@/components/Restaurateur/CommandesList.vue";
 import { mapActions, mapState } from "vuex";
 export default {
   components: {
     PlatList,
-    CommandesList
+    CommandesList,
+    RestaurantProfile
   },
   // async created() {
   //   this.initialize();

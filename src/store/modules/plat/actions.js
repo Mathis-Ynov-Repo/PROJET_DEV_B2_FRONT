@@ -25,12 +25,28 @@ export const deletePlat = async ({ dispatch }, plat) => {
 };
 
 export const editPlat = async ({ dispatch }, plat) => {
-  await Plats.edit(plat.id, plat);
+  await Plats.edit(plat.id, {
+    libelle: plat.libelle,
+    prix: plat.prix,
+    platType: plat.platType,
+  });
   dispatch(
     "notifications/addNotification",
     {
       type: "success",
       message: "Plat mis à jour",
+    },
+    { root: true }
+  );
+};
+
+export const updatePlat = ({ dispatch }) => {
+  // commit("SET_OWNER_RESTAURANT", plat);
+  dispatch(
+    "notifications/addNotification",
+    {
+      type: "success",
+      message: "Plat updated successfully",
     },
     { root: true }
   );
