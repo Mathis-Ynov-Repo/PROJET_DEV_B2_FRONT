@@ -4,7 +4,7 @@
       <v-img
         height="250"
         lazy-src="/images/logo.jpg"
-        :src="restaurant.image.filePath ? 'http://localhost:3000/images/products/' + restaurant.image.filePath : 'https://source.unsplash.com/random' "
+        :src="restaurant.image ? 'http://localhost:3000/images/products/' + restaurant.image.filePath : 'https://source.unsplash.com/random' "
       ></v-img>
       <v-card-title>{{restaurant.libelle}}</v-card-title>
 
