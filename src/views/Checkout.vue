@@ -38,7 +38,7 @@
         <v-btn
           color="success"
           class="my-2"
-          @click.prevent="passerCommande({price, cart})"
+          @click.prevent="passerCommande({price, cart, user})"
         >Passer commande</v-btn>
       </v-row>
     </div>
@@ -50,6 +50,7 @@ import { mapState, mapGetters, mapActions } from "vuex";
 export default {
   computed: {
     ...mapState("cart", ["cart"]),
+    ...mapState("authentication", ["user"]),
     ...mapGetters({
       price: "cart/cartTotalPrice",
       user: "authentication/authUser"

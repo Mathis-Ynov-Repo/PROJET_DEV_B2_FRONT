@@ -20,3 +20,7 @@ export const LOGOUT = (state) => {
 export const UPDATE_USER = (state, user) => {
   state.user = user;
 };
+
+export const LOWER_BALANCE = (state, price) => {
+  state.user.balance = state.user.balance - (price + 2.99);
+};
