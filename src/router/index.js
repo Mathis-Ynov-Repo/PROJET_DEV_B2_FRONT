@@ -11,6 +11,8 @@ import ListePlatFromRestaurant from "../views/RestaurantPage.vue";
 import RestaurateurRestaurant from "../views/Restaurateur/Restaurant.vue";
 import AdminFeedbacks from "../views/Admin/Feedbacks.vue";
 import AdminCommandes from "../views/Admin/Commandes.vue";
+import AdminDashboard from "../views/Admin/Dashboard.vue";
+import AdminRestaurantPage from "../views/Admin/RestaurantPage.vue";
 import ListeRestaurant from "../views/RestaurantVuex.vue";
 import Profile from "../views/Profile.vue";
 import Register from "../views/Register.vue";
@@ -116,6 +118,15 @@ const routes = [
     },
   },
   {
+    path: "/admin/restaurants/:id",
+    name: "AdminRestaurantPage",
+    component: AdminRestaurantPage,
+    meta: {
+      requiresAuth: true,
+      is_admin: true,
+    },
+  },
+  {
     path: "/admin/feedbacks",
     name: "AdminFeedbacks",
     component: AdminFeedbacks,
@@ -128,6 +139,15 @@ const routes = [
     path: "/admin/commandes",
     name: "AdminCommandes",
     component: AdminCommandes,
+    meta: {
+      requiresAuth: true,
+      is_admin: true,
+    },
+  },
+  {
+    path: "/admin/dashboard",
+    name: "AdminDashboard",
+    component: AdminDashboard,
     meta: {
       requiresAuth: true,
       is_admin: true,

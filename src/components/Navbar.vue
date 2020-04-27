@@ -167,6 +167,11 @@ export default {
       AdminLinks: [
         {
           icon: "mdi-home-variant",
+          text: "AdminDashboard",
+          route: "AdminDashboard"
+        },
+        {
+          icon: "mdi-home-variant",
           text: "AdminRestaurants",
           route: "AdminRestaurants"
         },

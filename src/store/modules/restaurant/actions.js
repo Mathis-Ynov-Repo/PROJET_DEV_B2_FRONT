@@ -35,3 +35,14 @@ export const updateRestaurant = ({ commit, dispatch }, restaurant) => {
     { root: true }
   );
 };
+
+export const updateRestaurantAdmin = ({ dispatch }, restaurant) => {
+  dispatch(
+    "notifications/addNotification",
+    {
+      type: "success",
+      message: restaurant.libelle + "'s profile has been updated successfully",
+    },
+    { root: true }
+  );
+};
