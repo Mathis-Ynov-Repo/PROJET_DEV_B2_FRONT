@@ -24,6 +24,42 @@
           <v-icon right>mdi-exit-to-app</v-icon>
         </v-btn>
       </div>
+      <v-menu
+        transition="slide-y-transition"
+        offset-y
+        bottom
+        v-if="$store.getters['authentication/isLoggedIn']"
+      >
+        <template v-slot:activator="{ on }">
+          <v-avatar dark v-on="on" style="cursor: pointer">
+            <img
+              :src="'http://localhost:3000/images/products/'+$store.state.authentication.user.image"
+              alt="TST"
+            />
+          </v-avatar>
+        </template>
+        <v-list dense>
+          <v-list-item-group color="primary">
+            <v-list-item color="secondary" router :to="{name:'Profile'}">
+              <v-list-item-icon>
+                <v-icon>mdi-account-circle</v-icon>
+              </v-list-item-icon>
+
+              <v-list-item-title>Profile</v-list-item-title>
+            </v-list-item>
+            <v-list-item
+              router
+              :to="{name:'Favorites'}"
+              v-if="this.$store.getters['authentication/authUser'].roles.includes('ROLE_USER') && this.$store.getters['authentication/authUser'].roles.length === 1"
+            >
+              <v-list-item-icon>
+                <v-icon>mdi-heart</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Favorites</v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-menu>
       <div
         class="mx-5"
         v-if="$route.name != 'Checkout' && $store.getters['authentication/isLoggedIn']"

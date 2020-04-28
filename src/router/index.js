@@ -15,6 +15,7 @@ import AdminRestaurantPage from "../views/Admin/RestaurantPage.vue";
 import ListeRestaurant from "../views/RestaurantVuex.vue";
 import Profile from "../views/Profile.vue";
 import Register from "../views/Register.vue";
+import Favorites from "../views/Favorites.vue";
 
 import store from "../store";
 
@@ -42,6 +43,15 @@ const routes = [
     component: Profile,
     meta: {
       requiresAuth: true,
+    },
+  },
+  {
+    path: "/favorites",
+    name: "Favorites",
+    component: Favorites,
+    meta: {
+      requiresAuth: true,
+      is_user: true,
     },
   },
   {
