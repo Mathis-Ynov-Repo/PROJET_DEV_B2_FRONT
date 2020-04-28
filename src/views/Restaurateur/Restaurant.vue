@@ -1,9 +1,17 @@
 <template>
   <div>
-    <restaurant-profile></restaurant-profile>
+    <h1 class="text-center">Votre Restaurant</h1>
+    <v-row>
+      <v-col>
+        <restaurant-profile></restaurant-profile>
+      </v-col>
+      <v-col align-self="center">
+        <!-- <commandes-list v-if="OwnerRestaurant.id" /> -->
+        <commandes-list />
+      </v-col>
+    </v-row>
     <h1>Tous les plats de votre resto</h1>
     <plat-list />
-    <commandes-list v-if="OwnerRestaurant.id" />
   </div>
 </template>
 

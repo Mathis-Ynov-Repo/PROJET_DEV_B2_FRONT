@@ -2,7 +2,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
-import Restaurants from "../views/Restaurants.vue";
 import AdminRestaurants from "../views/Admin/Restaurants.vue";
 import Plats from "../views/Plats.vue";
 import Checkout from "../views/Checkout.vue";
@@ -85,15 +84,6 @@ const routes = [
     path: "/restaurant-liste",
     name: "ListeRestaurant",
     component: ListeRestaurant,
-    meta: {
-      requiresAuth: true,
-      is_user: true,
-    },
-  },
-  {
-    path: "/restaurants",
-    name: "Restaurants",
-    component: Restaurants,
     meta: {
       requiresAuth: true,
       is_user: true,

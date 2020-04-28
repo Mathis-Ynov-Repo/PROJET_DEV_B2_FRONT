@@ -7,7 +7,7 @@
       :single-expand="true"
       :expanded.sync="expanded"
       item-key="id"
-      loading-text="Chargement des données"
+      loading-text="Loading data..."
       show-expand
       class="elevation-1"
     >
@@ -21,15 +21,6 @@
         <v-chip :color="getColor(item.statut)" dark>{{ item.statut }}</v-chip>
       </template>
       <template v-slot:expanded-item="{ item:childItem }">
-        <!-- <v-data-table :headers="headers" :items="item.commandePlats"></v-data-table> -->
-        <!-- <td :colspan="headers.length">
-        <ul>
-          <li
-            v-for="details in item.commandePlats"
-            :key="details.libelle"
-          >{{details.plat.libelle || details.menu.libelle}} ° {{details.prix}} $</li>
-        </ul>
-        </td>-->
         <v-list-item v-for="item in childItem.commandePlats" :key="item.id">
           <v-list-item-icon>
             <v-icon v-if="item.plat">mdi-pasta</v-icon>
@@ -89,12 +80,14 @@ export default {
   },
   methods: {
     async getCommandes() {
+      this.loading = true;
       await this.$http
         .get(
           "http://localhost:3000/api/commandes?pagination=false&restaurant=" +
             this.OwnerRestaurant.id
         )
         .then(response => (this.commandes = response.data["hydra:member"]));
+      this.loading = false;
     },
     async AbandonCommand(item) {
       if (confirm("Abandonner cette commande ?")) {

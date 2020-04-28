@@ -12,6 +12,8 @@
       </v-card-text>
       <v-card-title>{{plat.libelle}}</v-card-title>
       <v-card-title class="grey--text py-0">{{plat.prix}} $ • {{plat.platType.libelle}}</v-card-title>
+      <v-card-text v-if="plat.description != null">{{plat.description}}</v-card-text>
+      <v-card-text v-else>No description available for this product</v-card-text>
 
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -80,6 +82,16 @@
               label="Type de votre plat"
               required
             ></v-select>
+            <v-col cols="12">
+              <v-textarea v-model="updatedItem.description" required>
+                <template v-slot:label>
+                  <div>
+                    Description
+                    <small>(optional)</small>
+                  </div>
+                </template>
+              </v-textarea>
+            </v-col>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -127,6 +139,7 @@ export default {
         this.postPlatImg();
       }
     },
+
     async postPlatImg() {
       let file = this.dataURItoBlob(this.platImg);
 
@@ -177,7 +190,7 @@ export default {
       if (confirm("Supprimer ce plat ?")) {
         await this.deletePlat(plat);
       }
-      await this.getRestaurant();
+      this.$parent.getRestaurant();
     },
     editPicture() {
       this.imgDialog = true;

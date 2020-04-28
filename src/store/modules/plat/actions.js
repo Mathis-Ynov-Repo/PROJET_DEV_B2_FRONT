@@ -29,6 +29,7 @@ export const editPlat = async ({ dispatch }, plat) => {
     libelle: plat.libelle,
     prix: plat.prix,
     platType: plat.platType,
+    description: plat.description,
   });
   dispatch(
     "notifications/addNotification",

@@ -13,7 +13,7 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Table des commandes du restaurant {{restaurant.libelle}}</v-toolbar-title>
+          <v-toolbar-title>Vos commandes</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
       </template>
@@ -50,7 +50,6 @@
 
 <script>
 export default {
-  props: ["restaurant"],
   data() {
     return {
       expanded: [],
@@ -67,7 +66,6 @@ export default {
         { text: "frais", value: "frais" },
         { text: "date d'achat", value: "dateAchat" },
         { text: "statut", value: "statut" },
-        { text: "Actions", value: "actions", sortable: false },
         { text: "", value: "data-table-expand" }
       ]
     };
@@ -77,45 +75,44 @@ export default {
   },
   methods: {
     async getCommandes() {
-      await this.$http
-        .get(
-          "http://localhost:3000/api/commandes?pagination=false&restaurant=" +
-            this.restaurant.id
-        )
-        .then(response => (this.commandes = response.data["hydra:member"]));
-    },
-    async AbandonCommand(item) {
-      if (confirm("Abandonner cette commande ?")) {
-        this.loading = true;
+      (this.loading = true),
         await this.$http
-          .put("http://localhost:3000/api/commandes/" + item.id, {
-            statut: "abandonnée"
-          })
-          .then()
-          .catch(e => {
-            this.errors.push(e);
-            console.log(this.errors);
-          });
-      }
-      await this.getCommandes();
+          .get("http://localhost:3000/api/commandes?pagination=false")
+          .then(response => (this.commandes = response.data["hydra:member"]));
       this.loading = false;
     },
-    async confirmDelivery(item) {
-      if (confirm("Confirmer la livraison de cette commande ?")) {
-        this.loading = true;
-        await this.$http
-          .put("http://localhost:3000/api/commandes/" + item.id, {
-            statut: "livrée"
-          })
-          .then()
-          .catch(e => {
-            this.errors.push(e);
-            console.log(this.errors);
-          });
-      }
-      await this.getCommandes();
-      this.loading = false;
-    },
+    // async AbandonCommand(item) {
+    //   if (confirm("Abandonner cette commande ?")) {
+    //     this.loading = true;
+    //     await this.$http
+    //       .put("http://localhost:3000/api/commandes/" + item.id, {
+    //         statut: "abandonnée"
+    //       })
+    //       .then()
+    //       .catch(e => {
+    //         this.errors.push(e);
+    //         console.log(this.errors);
+    //       });
+    //   }
+    //   await this.getCommandes();
+    //   this.loading = false;
+    // },
+    // async confirmDelivery(item) {
+    //   if (confirm("Confirmer la livraison de cette commande ?")) {
+    //     this.loading = true;
+    //     await this.$http
+    //       .put("http://localhost:3000/api/commandes/" + item.id, {
+    //         statut: "livrée"
+    //       })
+    //       .then()
+    //       .catch(e => {
+    //         this.errors.push(e);
+    //         console.log(this.errors);
+    //       });
+    //   }
+    //   await this.getCommandes();
+    //   this.loading = false;
+    // },
     getColor(statut) {
       if (statut == "abandonnée") return "red";
       else if (statut == "en cours") return "orange";

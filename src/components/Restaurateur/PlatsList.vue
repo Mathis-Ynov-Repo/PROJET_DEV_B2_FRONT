@@ -44,6 +44,16 @@
               label="Type de votre plat"
               required
             ></v-select>
+            <v-col cols="12">
+              <v-textarea v-model="platDescription" required>
+                <template v-slot:label>
+                  <div>
+                    Description
+                    <small>(optional)</small>
+                  </div>
+                </template>
+              </v-textarea>
+            </v-col>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -68,6 +78,7 @@ export default {
       platSelect: "",
       platTitle: "",
       platPrice: "",
+      platDescription: null,
 
       priceRules: [
         v => !!v || "Un prix est requise",
@@ -103,13 +114,22 @@ export default {
         .post("http://localhost:3000/api/plats", {
           libelle: this.platTitle,
           prix: parseFloat(this.platPrice),
-          platType: this.platSelect
+          platType: this.platSelect,
+          description: this.platDescription
         })
         .then()
         .catch(e => {
           this.errors.push(e);
         });
       await this.getRestaurant();
+      this.$store.dispatch(
+        "notifications/addNotification",
+        {
+          type: "success",
+          message: "Added dish"
+        },
+        { root: true }
+      );
       this.loading = false;
       this.dialog = false;
     },

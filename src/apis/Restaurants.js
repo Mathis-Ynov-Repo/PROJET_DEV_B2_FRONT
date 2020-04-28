@@ -1,10 +1,13 @@
 import Api from "./Api";
 
-const END_POINT = "restaurants";
+const END_POINT = "restaurants?pagniation=false";
 
 export default {
   all() {
     return Api.get(END_POINT);
+  },
+  allOfType(type) {
+    return Api.get(END_POINT + "&type.type=" + type);
   },
   store(data) {
     return Api.post(END_POINT, data);
@@ -14,6 +17,9 @@ export default {
   },
   delete(id) {
     return Api.delete(END_POINT + "/" + id);
+  },
+  get(id) {
+    return Api.get(END_POINT + "/" + id);
   },
   // RestaurantWithUser(id) {
   //   return Api.get(END_POINT + "?user.id=" + id);

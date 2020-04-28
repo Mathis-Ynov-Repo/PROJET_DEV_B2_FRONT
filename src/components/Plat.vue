@@ -7,7 +7,7 @@
       ></v-img>
 
       <v-card-title>{{plat.libelle}}</v-card-title>
-      <v-card-subtitle>{{plat.restaurant.libelle}}</v-card-subtitle>
+      <v-card-subtitle>{{plat.description}}</v-card-subtitle>
       <v-card-title class="grey--text py-0">{{plat.prix}} $ • {{plat.platType.libelle}}</v-card-title>
       <v-card-actions class="justify-center">
         <PlatDetail :plat="plat" />

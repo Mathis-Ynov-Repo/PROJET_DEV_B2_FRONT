@@ -1,46 +1,44 @@
 <template>
-  <div class="container align-center d-flex flex-column">
-    Profil
-    <!-- <v-file-input
-      :rules="rules"
-      v-model="avatar"
-      accept="image/png, image/jpeg, image/bmp"
-      placeholder="Pick an avatar"
-      prepend-icon="mdi-camera"
-      label="Avatar"
-    ></v-file-input>-->
-
-    <v-card max-width="374">
-      <v-img
-        height="250"
-        :src="
+  <v-container style="height : 100%">
+    <v-row style="height : 100%" class="d-flex align-center">
+      <v-col lg="6" sm="12">
+        <v-card max-width="374" class="mx-auto">
+          <v-img
+            height="250"
+            :src="
           user.image
             ? 'http://localhost:3000/images/products/' + user.image
             : 'http://localhost:3000/images/products/evznztwwkaixz87-5ea2e6972b6c4283633580.jpg'
         "
-      ></v-img>
+          ></v-img>
 
-      <v-card-text style="position: relative" class="py-0">
-        <v-btn absolute dark fab top right color="pink" @click="editPicture()">
-          <v-icon>mdi-camera</v-icon>
-        </v-btn>
-      </v-card-text>
+          <v-card-text style="position: relative" class="py-0">
+            <v-btn absolute dark fab top right color="pink" @click="editPicture()">
+              <v-icon>mdi-camera</v-icon>
+            </v-btn>
+          </v-card-text>
 
-      <v-card-title>{{ user.name }} {{ user.surname }}</v-card-title>
-      <v-card-title>Email</v-card-title>
-      <v-card-subtitle>{{ user.email }}</v-card-subtitle>
+          <v-card-title>{{ user.name }} {{ user.surname }}</v-card-title>
+          <v-card-title>Email</v-card-title>
+          <v-card-subtitle>{{ user.email }}</v-card-subtitle>
 
-      <v-card-title v-if="user.adress">Adresse : {{ user.adress }}</v-card-title>
-      <v-card-text v-else>Pas d'adresse enregistrée</v-card-text>
+          <v-card-title v-if="user.adress">Adresse : {{ user.adress }}</v-card-title>
+          <v-card-text v-else>Pas d'adresse enregistrée</v-card-text>
 
-      <v-card-text>Solde : {{ user.balance ? user.balance : 0 }} $</v-card-text>
+          <v-card-text>Solde : {{ user.balance ? user.balance : 0 }} $</v-card-text>
 
-      <v-card-actions>
-        <v-spacer></v-spacer>
+          <v-card-actions>
+            <v-spacer></v-spacer>
 
-        <v-btn text color="primary" @click="editProfile(user)">Edit Profile</v-btn>
-      </v-card-actions>
-    </v-card>
+            <v-btn text color="primary" @click="editProfile(user)">Edit Profile</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+      <v-col lg="6">
+        <orders-list></orders-list>
+      </v-col>
+    </v-row>
+
     <v-dialog v-model="imgDialog" max-width="600px" class="white--background">
       <v-form ref="form" v-model="valid" :lazy-validation="false">
         <v-card>
@@ -124,16 +122,18 @@
         </v-card>
       </v-form>
     </v-dialog>
-  </div>
+  </v-container>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import VImageInput from "vuetify-image-input/a-la-carte";
+import OrdersList from "@/components/OrdersList.vue";
 
 export default {
   components: {
-    VImageInput
+    VImageInput,
+    OrdersList
   },
   data: () => ({
     dialog: false,

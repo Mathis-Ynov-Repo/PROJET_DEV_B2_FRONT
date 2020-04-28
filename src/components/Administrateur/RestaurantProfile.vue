@@ -12,7 +12,7 @@
         </v-col>
       </v-row>
     </v-container>-->
-    <v-card max-width="374" v-if="restaurant.plats">
+    <v-card max-width="374" v-if="restaurant.plats" class="mx-auto">
       <v-img
         height="250"
         :src="
@@ -81,11 +81,7 @@
               required
             ></v-text-field>
             <v-col cols="12">
-              <v-textarea
-                v-model="updatedRestaurant.description"
-                :rules="[(v) => !!v || 'Un nom est requis']"
-                required
-              >
+              <v-textarea v-model="updatedRestaurant.description" required>
                 <template v-slot:label>
                   <div>
                     Description

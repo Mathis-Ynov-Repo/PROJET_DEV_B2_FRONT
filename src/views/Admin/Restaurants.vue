@@ -4,7 +4,7 @@
     :items="restaurants"
     :items-per-page="5"
     :loading="loading ? true : false"
-    loading-text="Chargement des données"
+    loading-text="Loading data..."
     sort-by="created"
     class="elevation-1"
   >

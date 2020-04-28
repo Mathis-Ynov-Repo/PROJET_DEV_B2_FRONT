@@ -34,6 +34,16 @@
               label="Type de votre plat"
               required
             ></v-select>
+            <v-col cols="12">
+              <v-textarea v-model="platDescription" required>
+                <template v-slot:label>
+                  <div>
+                    Description
+                    <small>(optional)</small>
+                  </div>
+                </template>
+              </v-textarea>
+            </v-col>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -59,6 +69,7 @@ export default {
       platSelect: "",
       platTitle: "",
       platPrice: "",
+      platDescription: null,
 
       priceRules: [
         v => !!v || "Un prix est requise",
@@ -76,6 +87,13 @@ export default {
       .then(response => (this.types = response.data["hydra:member"]));
   },
   methods: {
+    async getRestaurant() {
+      await this.$http
+        .get("http://localhost:3000/api/restaurants/" + this.restaurant.id)
+        .then(response => {
+          this.restaurant = response.data;
+        });
+    },
     async save() {
       this.loading = true;
       await this.$http
@@ -83,6 +101,7 @@ export default {
           libelle: this.platTitle,
           prix: parseFloat(this.platPrice),
           platType: this.platSelect,
+          description: this.platDescription,
           restaurant: this.restaurant["@id"]
         })
         .then()
@@ -94,6 +113,15 @@ export default {
         .then(response => {
           this.restaurant = response.data;
         });
+      this.$store.dispatch(
+        "notifications/addNotification",
+        {
+          type: "success",
+          message: "Added dish"
+        },
+        { root: true }
+      );
+
       this.loading = false;
       this.dialog = false;
     }

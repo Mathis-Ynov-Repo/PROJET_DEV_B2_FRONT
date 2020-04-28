@@ -6,3 +6,7 @@ export const SET_OWNER_RESTAURANT = (state, restaurant) => {
   state.OwnerRestaurant = restaurant;
   state.OwnerRestaurantPlats = restaurant.plats;
 };
+
+export const CLEAR_RESTAURANTS = (state) => {
+  state.restaurants = [];
+};

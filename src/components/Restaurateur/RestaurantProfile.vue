@@ -1,6 +1,5 @@
 <template>
   <div class="container align-center d-flex flex-column">
-    <h1>Votre Restaurant</h1>
     <v-container>
       <v-row class="mb-6 flex-row" no-gutters v-if="!OwnerRestaurant.plats">
         <v-col cols="12">
@@ -13,34 +12,40 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-card max-width="374" v-if="OwnerRestaurant.plats">
-      <v-img
-        height="250"
-        :src="
+    <v-container>
+      <v-row justify="center">
+        <v-col>
+          <v-card max-width="374" v-if="OwnerRestaurant.plats" class="mx-auto">
+            <v-img
+              height="250"
+              :src="
           OwnerRestaurant.image
             ? 'http://localhost:3000/images/products/' + OwnerRestaurant.image.filePath
             : 'http://localhost:3000/images/products/evznztwwkaixz87-5ea2e6972b6c4283633580.jpg'
         "
-      ></v-img>
+            ></v-img>
 
-      <v-card-text style="position: relative" class="py-0">
-        <v-btn absolute dark fab top right color="pink" @click="editPicture()">
-          <v-icon>mdi-camera</v-icon>
-        </v-btn>
-      </v-card-text>
+            <v-card-text style="position: relative" class="py-0">
+              <v-btn absolute dark fab top right color="pink" @click="editPicture()">
+                <v-icon>mdi-camera</v-icon>
+              </v-btn>
+            </v-card-text>
 
-      <v-card-title>{{ OwnerRestaurant.libelle }}</v-card-title>
-      <v-card-subtitle>{{ OwnerRestaurant.description }}</v-card-subtitle>
+            <v-card-title>{{ OwnerRestaurant.libelle }}</v-card-title>
+            <v-card-subtitle>{{ OwnerRestaurant.description }}</v-card-subtitle>
 
-      <v-card-title v-if="OwnerRestaurant.adresse">Adresse : {{ OwnerRestaurant.adresse }}</v-card-title>
-      <v-card-text v-else>Pas d'adresse enregistrée</v-card-text>
+            <v-card-title v-if="OwnerRestaurant.adresse">Adresse : {{ OwnerRestaurant.adresse }}</v-card-title>
+            <v-card-text v-else>Pas d'adresse enregistrée</v-card-text>
 
-      <v-card-actions>
-        <v-spacer></v-spacer>
+            <v-card-actions>
+              <v-spacer></v-spacer>
 
-        <v-btn text color="primary" @click="editProfile(OwnerRestaurant)">Edit Profile</v-btn>
-      </v-card-actions>
-    </v-card>
+              <v-btn text color="primary" @click="editProfile(OwnerRestaurant)">Edit Profile</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
     <v-dialog v-model="imgDialog" max-width="600px" class="white--background">
       <v-form ref="form" v-model="validImg" :lazy-validation="false">
         <v-card>
@@ -82,11 +87,7 @@
               required
             ></v-text-field>
             <v-col cols="12">
-              <v-textarea
-                v-model="updatedRestaurant.description"
-                :rules="[(v) => !!v || 'Un nom est requis']"
-                required
-              >
+              <v-textarea v-model="updatedRestaurant.description" required>
                 <template v-slot:label>
                   <div>
                     Description

@@ -1,11 +1,21 @@
 import Restaurants from "../../../apis/Restaurants";
 
-export const getRestaurants = ({ commit }) => {
-  Restaurants.all().then((response) => {
+export const getRestaurants = async ({ commit }) => {
+  await Restaurants.all().then((response) => {
     commit("SET_RESTAURANTS", response.data["hydra:member"]);
   });
 };
 
+export const getRestaurantsWithType = async ({ commit }, type) => {
+  commit("CLEAR_RESTAURANTS");
+  await Restaurants.allOfType(type).then((response) => {
+    commit("SET_RESTAURANTS", response.data["hydra:member"]);
+  });
+};
+
+export const clearRestaurants = ({ commit }) => {
+  commit("CLEAR_RESTAURANTS");
+};
 // export const getRestaurantWithOwner = async ({ commit }, id) => {
 //   await Restaurants.RestaurantWithUser(id).then((response) => {
 //     commit("SET_OWNER_RESTAURANT", response.data["hydra:member"][0]);
@@ -17,6 +27,10 @@ export const getRestaurantWithOwner = async ({ commit }) => {
     commit("SET_OWNER_RESTAURANT", response.data["hydra:member"][0]);
   });
 };
+
+// export const getRestaurant = async (id) => {
+//   await Restaurants.get(id);
+// };
 
 export const createRestaurant = async ({ commit }, restaurant) => {
   Restaurants.store(restaurant).then((response) => {

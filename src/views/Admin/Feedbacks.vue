@@ -2,22 +2,17 @@
   <v-data-table
     :headers="headers"
     :items="feedbacks"
-    :items-per-page= 10
+    :items-per-page="10"
     :loading="loading ? true : false"
-    loading-text="Chargement des données"
+    loading-text="Loading data..."
     sort-by="id"
     class="elevation-1"
-
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>CRUD Feedbacks</v-toolbar-title>
-        
-        <v-divider
-          class="mx-4"
-          inset
-          vertical
-        ></v-divider>
+
+        <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
@@ -31,7 +26,7 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col >
+                  <v-col>
                     <v-textarea v-model="editedItem.message" label="Message"></v-textarea>
                   </v-col>
                 </v-row>
@@ -48,19 +43,8 @@
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
-      <v-icon
-        small
-        class="mr-2"
-        @click="editItem(item)"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon
-        small
-        @click="deleteItem(item)"
-      >
-        mdi-delete
-      </v-icon>
+      <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+      <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
     </template>
     <template v-slot:no-data>
       <v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -69,118 +53,121 @@
 </template>
 
 <script>
-import axios from 'axios'
-  export default {
-    data () {
-      return {
-        errors:[],
-        feedbacks:[],
-        dialog: false,
-        loading:false,
-        headers: [
-          {
-            text: 'ID',
-            align: 'start',
-            sortable: true,
-            value: 'id',
-          },
-          { text: 'Message', value: 'message' },
-          { text: 'Date de création', value: 'created' },
-          { text: 'Actions', value: 'actions', sortable: false },
-        ],
-        editedIndex: -1,
-        editedItem: {
-            id:1,
-            message: '',
+import axios from "axios";
+export default {
+  data() {
+    return {
+      errors: [],
+      feedbacks: [],
+      dialog: false,
+      loading: false,
+      headers: [
+        {
+          text: "ID",
+          align: "start",
+          sortable: true,
+          value: "id"
         },
-        defaultItem: {
-            id:1,
-            message: '',
-        },
+        { text: "Message", value: "message" },
+        { text: "Date de création", value: "created" },
+        { text: "Actions", value: "actions", sortable: false }
+      ],
+      editedIndex: -1,
+      editedItem: {
+        id: 1,
+        message: ""
+      },
+      defaultItem: {
+        id: 1,
+        message: ""
       }
+    };
+  },
+
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? "New Item" : "Edit Item";
+    }
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close();
+    }
+  },
+
+  async created() {
+    this.initialize();
+  },
+  methods: {
+    async initialize() {
+      this.loading = true;
+      await this.getFeedbacks();
+      this.loading = false;
     },
 
-    computed: {
-      formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-      },
+    async getFeedbacks() {
+      await axios
+        .get("http://localhost:8001/api/feedbacks")
+        .then(response => (this.feedbacks = response.data));
     },
 
-    watch: {
-      dialog (val) {
-        val || this.close()
-      },
+    editItem(item) {
+      this.editedIndex = this.feedbacks.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+
+      this.dialog = true;
     },
 
-    async created () {
-      this.initialize()
-    },
-    methods: {
-      async initialize () {
+    async deleteItem(item) {
+      if (confirm("Are you sure you want to delete this item?")) {
         this.loading = true;
+        await axios
+          .delete("http://localhost:8001/api/feedbacks/" + item.id)
+          .then()
+          .catch(e => {
+            this.errors.push(e);
+            console.log(this.errors);
+          });
+      }
+      await this.getFeedbacks();
+      this.loading = false;
+    },
+
+    close() {
+      this.dialog = false;
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      }, 300);
+    },
+
+    async save() {
+      this.loading = true;
+      if (this.editedIndex > -1) {
+        await axios
+          .put("http://localhost:8001/api/feedbacks/" + this.editedItem.id, {
+            message: this.editedItem.message
+          })
+          .then()
+          .catch(e => {
+            this.errors.push(e);
+          });
         await this.getFeedbacks();
-        this.loading = false;
-      },
-
-      async getFeedbacks() {
-        await axios.get('http://localhost:8001/api/feedbacks')
-        .then(response => this.feedbacks = response.data);
-      },
-
-
-      editItem (item) {
-        this.editedIndex = this.feedbacks.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        
-        this.dialog = true
-      },
-
-      async deleteItem (item) {
-        if (confirm('Are you sure you want to delete this item?')){
-          this.loading = true;
-          await axios.delete('http://localhost:8001/api/feedbacks/'+item.id)
-          .then()
-          .catch(e => {
-            this.errors.push(e)
-            console.log(this.errors)
-        })
-        }
-        await this.getFeedbacks()
-        this.loading = false;
-      },
-
-      close () {
-        this.dialog = false
-        setTimeout(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        }, 300)
-      },
-
-      async save () {
-        this.loading = true;
-        if (this.editedIndex > -1) {
-          await axios.put('http://localhost:8001/api/feedbacks/' + this.editedItem.id, {
+      } else {
+        await axios
+          .post("http://localhost:8001/api/feedbacks", {
             message: this.editedItem.message
           })
           .then()
           .catch(e => {
-            this.errors.push(e)
-        })
-        await this.getFeedbacks()
-        } else {
-          await axios.post('http://localhost:8001/api/feedbacks', {
-            message: this.editedItem.message
-          })
-          .then()
-          .catch(e => {
-            this.errors.push(e)
-        })
-        await this.getFeedbacks()       
-        }
-        this.loading = false;
-        this.close()
-      },
-    },
+            this.errors.push(e);
+          });
+        await this.getFeedbacks();
+      }
+      this.loading = false;
+      this.close();
+    }
   }
+};
 </script>
