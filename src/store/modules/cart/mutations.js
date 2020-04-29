@@ -12,7 +12,6 @@ export const INCREASE_QUANTITY = (state, product) => {
     ...state.cart.filter((element) => element.plat.id !== product.plat.id),
     product,
   ];
-  console.log(state.cart);
 };
 
 export const REMOVE_PLAT_FROM_CART = (state, plat) => {

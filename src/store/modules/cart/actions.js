@@ -45,19 +45,6 @@ export const addPlatToCart = async (
       { root: true }
     );
   }
-
-  //commit('ADD_TO_CART', { plat, quantity });
-
-  // return Panier.getOne(plat.id).then( response => {
-  //     let panier = response.data;
-  //     if(panier) {
-  //         Panier.patch(panier.id, {
-  //             quantity: panier.quantity += 1
-  //         })
-  //     } else {
-
-  //     }
-  // })
 };
 
 export const removePlatFromCart = async (

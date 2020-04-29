@@ -1,4 +1,5 @@
 export default {
   plats: [],
-  platsFromRestaurant: []
+  platsFromRestaurant: [],
+  favorites: [],
 };

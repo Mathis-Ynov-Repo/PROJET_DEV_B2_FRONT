@@ -6,7 +6,26 @@
         :src="plat.image ? 'http://localhost:3000/images/products/' + plat.image.filePath : 'https://cdn.vuetifyjs.com/images/cards/cooking.png' "
       ></v-img>
 
+      <v-card-text style="position: relative" class="py-0">
+        <v-btn
+          absolute
+          dark
+          fab
+          top
+          right
+          color="secondary"
+          @click="removeFavorite(plat)"
+          v-if="$store.state.plat.favorites.find(element => element.id === plat.id)"
+        >
+          <v-icon color="primary">mdi-heart</v-icon>
+        </v-btn>
+
+        <v-btn absolute dark fab top right color="secondary" @click="addFavorite(plat)" v-else>
+          <v-icon color="white">mdi-heart</v-icon>
+        </v-btn>
+      </v-card-text>
       <v-card-title>{{plat.libelle}}</v-card-title>
+
       <v-card-subtitle>{{plat.description}}</v-card-subtitle>
       <v-card-title class="grey--text py-0">{{plat.prix}} $ • {{plat.platType.libelle}}</v-card-title>
       <v-card-actions class="justify-center">
@@ -18,29 +37,18 @@
 
 <script>
 import PlatDetail from "./PlatDetail";
-// import { mapActions } from 'vuex'
+import { mapActions } from "vuex";
+
 export default {
   components: {
     PlatDetail
   },
-  props: ["plat"]
-  // data() {
-  //   return {
-  //     quantity: 1
-  //   }
+  props: ["plat"],
 
-  // },
-
-  // methods: {
-
-  //   ...mapActions(['addPlatToCart']),
-  //   addToCart() {
-  //     this.addPlatToCart({
-  //         plat: this.plat,
-  //         quantity: this.quantity
-  //       })
-  //     }
-  // }
+  methods: {
+    ...mapActions("plat", ["addFavorite"]),
+    ...mapActions("plat", ["removeFavorite"])
+  }
 };
 </script>
 

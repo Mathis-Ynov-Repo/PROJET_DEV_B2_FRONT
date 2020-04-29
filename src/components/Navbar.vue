@@ -57,6 +57,14 @@
               </v-list-item-icon>
               <v-list-item-title>Favorites</v-list-item-title>
             </v-list-item>
+            <v-list-item @click.prevent="logout()" router :exact="true" :to="{name:'Login'}">
+              <v-list-item-action>
+                <v-icon>mdi-logout</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>Logout</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </v-list-item-group>
         </v-list>
       </v-menu>
@@ -148,14 +156,6 @@
         </v-list-item>
       </v-list>
       <v-list>
-        <v-list-item router :to="{name:'Profile'}">
-          <v-list-item-action>
-            <v-icon class="white--text">mdi-user</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title class="white--text">Profil</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
         <v-list-item @click.prevent="logout()" router :exact="true" :to="{name:'Login'}">
           <v-list-item-action>
             <v-icon class="white--text">mdi-logout</v-icon>

@@ -1,8 +1,12 @@
 import Plats from "../../../apis/Plats";
 
-export const getPlats = ({ commit }) => {
-  Plats.all().then((response) => {
-    commit("SET_PLATS", response.data["hydra:member"]);
+export const getPlats = async ({ commit, rootState }) => {
+  await Plats.all().then((response) => {
+    let plats = response.data["hydra:member"];
+    let user = rootState.authentication.user;
+    commit("SET_PLATS", plats);
+
+    commit("SET_FAVORITE_ITEMS", { plats, user });
   });
 };
 
@@ -51,4 +55,26 @@ export const updatePlat = ({ dispatch }) => {
     },
     { root: true }
   );
+};
+
+export const removeFavorite = async ({ commit, rootState, state }, item) => {
+  commit("REMOVE_ITEM_FROM_FAVORITES", item);
+  let IRIArray = [];
+  state.favorites.forEach((element) => {
+    IRIArray.push(element["@id"]);
+  });
+  await Plats.editFavorites(rootState.authentication.user.id, {
+    plats: IRIArray,
+  });
+};
+
+export const addFavorite = async ({ commit, rootState, state }, item) => {
+  commit("ADD_TO_FAVORITES", item);
+  let IRIArray = [];
+  state.favorites.forEach((element) => {
+    IRIArray.push(element["@id"]);
+  });
+  await Plats.editFavorites(rootState.authentication.user.id, {
+    plats: IRIArray,
+  });
 };
