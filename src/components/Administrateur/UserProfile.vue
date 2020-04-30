@@ -61,7 +61,13 @@
               required
             />
 
-            <v-btn :disabled="!validImg" color="success" class="mr-5" @click="validate">
+            <v-btn
+              :disabled="!userImg"
+              :loading="loadingImg"
+              color="success"
+              class="mr-5"
+              @click="validate"
+            >
               Upload
               <v-icon>mdi-upload</v-icon>
             </v-btn>
@@ -144,6 +150,7 @@ export default {
       user: this.initialUser,
       validUserForm: true,
       userImg: null,
+      loadingImg: false,
       validImg: true,
       updatedUser: {},
       newUser: {},
@@ -209,6 +216,7 @@ export default {
       return new Blob([ab], { type: mimeString });
     },
     async postUserImg() {
+      this.loadingImg = true;
       let file = this.dataURItoBlob(this.userImg);
 
       let formData = new FormData(document.forms[0]);
@@ -231,6 +239,7 @@ export default {
               this.$store.dispatch("authentication/updateUserAdmin", this.user);
             })
         );
+      this.loadingImg = false;
       this.imgDialog = false;
     }
   }

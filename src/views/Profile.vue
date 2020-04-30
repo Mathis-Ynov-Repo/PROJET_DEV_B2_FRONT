@@ -57,7 +57,13 @@
               required
             />
 
-            <v-btn :disabled="!valid" color="success" class="mr-5" @click="validate">
+            <v-btn
+              :disabled="!avatar"
+              :loading="loadingImg"
+              color="success"
+              class="mr-5"
+              @click="validate"
+            >
               Upload
               <v-icon>mdi-upload</v-icon>
             </v-btn>
@@ -141,6 +147,7 @@ export default {
     validUserForm: true,
     avatar: null,
     avatar2: null,
+    loadingImg: false,
     valid: true,
     emailRules: [
       v => !!v || "Une adresse mail est requise",
@@ -212,6 +219,7 @@ export default {
       return new Blob([ab], { type: mimeString });
     },
     async postAvatar() {
+      this.loadingImg = true;
       let file = this.dataURItoBlob(this.avatar);
       // console.log(v2);
       // let formData = new FormData();
@@ -220,6 +228,7 @@ export default {
       // console.log(this.avatar2);
       // formData.append("file", this.avatar);
       formData.append("file", file, "custom.image");
+      this;
       // console.log(formData);
       await this.$http
         .post("http://localhost:3000/api/images", formData, {
@@ -239,6 +248,7 @@ export default {
               localStorage.setItem("user", JSON.stringify(this.newUser));
             })
         );
+      this.loadingImg = false;
       this.imgDialog = false;
     }
   },

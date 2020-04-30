@@ -64,7 +64,13 @@
               required
             />
 
-            <v-btn :disabled="!validImg" color="success" class="mr-5" @click="validate">
+            <v-btn
+              :disabled="!restaurantImg"
+              :loading="loadingImg"
+              color="success"
+              class="mr-5"
+              @click="validate"
+            >
               Upload
               <v-icon>mdi-upload</v-icon>
             </v-btn>
@@ -129,6 +135,7 @@ export default {
   data: () => ({
     dialog: false,
     imgDialog: false,
+    loadingImg: false,
     validRestaurantForm: true,
     restaurantImg: null,
     validImg: true,
@@ -197,6 +204,7 @@ export default {
       return new Blob([ab], { type: mimeString });
     },
     async postRestaurantImg() {
+      this.loadingImg = true;
       let file = this.dataURItoBlob(this.restaurantImg);
 
       let formData = new FormData(document.forms[0]);
@@ -227,6 +235,7 @@ export default {
               );
             })
         );
+      this.loadingImg = false;
       this.imgDialog = false;
     }
   },
