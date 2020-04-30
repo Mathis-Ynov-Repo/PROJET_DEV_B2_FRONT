@@ -31,11 +31,13 @@
         v-if="$store.getters['authentication/isLoggedIn']"
       >
         <template v-slot:activator="{ on }">
-          <v-avatar dark v-on="on" style="cursor: pointer">
+          <v-avatar dark v-on="on" style="cursor: pointer" color="indigo">
             <img
+              v-if="$store.state.authentication.user.image"
               :src="'http://localhost:3000/images/products/'+$store.state.authentication.user.image"
               alt="TST"
             />
+            <v-icon dark v-else>mdi-account</v-icon>
           </v-avatar>
         </template>
         <v-list dense>
@@ -180,8 +182,6 @@ export default {
       drawer: false,
 
       links: [
-        { icon: "mdi-food-fork-drink", text: "Plats", route: "Plats" },
-
         { icon: "mdi-home-variant", text: "ListePlats", route: "ListePlat" },
         {
           icon: "mdi-home-variant",
@@ -206,6 +206,11 @@ export default {
           icon: "mdi-home-variant",
           text: "AdminRestaurants",
           route: "AdminRestaurants"
+        },
+        {
+          icon: "mdi-account",
+          text: "Utilisateurs",
+          route: "AdminUsers"
         },
 
         {

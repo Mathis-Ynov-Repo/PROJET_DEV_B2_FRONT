@@ -28,7 +28,7 @@
               <h5>{{restaurant.type.type}}</h5>
             </v-col>
             <v-col md="6" xl="12" cols="8">
-              <h5>Adresse : {{restaurant.adresse}}</h5>
+              <h5>Adress : {{restaurant.adresse}}</h5>
             </v-col>
             <v-col sm="12" cols="12">
               <p>{{restaurant.description}}</p>

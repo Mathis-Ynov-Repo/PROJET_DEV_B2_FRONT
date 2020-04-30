@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Vos Plats Favoris</h1>
+    <h1>Your Favorites</h1>
     <favorites-items-list></favorites-items-list>
   </div>
 </template>

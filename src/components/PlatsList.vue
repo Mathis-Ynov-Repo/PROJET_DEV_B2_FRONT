@@ -7,7 +7,7 @@
             class="mx-auto my-12"
             max-width="374"
             v-if="plats.length == 0"
-            type="image,list-item-two-line, article, actions"
+            type="image, card-heading, list-item-two-line, list-item, actions"
           ></v-skeleton-loader>
         </v-col>
       </v-row>

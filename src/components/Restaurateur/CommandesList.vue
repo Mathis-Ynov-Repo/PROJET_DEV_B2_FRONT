@@ -82,10 +82,7 @@ export default {
     async getCommandes() {
       this.loading = true;
       await this.$http
-        .get(
-          "http://localhost:3000/api/commandes?pagination=false&restaurant=" +
-            this.OwnerRestaurant.id
-        )
+        .get("http://localhost:3000/api/commandes?pagination=false")
         .then(response => (this.commandes = response.data["hydra:member"]));
       this.loading = false;
     },

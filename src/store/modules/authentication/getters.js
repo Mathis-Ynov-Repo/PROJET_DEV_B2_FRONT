@@ -13,3 +13,7 @@ export const authUser = (state) => {
 export const isRestaurateur = (state) => {
   return !!state.user.roles.includes("ROLE_RESTAURATEUR");
 };
+
+export const isAdmin = (state) => {
+  return !!state.user.roles.includes("ROLE_ADMIN");
+};

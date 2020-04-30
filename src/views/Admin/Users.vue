@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="restaurants"
+    :items="users"
     :items-per-page="5"
     :loading="loading ? true : false"
     loading-text="Loading data..."
@@ -10,13 +10,13 @@
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-toolbar-title>CRUD Restaurants</v-toolbar-title>
+        <v-toolbar-title>CRUD Utilisateurs</v-toolbar-title>
 
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn>
+            <v-btn color="primary" dark class="mb-2" v-on="on">New User</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -26,19 +26,29 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.libelle" label="Nom"></v-text-field>
+                  <v-col cols="12" sm="6" md="6">
+                    <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.adresse" label="Adresse"></v-text-field>
+                  <v-col cols="12" sm="6" md="6">
+                    <v-text-field v-model="editedItem.surname" label="Last Name"></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col cols="12" sm="12" md="12">
+                    <v-text-field v-model="editedItem.adress" label="Adress"></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" sm="8" md="8">
+                    <v-text-field v-model="editedItem.email" label="Email"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="6">
+                    <v-text-field v-model="editedItem.balance" label="Balance"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="6">
                     <v-select
-                      :items="types"
-                      item-text="type"
+                      :items="roles"
+                      item-text="roles"
                       return-object
-                      label="Type"
-                      v-model="editedItem.type"
+                      label="Role"
+                      v-model="editedItem.roles"
                     ></v-select>
                   </v-col>
                 </v-row>
@@ -55,13 +65,9 @@
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
-      <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-      <v-icon small class="mr-2" @click="deleteItem(item)">mdi-delete</v-icon>
-      <router-link
-        :restaurant="item"
-        router
-        :to="{name:'AdminRestaurantPage', params: {id:item.id}}"
-      >
+      <v-icon small class="mr-2" @click="editUser(item)">mdi-pencil</v-icon>
+      <v-icon small class="mr-2" @click="deleteUser(item)">mdi-delete</v-icon>
+      <router-link :user="item" router :to="{name:'AdminUserPage', params: {id:item.id}}">
         <v-icon small>mdi-subdirectory-arrow-right</v-icon>
       </router-link>
     </template>
@@ -77,32 +83,40 @@ export default {
   data() {
     return {
       errors: [],
-      types: [],
-      restaurants: [],
+      roles: ["ROLE_USER", "ROLE_ADMIN", "ROLE_RESTAURATEUR"],
+      users: [],
       dialog: false,
       loading: false,
       headers: [
         {
-          text: "Restaurants",
+          text: "ID",
           align: "start",
           sortable: true,
-          value: "libelle"
+          value: "id"
         },
-        { text: "Adresse", value: "adresse" },
-        { text: "Type", value: "type.type" },
-        { text: "Date de création", value: "created" },
+        { text: "Email", value: "email" },
+        { text: "First Name", value: "name" },
+        { text: "Last Name", value: "surname" },
+        { text: "Adresse", value: "adress" },
+        { text: "Roles", value: "roles" },
+        { text: "Balance", value: "balance" },
+        { text: "Dernière connection", value: "lastConnection" },
         { text: "Actions", value: "actions", sortable: false }
       ],
       editedIndex: -1,
       editedItem: {
-        libelle: "",
-        adresse: "",
-        type: "/api/restaurant_types/1"
+        name: "",
+        adress: "",
+        surname: "",
+        balance: 0,
+        roles: []
       },
       defaultItem: {
-        libelle: "",
-        adresse: "",
-        type: "/api/restaurant_types/1"
+        name: "",
+        adress: "",
+        surname: "",
+        balance: 0,
+        roles: []
       }
     };
   },
@@ -125,25 +139,18 @@ export default {
   methods: {
     async initialize() {
       this.loading = true;
-      await this.getRestaurants();
-      await this.getRestaurantsTypes();
+      await this.getUsers();
       this.loading = false;
     },
 
-    async getRestaurants() {
+    async getUsers() {
       await axios
-        .get("http://localhost:3000/api/restaurants")
-        .then(response => (this.restaurants = response.data["hydra:member"]));
+        .get("http://localhost:3000/api/users")
+        .then(response => (this.users = response.data["hydra:member"]));
     },
 
-    async getRestaurantsTypes() {
-      await axios
-        .get("http://localhost:3000/api/restaurant_types")
-        .then(response => (this.types = response.data["hydra:member"]));
-    },
-
-    editItem(item) {
-      this.editedIndex = this.restaurants.indexOf(item);
+    editUser(item) {
+      this.editedIndex = this.users.indexOf(item);
       this.editedItem = Object.assign({}, item);
       console.log(this.editedItem);
       // this.editedItem.type = this.types.find(x => x.type == item.type.type);
@@ -151,18 +158,18 @@ export default {
       this.dialog = true;
     },
 
-    async deleteItem(item) {
-      if (confirm("Are you sure you want to delete this item?")) {
+    async deleteUser(item) {
+      if (confirm("Are you sure you want to ban this user?")) {
         this.loading = true;
         await axios
-          .delete("http://localhost:3000/api/restaurants/" + item.id)
+          .delete("http://localhost:3000/api/users/" + item.id)
           .then()
           .catch(e => {
             this.errors.push(e);
             console.log(this.errors);
           });
       }
-      await this.getRestaurants();
+      await this.getUsers();
       this.loading = false;
     },
 
@@ -175,31 +182,39 @@ export default {
     },
 
     async save() {
+      console.log(this.editedItem);
       this.loading = true;
       if (this.editedIndex > -1) {
         await axios
-          .put("http://localhost:3000/api/restaurants/" + this.editedItem.id, {
-            adresse: this.editedItem.adresse,
-            libelle: this.editedItem.libelle,
-            type: this.editedItem.type["@id"]
+          .put("http://localhost:3000/api/users/" + this.editedItem.id, {
+            adress: this.editedItem.adress,
+            name: this.editedItem.name,
+            surname: this.editedItem.surname,
+            roles: [this.editedItem.roles],
+            email: this.editedItem.email,
+            balance: this.editedItem.balance
           })
           .then()
           .catch(e => {
             this.errors.push(e);
           });
-        await this.getRestaurants();
+        await this.getUsers();
       } else {
         await axios
-          .post("http://localhost:3000/api/restaurants", {
-            adresse: this.editedItem.adresse,
-            libelle: this.editedItem.libelle,
-            type: this.editedItem.type["@id"]
+          .post("http://localhost:3000/api/users", {
+            adress: this.editedItem.adress,
+            name: this.editedItem.name,
+            surname: this.editedItem.surname,
+            roles: [this.editedItem.roles],
+            email: this.editedItem.email,
+            balance: this.editedItem.balance,
+            password: "motdepasses"
           })
           .then()
           .catch(e => {
             this.errors.push(e);
           });
-        await this.getRestaurants();
+        await this.getUsers();
       }
       this.loading = false;
       this.close();

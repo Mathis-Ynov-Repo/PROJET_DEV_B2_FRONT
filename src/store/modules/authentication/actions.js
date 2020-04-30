@@ -22,7 +22,7 @@ import axios from "axios";
 //   });
 // };
 
-export const login = ({ commit }, user) => {
+export const login = async ({ commit }, user) => {
   return new Promise((resolve, reject) => {
     commit("AUTH_REQUEST");
     axios({
@@ -89,6 +89,17 @@ export const updateUser = ({ commit, dispatch }, user) => {
     {
       type: "success",
       message: "Profile updated successfully",
+    },
+    { root: true }
+  );
+};
+
+export const updateUserAdmin = ({ dispatch }, user) => {
+  dispatch(
+    "notifications/addNotification",
+    {
+      type: "success",
+      message: user.name + "'s profile has been updated successfully",
     },
     { root: true }
   );

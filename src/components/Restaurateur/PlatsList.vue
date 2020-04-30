@@ -11,9 +11,14 @@
           ></v-skeleton-loader>
         </v-col>
       </v-row>
-      <v-row class="mb-6 flex-row" no-gutters>
+      <v-row
+        class="mb-6 flex-row"
+        no-gutters
+        v-if="OwnerRestaurant.plats && OwnerRestaurant.plats.length > 0"
+      >
         <Plat :types="types" v-for="plat in OwnerRestaurant.plats" :key="plat.id" :plat="plat" />
       </v-row>
+      <v-row class="mb-6 flex-row" no-gutters v-else-if="loading == false">Aucun Plat</v-row>
     </v-container>
     <v-card-text class="white" style="height: 100px; position: relative">
       <v-btn color="primary" dark absolute top right fab @click="dialog = !dialog">
@@ -93,21 +98,17 @@ export default {
   computed: {
     ...mapState("restaurant", ["OwnerRestaurant"])
   },
-  mounted() {
-    this.getRestaurant(this.$store.getters["authentication/authUser"].id);
+  async mounted() {
+    this.loading = true;
+
+    await this.getRestaurant(this.$store.getters["authentication/authUser"].id);
+    this.loading = false;
 
     this.$http
       .get("http://localhost:3000/api/plats_types")
       .then(response => (this.types = response.data["hydra:member"]));
   },
   methods: {
-    // initialize() {
-    //   this.loading = true;
-    //   await this.getRestaurant(
-    //     this.$store.getters["authentication/authUser"].id
-    //   );
-    //   this.loading = false;
-    // },
     async save() {
       this.loading = true;
       await this.$http

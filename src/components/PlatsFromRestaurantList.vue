@@ -1,13 +1,13 @@
 <template>
   <section id="plats_list" class="secondary">
-    <v-container class="secondary">
+    <v-container class="secondary my-5">
       <v-row class="mb-6 flex-row" no-gutters v-if="!plats.length > 0">
         <v-col cols="12" md="6" lg="4" xl="3" v-for="n in 8" :key="n">
           <v-skeleton-loader
             class="mx-auto my-12"
             max-width="374"
             v-if="!plats.length > 0"
-            type="image,list-item-two-line, article, actions"
+            type="image, card-heading, list-item-two-line, list-item, actions"
           ></v-skeleton-loader>
         </v-col>
       </v-row>

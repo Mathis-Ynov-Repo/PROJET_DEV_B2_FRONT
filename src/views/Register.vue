@@ -240,7 +240,7 @@ export default {
         };
         await this.$store
           .dispatch("authentication/register", data)
-          .then(() => this.$router.push("/"))
+          .then(() => this.$router.push({ name: "Home" }))
           .catch(err => console.log(err));
 
         let restaurant = {
@@ -249,7 +249,9 @@ export default {
           description: this.restaurantDescription,
           type: this.restaurantSelect
         };
-        this.createRestaurant(restaurant);
+        this.createRestaurant(restaurant).then(() =>
+          this.$router.push({ name: "RestaurateurRestaurant" })
+        );
       } else {
         let user = {
           surname: this.surname,
@@ -260,7 +262,7 @@ export default {
         };
         this.$store
           .dispatch("authentication/register", user)
-          .then(() => this.$router.push("/"))
+          .then(() => this.$router.push({ name: "Home" }))
           .catch(err => console.log(err));
       }
     }

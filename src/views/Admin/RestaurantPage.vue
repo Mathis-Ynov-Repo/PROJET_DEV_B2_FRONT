@@ -9,6 +9,9 @@
         <restaurant-orders-list v-if="restaurant.id" :restaurant="restaurant"></restaurant-orders-list>
       </v-col>
     </v-row>
+    <v-overlay :value="loading">
+      <v-progress-circular indeterminate size="64" color="primary"></v-progress-circular>
+    </v-overlay>
 
     <dishes-list v-if="restaurant.id" :initialRestaurant="restaurant"></dishes-list>
   </div>
@@ -26,12 +29,15 @@ export default {
   },
   data() {
     return {
-      restaurant: {}
+      restaurant: {},
+      loading: true
     };
   },
 
-  mounted() {
-    this.getRestaurant(this.$route.params.id);
+  async mounted() {
+    this.loading = true;
+    await this.getRestaurant(this.$route.params.id);
+    this.loading = false;
   },
   methods: {
     async getRestaurant(id) {

@@ -55,18 +55,27 @@ export default {
     };
   },
   methods: {
-    login() {
+    async login() {
       let username = this.email;
       let password = this.password;
-      this.$store
+      await this.$store
         .dispatch("authentication/login", { username, password })
-        .then(() => this.$router.push("/"))
+        .then()
         .catch(err => console.log(err));
+      if (this.isRestaurateur) {
+        this.$router.push({ name: "RestaurateurRestaurant" });
+      } else if (this.isAdmin) {
+        this.$router.push({ name: "AdminDashboard" });
+      } else {
+        this.$router.push({ name: "Home" });
+      }
     }
   },
   computed: {
     ...mapGetters({
-      authStatus: "authentication/authStatus"
+      authStatus: "authentication/authStatus",
+      isRestaurateur: "authentication/isRestaurateur",
+      isAdmin: "authentication/isAdmin"
     })
   }
 };

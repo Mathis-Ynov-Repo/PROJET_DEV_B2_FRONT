@@ -26,7 +26,9 @@
       </v-card-text>
       <v-card-title>{{plat.libelle}}</v-card-title>
 
-      <v-card-subtitle>{{plat.description}}</v-card-subtitle>
+      <v-card-text v-if="plat.description != null">{{plat.description}}</v-card-text>
+      <v-card-text v-else>No description available for this product</v-card-text>
+      <!-- <v-card-subtitle>{{plat.description}}</v-card-subtitle> -->
       <v-card-title class="grey--text py-0">{{plat.prix}} $ • {{plat.platType.libelle}}</v-card-title>
       <v-card-actions class="justify-center">
         <PlatDetail :plat="plat" />

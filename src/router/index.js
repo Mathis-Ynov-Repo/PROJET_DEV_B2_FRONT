@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import AdminRestaurants from "../views/Admin/Restaurants.vue";
-import Plats from "../views/Plats.vue";
+
 import Checkout from "../views/Checkout.vue";
 import ListePlat from "../views/ListePlat.vue";
 import ListePlatFromRestaurant from "../views/RestaurantPage.vue";
@@ -12,6 +12,9 @@ import AdminFeedbacks from "../views/Admin/Feedbacks.vue";
 import AdminCommandes from "../views/Admin/Commandes.vue";
 import AdminDashboard from "../views/Admin/Dashboard.vue";
 import AdminRestaurantPage from "../views/Admin/RestaurantPage.vue";
+import AdminUsers from "../views/Admin/Users.vue";
+import AdminUserPage from "../views/Admin/UserPage.vue";
+
 import ListeRestaurant from "../views/RestaurantVuex.vue";
 import Profile from "../views/Profile.vue";
 import Register from "../views/Register.vue";
@@ -49,15 +52,6 @@ const routes = [
     path: "/favorites",
     name: "Favorites",
     component: Favorites,
-    meta: {
-      requiresAuth: true,
-      is_user: true,
-    },
-  },
-  {
-    path: "/plats",
-    name: "Plats",
-    component: Plats,
     meta: {
       requiresAuth: true,
       is_user: true,
@@ -121,6 +115,24 @@ const routes = [
     path: "/admin/restaurants/:id",
     name: "AdminRestaurantPage",
     component: AdminRestaurantPage,
+    meta: {
+      requiresAuth: true,
+      is_admin: true,
+    },
+  },
+  {
+    path: "/admin/users",
+    name: "AdminUsers",
+    component: AdminUsers,
+    meta: {
+      requiresAuth: true,
+      is_admin: true,
+    },
+  },
+  {
+    path: "/admin/users/:id",
+    name: "AdminUserPage",
+    component: AdminUserPage,
     meta: {
       requiresAuth: true,
       is_admin: true,

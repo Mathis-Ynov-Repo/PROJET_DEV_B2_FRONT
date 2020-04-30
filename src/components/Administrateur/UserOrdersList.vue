@@ -13,7 +13,7 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Table des commandes du restaurant {{restaurant.libelle}}</v-toolbar-title>
+          <v-toolbar-title>Table des commandes</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
       </template>
@@ -50,7 +50,7 @@
 
 <script>
 export default {
-  props: ["restaurant"],
+  props: ["user"],
   data() {
     return {
       expanded: [],
@@ -81,8 +81,8 @@ export default {
     async getCommandes() {
       await this.$http
         .get(
-          "http://localhost:3000/api/commandes?pagination=false&restaurant=" +
-            this.restaurant.id
+          "http://localhost:3000/api/commandes?pagination=false&user=" +
+            this.user.id
         )
         .then(response => (this.commandes = response.data["hydra:member"]));
     },

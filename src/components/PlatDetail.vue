@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on }">
         <v-btn class="success" dark v-on="on">
-          Voir le produit
+          check item out
           <v-icon>mdi-silverware-fork-knife</v-icon>
         </v-btn>
       </template>
@@ -30,10 +30,10 @@
           type="number"
         />
         <v-card-actions class="justify-space-around">
-          <v-btn outlined color="primary" @click="close()">Fermer</v-btn>
+          <v-btn outlined color="primary" @click="close()">close</v-btn>
 
           <v-btn color="primary" @click="addToCart()">
-            Ajouter au panier
+            Add to Cart
             <v-icon>mdi-cart</v-icon>
           </v-btn>
         </v-card-actions>

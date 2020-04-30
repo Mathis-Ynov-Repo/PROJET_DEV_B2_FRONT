@@ -15,6 +15,7 @@ export const AUTH_ERROR = (state) => {
 export const LOGOUT = (state) => {
   state.status = "";
   state.token = "";
+  state.user = {};
 };
 
 export const UPDATE_USER = (state, user) => {

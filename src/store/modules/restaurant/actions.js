@@ -33,7 +33,7 @@ export const getRestaurantWithOwner = async ({ commit }) => {
 // };
 
 export const createRestaurant = async ({ commit }, restaurant) => {
-  Restaurants.store(restaurant).then((response) => {
+  await Restaurants.store(restaurant).then((response) => {
     commit("SET_OWNER_RESTAURANT", response.data);
   });
 };
