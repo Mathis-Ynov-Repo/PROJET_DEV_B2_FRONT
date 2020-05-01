@@ -21,7 +21,12 @@
           <v-icon>mdi-pencil</v-icon>Edit
         </v-btn>
 
-        <v-btn color="error" @click="deleteDish(plat)">
+        <v-btn
+          color="error"
+          :disabled="loadingDelete"
+          :loading="loadingDelete"
+          @click="deleteDish(plat)"
+        >
           <v-icon>mdi-delete</v-icon>Delete
         </v-btn>
       </v-card-actions>
@@ -44,7 +49,13 @@
               required
             />
 
-            <v-btn :disabled="!validImg" color="success" class="mr-5" @click="validate">
+            <v-btn
+              :disabled="!validImg || loadingImg"
+              :loading="loadingImg"
+              color="success"
+              class="mr-5"
+              @click="validate"
+            >
               Upload
               <v-icon>mdi-upload</v-icon>
             </v-btn>
@@ -96,7 +107,13 @@
           <v-card-actions>
             <v-spacer></v-spacer>
 
-            <v-btn text color="primary" :disabled="!valid" @click="save(updatedItem)">Sauvegarder</v-btn>
+            <v-btn
+              text
+              color="primary"
+              :disabled="!valid || loadingPut"
+              :loading="loadingPut"
+              @click="save(updatedItem)"
+            >Sauvegarder</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -115,6 +132,9 @@ export default {
     return {
       loading: true,
       dialog: false,
+      loadingPut: false,
+      loadingDelete: false,
+      loadingImg: false,
       validImg: true,
       imgDialog: false,
       platImg: null,
@@ -141,6 +161,7 @@ export default {
     },
 
     async postPlatImg() {
+      this.loadingImg = true;
       let file = this.dataURItoBlob(this.platImg);
 
       let formData = new FormData(document.forms[0]);
@@ -163,6 +184,7 @@ export default {
               this.$store.dispatch("plat/updatePlat");
             })
         );
+      this.loadingImg = false;
       this.imgDialog = false;
     },
     dataURItoBlob(dataURI) {
@@ -188,9 +210,11 @@ export default {
     },
     async deleteDish(plat) {
       if (confirm("Supprimer ce plat ?")) {
+        this.loadingDelete = true;
         await this.deletePlat(plat);
       }
-      this.$parent.getRestaurant();
+      await this.$parent.getRestaurant();
+      this.loadingDelete = false;
     },
     editPicture() {
       this.imgDialog = true;
@@ -200,8 +224,10 @@ export default {
       this.updatedItem = Object.assign({}, plat);
     },
     async save(plat) {
+      this.loadingPut = true;
       plat.prix = parseFloat(plat.prix);
       await this.editPlat(plat);
+      this.loadingPut = false;
       this.dialog = false;
       await this.$http
         .get("http://localhost:3000/api/plats/" + this.plat.id)

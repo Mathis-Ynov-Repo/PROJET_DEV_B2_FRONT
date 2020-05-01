@@ -1,30 +1,23 @@
-export const addPlatToCart = async (
+export const addProductToCart = async (
   { commit, getters, dispatch },
-  { plat, quantity }
+  { product, quantity }
 ) => {
+  // console.log(product);
+  // console.log(getters.getCart);
   let productInCart = getters.getCart.find((item) => {
-    return item.plat.id === plat.id;
+    return item.product["@id"] === product["@id"];
   });
 
   let MatchRestaurant = getters.getCart.find((item) => {
-    return item.plat.restaurant.id != plat.restaurant.id;
+    return item.product.restaurant.id != product.restaurant.id;
   });
 
   if (!MatchRestaurant) {
     if (productInCart) {
       productInCart.quantity += quantity;
       commit("INCREASE_QUANTITY", productInCart);
-      // await Panier.patchWithPlat(productInCart.plat.id, {
-      //   quantity: productInCart.quantity
-      // });
     } else {
-      commit("ADD_TO_CART", { plat, quantity });
-      // window.localStorage.setItem("cart", state.cart);
-      // await Panier.store({
-      //   plat: plat.id,
-      //   panier: 41,
-      //   quantity
-      // });
+      commit("ADD_TO_CART", { product, quantity });
     }
     commit("SAVE_CART");
     dispatch(
@@ -47,14 +40,12 @@ export const addPlatToCart = async (
   }
 };
 
-export const removePlatFromCart = async (
+export const removeProductFromCart = async (
   { commit, dispatch },
   panierDetail
 ) => {
-  commit("REMOVE_PLAT_FROM_CART", panierDetail.plat);
+  commit("REMOVE_PRODUCT_FROM_CART", panierDetail.product);
 
-  //Panier.delete(panierDetail.id)
-  // await Panier.deleteWithPlat(panierDetail.plat.id);
   commit("SAVE_CART");
   dispatch(
     "notifications/addNotification",

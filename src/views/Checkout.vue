@@ -4,17 +4,17 @@
       <h1 v-if="cart.length == 0">Empty Cart</h1>
       <h1 v-else>Your Cart</h1>
 
-      <v-row row wrap align="center" v-for="item in cart" :key="item.plat.id">
+      <v-row row wrap align="center" v-for="item in cart" :key="item.product.id">
         <v-col cols="12" md="4">
           <div class="caption grey--text">Dish</div>
 
-          <div>{{item.plat.libelle}}</div>
+          <div>{{item.product.libelle}}</div>
         </v-col>
 
         <v-col xs="2">
           <div class="caption grey--text">Restaurant</div>
 
-          <div>{{item.plat.restaurant.libelle}}</div>
+          <div>{{item.product.restaurant.libelle}}</div>
         </v-col>
 
         <v-col xs="2">
@@ -26,7 +26,7 @@
         <v-col xs="2">
           <div class="caption grey--text">Price</div>
 
-          <div>{{item.plat.prix}} $</div>
+          <div>{{item.product.prix}} $</div>
         </v-col>
       </v-row>
       <v-divider></v-divider>

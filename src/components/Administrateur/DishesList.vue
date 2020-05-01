@@ -48,7 +48,13 @@
           <v-card-actions>
             <v-spacer></v-spacer>
 
-            <v-btn text color="primary" :disabled="!valid" @click="save">Sauvegarder</v-btn>
+            <v-btn
+              text
+              color="primary"
+              :disabled="!valid || loadingPost"
+              :loading="loadingPost"
+              @click="save"
+            >Sauvegarder</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -62,7 +68,7 @@ export default {
   props: ["initialRestaurant"],
   data() {
     return {
-      loading: true,
+      loadingPost: false,
       valid: true,
       types: [],
       restaurant: this.initialRestaurant,
@@ -95,7 +101,7 @@ export default {
         });
     },
     async save() {
-      this.loading = true;
+      this.loadingPost = true;
       await this.$http
         .post("http://localhost:3000/api/plats", {
           libelle: this.platTitle,
@@ -122,7 +128,7 @@ export default {
         { root: true }
       );
 
-      this.loading = false;
+      this.loadingPost = false;
       this.dialog = false;
     }
   }

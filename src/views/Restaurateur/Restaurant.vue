@@ -12,17 +12,20 @@
     </v-row>
     <h1>Tous les plats de votre resto</h1>
     <plat-list />
+    <menu-list />
   </div>
 </template>
 
 <script>
 import PlatList from "@/components/Restaurateur/PlatsList.vue";
+import MenuList from "@/components/Restaurateur/MenusList.vue";
 import RestaurantProfile from "@/components/Restaurateur/RestaurantProfile.vue";
 import CommandesList from "@/components/Restaurateur/CommandesList.vue";
 import { mapActions, mapState } from "vuex";
 export default {
   components: {
     PlatList,
+    MenuList,
     CommandesList,
     RestaurantProfile
   },

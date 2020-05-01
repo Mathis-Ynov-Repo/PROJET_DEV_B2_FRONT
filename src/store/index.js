@@ -9,6 +9,7 @@ import * as mutations from "./mutations";
 import * as actions from "./actions";
 
 import plat from "./modules/plat";
+import menu from "./modules/menu";
 import cart from "./modules/cart";
 import restaurant from "./modules/restaurant";
 import order from "./modules/order";
@@ -24,9 +25,10 @@ export default new Vuex.Store({
   modules: {
     plat,
     cart,
+    menu,
     restaurant,
     order,
     notifications,
-    authentication
-  }
+    authentication,
+  },
 });

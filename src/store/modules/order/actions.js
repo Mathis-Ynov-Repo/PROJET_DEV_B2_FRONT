@@ -10,6 +10,7 @@ export const placeOrder = async (
     commit("ORDER_PLAT", price);
     commit("authentication/LOWER_BALANCE", price, { root: true });
     commit("cart/CLEAR_CART", null, { root: true });
+    console.log(cart);
 
     await User.update(user.id, user.balance);
     localStorage.setItem("user", JSON.stringify(user));
@@ -17,25 +18,23 @@ export const placeOrder = async (
       prix: price,
       statut: "en cours",
       frais: 2.99,
-      restaurant:
-        "api/restaurants/" + cart[0].plat.restaurant.id ||
-        cart[0].menu.restaurant.id,
+      restaurant: "api/restaurants/" + cart[0].product.restaurant.id,
     }).then(async (response) => {
       let commande = response.data;
       let commandeArray = [];
       cart.forEach((cartLine) => {
-        if (cartLine.menu) {
+        if (cartLine.product["@type"] === "Menu") {
           let commandeDetail = {
-            menu: cartLine.menu.id,
+            menu: cartLine.product.id,
             commande: commande.id,
-            prix: cartLine.menu.prix,
+            prix: cartLine.product.prix,
           };
           commandeArray.push(commandeDetail);
         } else {
           let commandeDetail = {
-            plat: cartLine.plat.id,
+            plat: cartLine.product.id,
             commande: commande.id,
-            prix: cartLine.plat.prix,
+            prix: cartLine.product.prix,
           };
           commandeArray.push(commandeDetail);
         }

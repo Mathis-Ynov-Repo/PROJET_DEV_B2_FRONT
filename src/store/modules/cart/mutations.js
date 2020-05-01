@@ -1,22 +1,24 @@
 // let cart = window.localStorage.getItem("cart");
 
-export const ADD_TO_CART = (state, { plat, quantity }) => {
+export const ADD_TO_CART = (state, { product, quantity }) => {
   state.cart.push({
-    plat,
+    product,
     quantity,
   });
 };
 
 export const INCREASE_QUANTITY = (state, product) => {
   state.cart = [
-    ...state.cart.filter((element) => element.plat.id !== product.plat.id),
+    ...state.cart.filter(
+      (element) => element.product["@id"] !== product.product["@id"]
+    ),
     product,
   ];
 };
 
-export const REMOVE_PLAT_FROM_CART = (state, plat) => {
+export const REMOVE_PRODUCT_FROM_CART = (state, product) => {
   state.cart = state.cart.filter((item) => {
-    return item.plat.id != plat.id;
+    return item.product["@id"] != product["@id"];
   });
 };
 
@@ -28,11 +30,3 @@ export const CLEAR_CART = (state) => {
 export const SAVE_CART = (state) => {
   window.localStorage.setItem("cart", JSON.stringify(state.cart));
 };
-
-// export const SET_PANIER = (state, cartItems) => {
-//   state.cart = cartItems;
-// };
-
-// export const SET_CART = (state) => {
-//   state.cart = cart
-// };

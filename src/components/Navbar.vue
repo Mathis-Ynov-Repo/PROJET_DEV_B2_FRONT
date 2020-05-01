@@ -31,7 +31,7 @@
         v-if="$store.getters['authentication/isLoggedIn']"
       >
         <template v-slot:activator="{ on }">
-          <v-avatar dark v-on="on" style="cursor: pointer" color="indigo">
+          <v-avatar dark v-on="on" style="cursor: pointer" size="48" color="indigo">
             <img
               v-if="$store.state.authentication.user.image"
               :src="'http://localhost:3000/images/products/'+$store.state.authentication.user.image"
@@ -72,7 +72,7 @@
       </v-menu>
       <div
         class="mx-5"
-        v-if="$route.name != 'Checkout' && $store.getters['authentication/isLoggedIn']"
+        v-if="$route.name != 'Checkout' && $store.getters['authentication/isLoggedIn'] && !$store.getters['authentication/isRestaurateur'] && !$store.getters['authentication/isAdmin']"
       >
         <v-badge left color="green">
           <PopupCart />

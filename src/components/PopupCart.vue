@@ -15,17 +15,17 @@
           </h1>
           <h1 v-else>Your Cart</h1>
 
-          <v-row row wrap align="center" v-for="item in cart" :key="item.plat.id">
+          <v-row row wrap align="center" v-for="item in cart" :key="item.product['@id']">
             <v-col cols="12" md="4">
               <div class="caption grey--text">Plat</div>
 
-              <div>{{item.plat.libelle}}</div>
+              <div>{{item.product.libelle}}</div>
             </v-col>
 
             <v-col xs="2">
               <div class="caption grey--text">Restaurant</div>
 
-              <div>{{item.plat.restaurant.libelle}}</div>
+              <div>{{item.product.restaurant.libelle}}</div>
             </v-col>
 
             <v-col xs="2">
@@ -37,10 +37,10 @@
             <v-col xs="2">
               <div class="caption grey--text">Prix</div>
 
-              <div>{{item.plat.prix}} $</div>
+              <div>{{item.product.prix}} $</div>
             </v-col>
             <v-col xs="1">
-              <v-btn text @click.prevent="removePlatFromCart(item)">
+              <v-btn text @click.prevent="removeProductFromCart(item)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </v-col>
@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      removePlatFromCart: "cart/removePlatFromCart",
+      removeProductFromCart: "cart/removeProductFromCart",
       clearCartItems: "cart/clearCart",
       passerCommande: " order/placeOrder"
     })

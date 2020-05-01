@@ -3,20 +3,28 @@
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on }">
         <v-btn class="success" dark v-on="on">
-          check item out
+          check menu out
           <v-icon>mdi-silverware-fork-knife</v-icon>
         </v-btn>
       </template>
       <v-card>
-        <v-img
-          height="300"
-          :src="plat.image ? 'http://localhost:3000/images/products/' + plat.image.filePath : 'https://cdn.vuetifyjs.com/images/cards/cooking.png' "
-        ></v-img>
-
-        <v-card-title>{{plat.libelle}}</v-card-title>
+        <v-card-title>{{menu.libelle}}</v-card-title>
+        <v-container>
+          <v-row v-for="detail in menu.menuDetails" :key="detail.plat.id" align="center">
+            <v-col xl="12">
+              <v-img
+                max-width="500"
+                max-height="200"
+                aspect-ratio="1"
+                :src="detail.plat.image ? 'http://localhost:3000/images/products/' + detail.plat.image.filePath : 'https://source.unsplash.com/random' "
+              ></v-img>
+            </v-col>
+            <v-col xl="12" class="text-center">{{detail.plat.libelle}} ({{detail.plat.prix}}$)</v-col>
+          </v-row>
+        </v-container>
 
         <v-card-text>
-          <div class="my-4 subtitle-1">{{plat.prix}} $</div>
+          <div class="subtitle-1">{{menu.prix}} $</div>
         </v-card-text>
 
         <v-subheader>Quantity</v-subheader>
@@ -45,19 +53,18 @@
 <script>
 import { mapActions } from "vuex";
 export default {
-  props: ["plat"],
+  props: ["menu"],
   data() {
     return {
       quantity: 1,
       dialog: false
     };
   },
-
   methods: {
     ...mapActions("cart", ["addProductToCart"]),
     async addToCart() {
       await this.addProductToCart({
-        product: this.plat,
+        product: this.menu,
         quantity: this.quantity
       }),
         this.close();
