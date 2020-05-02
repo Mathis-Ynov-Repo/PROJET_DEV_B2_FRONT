@@ -96,8 +96,8 @@ export default {
       menuPrice: "",
 
       priceRules: [
-        v => !!v || "Un prix est requise",
-        v => !isNaN(v) || "Veuillez entrer une valeur numérique"
+        v => !!v || "A price is required",
+        v => !isNaN(v) || "Please enter a numeric value"
       ],
       dialog: false
     };

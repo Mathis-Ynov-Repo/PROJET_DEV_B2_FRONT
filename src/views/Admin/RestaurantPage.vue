@@ -14,6 +14,8 @@
     </v-overlay>
 
     <dishes-list v-if="restaurant.id" :initialRestaurant="restaurant"></dishes-list>
+
+    <menus-list v-if="restaurant.id" :initialRestaurant="restaurant"></menus-list>
   </div>
 </template>
 
@@ -21,10 +23,12 @@
 import RestaurantOrdersList from "@/components/Administrateur/RestaurantOrdersList.vue";
 import RestaurantProfile from "@/components/Administrateur/RestaurantProfile.vue";
 import DishesList from "@/components/Administrateur/DishesList.vue";
+import MenusList from "@/components/Administrateur/MenusList.vue";
 export default {
   components: {
     RestaurantOrdersList,
     RestaurantProfile,
+    MenusList,
     DishesList
   },
   data() {

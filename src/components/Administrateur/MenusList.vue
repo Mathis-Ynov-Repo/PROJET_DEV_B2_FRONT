@@ -1,19 +1,20 @@
 <template>
-  <section id="admin_plats_list" class="secondary">
+  <section id="owner_plats_list" class="secondary">
     <v-container class="secondary">
-      <h2>All the Dishes from {{restaurant.libelle}}</h2>
+      <h2>All the Menus from {{restaurant.libelle}}</h2>
       <v-row
         class="mb-6 flex-row"
         no-gutters
-        v-if="restaurant.plats && restaurant.plats.length > 0"
+        v-if="restaurant.menus && restaurant.menus.length > 0"
       >
-        <Plat :types="types" v-for="plat in restaurant.plats" :key="plat.id" :plat="plat" />
+        <Menu
+          v-for="menu in restaurant.menus"
+          :key="menu.id"
+          :menu="menu"
+          :plats="restaurant.plats"
+        />
       </v-row>
-      <v-row v-else>
-        <v-col>
-          <h3>No Dishes added yet</h3>
-        </v-col>
-      </v-row>
+      <v-row class="mb-6 flex-row" no-gutters v-else>No Menu added yet</v-row>
     </v-container>
     <v-card-text class="white" style="height: 100px; position: relative">
       <v-btn color="primary" dark absolute top right fab @click="dialog = !dialog">
@@ -24,36 +25,35 @@
       <v-form v-model="valid">
         <v-card>
           <v-card-title>
-            <span class="headline">Ajouter votre plat</span>
+            <span class="headline">Add a new menu</span>
           </v-card-title>
           <v-card-text>
             <v-text-field
-              v-model="platTitle"
-              :rules="[v => !!v || 'Un libelle est requis']"
-              label="Libelle du plat"
+              v-model="menuTitle"
+              :rules="[v => !!v || 'a title is required']"
+              label="Menu Title"
               required
             ></v-text-field>
-            <v-text-field prefix="$" v-model="platPrice" :rules="priceRules" label="Prix" required></v-text-field>
+            <v-text-field prefix="$" v-model="menuPrice" :rules="priceRules" label="Price" required></v-text-field>
 
             <v-select
-              v-model="platSelect"
-              :items="types"
+              v-model="menuSelect"
+              :items="restaurant.plats"
               item-text="libelle"
               item-value="@id"
-              :rules="[v => !!v || 'Ce champ est requis']"
-              label="Type de votre plat"
+              :rules="[v => !!v || 'This field is required']"
+              label="Item number 1"
               required
             ></v-select>
-            <v-col cols="12">
-              <v-textarea v-model="platDescription" required>
-                <template v-slot:label>
-                  <div>
-                    Description
-                    <small>(optional)</small>
-                  </div>
-                </template>
-              </v-textarea>
-            </v-col>
+            <v-select
+              v-model="menuSelect2"
+              :items="restaurant.plats"
+              item-text="libelle"
+              item-value="@id"
+              :rules="[v => !!v || 'This field is required']"
+              label="Item number 2"
+              required
+            ></v-select>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -73,34 +73,28 @@
 </template>
 
 <script>
-import Plat from "./Dish";
+import Menu from "./Menu";
 export default {
   props: ["initialRestaurant"],
   data() {
     return {
       loadingPost: false,
       valid: true,
-      types: [],
+      menuSelect: "",
       restaurant: this.initialRestaurant,
-      platSelect: "",
-      platTitle: "",
-      platPrice: "",
-      platDescription: null,
+      menuSelect2: "",
+      menuTitle: "",
+      menuPrice: "",
 
       priceRules: [
-        v => !!v || "Un prix est requise",
-        v => !isNaN(v) || "Veuillez entrer une valeur numérique"
+        v => !!v || "A price is required",
+        v => !isNaN(v) || "Please enter a numeric value"
       ],
       dialog: false
     };
   },
   components: {
-    Plat
-  },
-  mounted() {
-    this.$http
-      .get("http://localhost:3000/api/plats_types")
-      .then(response => (this.types = response.data["hydra:member"]));
+    Menu
   },
   methods: {
     async getRestaurant() {
@@ -113,14 +107,22 @@ export default {
     async save() {
       this.loadingPost = true;
       await this.$http
-        .post("http://localhost:3000/api/plats", {
-          libelle: this.platTitle,
-          prix: parseFloat(this.platPrice),
-          platType: this.platSelect,
-          description: this.platDescription,
+        .post("http://localhost:3000/api/menus", {
+          libelle: this.menuTitle,
+          prix: parseFloat(this.menuPrice),
           restaurant: this.restaurant["@id"]
         })
-        .then()
+        .then(async resp => {
+          let menu = resp.data;
+          await this.$http.post("http://localhost:3000/api/menu_details", {
+            menu: menu["@id"],
+            plat: this.menuSelect
+          });
+          await this.$http.post("http://localhost:3000/api/menu_details", {
+            menu: menu["@id"],
+            plat: this.menuSelect2
+          });
+        })
         .catch(e => {
           this.errors.push(e);
         });
@@ -133,11 +135,10 @@ export default {
         "notifications/addNotification",
         {
           type: "success",
-          message: "Added dish"
+          message: "Added Menu"
         },
         { root: true }
       );
-
       this.loadingPost = false;
       this.dialog = false;
     }

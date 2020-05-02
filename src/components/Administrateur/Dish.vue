@@ -17,16 +17,11 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="warning" @click="editDish(plat)">
+        <v-btn color="warning" :loading="loadingPut" @click="editDish(plat)">
           <v-icon>mdi-pencil</v-icon>Edit
         </v-btn>
 
-        <v-btn
-          color="error"
-          :disabled="loadingDelete"
-          :loading="loadingDelete"
-          @click="deleteDish(plat)"
-        >
+        <v-btn color="error" :loading="loadingDelete" @click="deleteDish(plat)">
           <v-icon>mdi-delete</v-icon>Delete
         </v-btn>
       </v-card-actions>

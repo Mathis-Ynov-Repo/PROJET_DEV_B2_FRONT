@@ -58,7 +58,13 @@
               required
             />
 
-            <v-btn :disabled="!validImg" color="success" class="mr-5" @click="validate">
+            <v-btn
+              :disabled="!validImg || loadingImg"
+              :loading="loadingImg"
+              color="success"
+              class="mr-5"
+              @click="validate"
+            >
               Upload
               <v-icon>mdi-upload</v-icon>
             </v-btn>
@@ -102,7 +108,8 @@
             <v-btn
               text
               color="primary"
-              :disabled="!validRestaurantForm"
+              :disabled="!validRestaurantForm || loadingPut"
+              :loading="loadingPut"
               @click="updateRestaurant(updatedRestaurant)"
             >Sauvegarder</v-btn>
           </v-card-actions>
@@ -124,6 +131,8 @@ export default {
     return {
       dialog: false,
       imgDialog: false,
+      loadingImg: false,
+      loadingPut: false,
       restaurant: this.initialRestaurant,
       validRestaurantForm: true,
       restaurantImg: null,
@@ -155,6 +164,7 @@ export default {
     },
 
     async updateRestaurant(restaurant) {
+      this.loadingPut = true;
       await this.$http
         .put("http://localhost:3000/api/restaurants/" + restaurant.id, {
           libelle: this.updatedRestaurant.libelle,
@@ -169,6 +179,7 @@ export default {
           );
         });
       this.dialog = false;
+      this.loadingPut = false;
     },
 
     dataURItoBlob(dataURI) {
@@ -193,6 +204,7 @@ export default {
       return new Blob([ab], { type: mimeString });
     },
     async postRestaurantImg() {
+      this.loadingImg = true;
       let file = this.dataURItoBlob(this.restaurantImg);
 
       let formData = new FormData(document.forms[0]);
@@ -221,6 +233,7 @@ export default {
               );
             })
         );
+      this.loadingImg = false;
       this.imgDialog = false;
     }
   }
