@@ -224,11 +224,12 @@ export default {
       await this.editPlat(plat);
       this.loadingPut = false;
       this.dialog = false;
-      await this.$http
-        .get("http://localhost:3000/api/plats/" + this.plat.id)
-        .then(response => {
-          this.plat = response.data;
-        });
+      // await this.$http
+      //   .get("http://localhost:3000/api/plats/" + this.plat.id)
+      //   .then(response => {
+      //     this.plat = response.data;
+      //   });
+      await this.$parent.getRestaurant();
     },
     ...mapActions({
       editPlat: "plat/editPlat",

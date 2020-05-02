@@ -13,9 +13,9 @@
       <v-progress-circular indeterminate size="64" color="primary"></v-progress-circular>
     </v-overlay>
 
-    <dishes-list v-if="restaurant.id" :initialRestaurant="restaurant"></dishes-list>
+    <dishes-list v-if="restaurant.id" :restaurant="restaurant"></dishes-list>
 
-    <menus-list v-if="restaurant.id" :initialRestaurant="restaurant"></menus-list>
+    <menus-list v-if="restaurant.id" :restaurant="restaurant"></menus-list>
   </div>
 </template>
 
@@ -45,6 +45,7 @@ export default {
   },
   methods: {
     async getRestaurant(id) {
+      console.log("xd");
       await this.$http
         .get("http://localhost:3000/api/restaurants/" + id)
         .then(response => {

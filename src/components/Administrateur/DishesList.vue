@@ -75,13 +75,13 @@
 <script>
 import Plat from "./Dish";
 export default {
-  props: ["initialRestaurant"],
+  props: ["restaurant"],
   data() {
     return {
       loadingPost: false,
       valid: true,
       types: [],
-      restaurant: this.initialRestaurant,
+      // restaurant: this.initialRestaurant,
       platSelect: "",
       platTitle: "",
       platPrice: "",
@@ -102,13 +102,20 @@ export default {
       .get("http://localhost:3000/api/plats_types")
       .then(response => (this.types = response.data["hydra:member"]));
   },
+  // watch: {
+  //   restaurant: function(newVal) {
+  //     this.restaurant = newVal;
+  //     console.log("ccdd");
+  //   }
+  // },
   methods: {
     async getRestaurant() {
-      await this.$http
-        .get("http://localhost:3000/api/restaurants/" + this.restaurant.id)
-        .then(response => {
-          this.restaurant = response.data;
-        });
+      // await this.$http
+      //   .get("http://localhost:3000/api/restaurants/" + this.restaurant.id)
+      //   .then(response => {
+      //     this.restaurant = response.data;
+      //   });
+      await this.$parent.getRestaurant(this.$route.params.id);
     },
     async save() {
       this.loadingPost = true;
@@ -124,11 +131,7 @@ export default {
         .catch(e => {
           this.errors.push(e);
         });
-      await this.$http
-        .get("http://localhost:3000/api/restaurants/" + this.restaurant.id)
-        .then(response => {
-          this.restaurant = response.data;
-        });
+      await this.getRestaurant();
       this.$store.dispatch(
         "notifications/addNotification",
         {
