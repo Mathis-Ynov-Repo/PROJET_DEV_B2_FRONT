@@ -154,6 +154,10 @@ export default {
       validImg: true,
       updatedUser: {},
       newUser: {},
+      emailRules: [
+        v => !!v || "Une adresse mail est requise",
+        v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+      ],
       rules: [
         value =>
           !value ||

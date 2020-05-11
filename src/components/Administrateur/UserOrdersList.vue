@@ -20,20 +20,24 @@
       <template v-slot:item.statut="{ item }">
         <v-chip :color="getColor(item.statut)" dark>{{ item.statut }}</v-chip>
       </template>
-      <template v-slot:expanded-item="{ item:childItem }">
-        <v-list-item v-for="item in childItem.commandePlats" :key="item.id">
-          <v-list-item-icon>
-            <v-icon v-if="item.plat">mdi-pasta</v-icon>
-            <v-icon v-else>mdi-food-fork-drink</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title v-text="item.prix"></v-list-item-title>
-          </v-list-item-content>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.plat.libelle || item.menu.libelle"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+      <template v-slot:expanded-item="{ item:childItem, headers }">
+        <td :colspan="headers.length">
+          <v-row v-for="item in childItem.commandePlats" :key="item.id">
+            <v-col cols="2" sm="1">
+              <v-icon v-if="item.plat">mdi-pasta</v-icon>
+              <v-icon v-else-if="item.menu">mdi-food-fork-drink</v-icon>
+              <v-icon v-else>mdi-alert-circle</v-icon>
+            </v-col>
+            <v-col cols="2" sm="1">
+              <h3 v-text="item.prix"></h3>
+            </v-col>
+            <v-col cols="8" sm="10">
+              <p v-if="item.plat" v-text="item.plat.libelle"></p>
+              <p v-else-if="item.menu" v-text="item.menu.libelle"></p>
+              <p v-else>This dish / menu has been deleted by the restaurant</p>
+            </v-col>
+          </v-row>
+        </td>
       </template>
       <template v-slot:item.actions="{ item }">
         <v-icon
