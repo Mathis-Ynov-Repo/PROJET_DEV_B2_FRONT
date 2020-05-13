@@ -1,46 +1,52 @@
 <template>
   <div>
-    <!-- <section class="container-fluid d-flex flex-row filter-sort-container"> -->
-    <v-row>
-      <v-col lg="6">
-        <v-select
-          :items="types"
-          label="Fancy a specific restaurant type ?"
-          :loading="loading ? true : false"
-          item-text="type"
-          item-value="type"
-          @change="this.getRestaurantsWithType"
-        ></v-select>
-      </v-col>
-      <!-- <v-col>
-        <v-layout row class="mb-3">
-          <v-btn small text color="grey" @click="sortByRating()">
-            <v-icon left small>mdi-heart</v-icon>
-            <span class="caption text-lowercase">By rating</span>
-          </v-btn>
-          <v-btn small text color="grey" @click="sortByTitle()">
-            <v-icon left small>mdi-format-title</v-icon>
-            <span class="caption text-lowercase">By title</span>
-          </v-btn>
-        </v-layout>
-      </v-col>-->
-    </v-row>
-    <!-- </section> -->
+    <section class="container-fluid d-flex flex-row filter-sort-container">
+      <v-row>
+        <v-col cols="12" sm="6">
+          <v-select
+            :items="types"
+            label="Fancy a specific restaurant type ?"
+            :loading="loading ? true : false"
+            item-text="type"
+            item-value="type"
+            @change="this.getRestaurantsFromType"
+          ></v-select>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <v-row>
+            <v-spacer></v-spacer>
+            <v-col cols="6" lg="2" class="text-lg-right">
+              <v-btn small text color="grey" @click="sortByRating()">
+                <v-icon left small>mdi-star</v-icon>
+                <span class="caption text-lowercase">By rating</span>
+              </v-btn>
+            </v-col>
+
+            <v-col cols="6" lg="2">
+              <v-btn small text color="grey" @click="sortByTitle()">
+                <v-icon left small>mdi-format-title</v-icon>
+                <span class="caption text-lowercase">By title</span>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </section>
     <section id="restaurants_list" class="secondary">
       <v-container class="secondary">
-        <v-row class="mb-6 flex-row" no-gutters v-if="restaurants.length == 0">
+        <v-row class="mb-6 flex-row" no-gutters v-if="restaurants.length == 0 ||loading == true">
           <v-col cols="12" md="6" lg="4" xl="3" v-for="n in 8" :key="n">
             <v-skeleton-loader
               class="mx-auto my-12"
               max-width="374"
-              v-if="restaurants.length == 0"
+              v-if="restaurants.length == 0 ||loading == true"
               type="image,list-item-two-line, article, actions"
             ></v-skeleton-loader>
           </v-col>
         </v-row>
         <v-row class="mb-6 flex-row" no-gutters>
           <Restaurant
-            v-for="restaurant in restaurants"
+            v-for="restaurant in filteredData"
             :key="restaurant.id"
             :restaurant="restaurant"
           />
@@ -58,8 +64,8 @@ export default {
     return {
       loading: true,
       loadingTypes: true,
-      types: []
-      //filteredData: []
+      types: [],
+      filteredData: []
     };
   },
   components: {
@@ -74,7 +80,7 @@ export default {
   methods: {
     async initialize() {
       await this.getRestaurants();
-      //this.filteredData = this.restaurants;
+      this.filteredData = this.restaurants;
       await this.getRestaurantsTypes();
       this.loading = false;
     },
@@ -83,6 +89,10 @@ export default {
       getRestaurantsWithType: "restaurant/getRestaurantsWithType",
       clearRestaurants: "restaurant/clearRestaurants"
     }),
+    async getRestaurantsFromType(type) {
+      await this.getRestaurantsWithType(type);
+      this.filteredData = this.restaurants;
+    },
     async getRestaurantsTypes() {
       await this.$http
         .get("http://localhost:3000/api/restaurant_types")
@@ -98,15 +108,6 @@ export default {
           : 1
       );
     }
-    // async filterData(type) {
-    //   // this.clearRestaurants();
-    //   await this.$http
-    //     .get(
-    //       "http://localhost:3000/api/restaurants?pagination=false&type=" + type
-    //     )
-    //     .then(response => (this.restaurants = response.data["hydra:member"]));
-    //   this.loading = false;
-    // }
   }
 };
 </script>

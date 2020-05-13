@@ -11,7 +11,7 @@
     flat
     hide-no-data
     hide-details
-    label="Rechercher un restaurant ?"
+    label="Looking for a restaurant ?"
     solo-inverted
     @change="goToRestaurantPage"
   ></v-autocomplete>

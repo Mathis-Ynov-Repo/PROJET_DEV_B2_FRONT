@@ -6,7 +6,7 @@
         v-if="$store.getters['authentication/isLoggedIn']"
       ></v-app-bar-nav-icon>
       <v-toolbar-title class="d-none d-sm-flex">
-        <v-img src="/images/logo.jpg" width="90"></v-img>
+        <v-img src="/images/logo.jpg" width="70"></v-img>
       </v-toolbar-title>
 
       <Searchbar

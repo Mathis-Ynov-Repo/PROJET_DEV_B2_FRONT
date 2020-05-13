@@ -22,13 +22,18 @@
           <div class="grey--text ml-4">{{restaurant.rating}} (413)</div>
         </v-row>
 
-        <div class="my-4 subtitle-1">$ • {{restaurant.type.type}}</div>
+        <div class="my-4 subtitle-1">{{restaurant.adresse}} • {{restaurant.type.type}}</div>
 
         <div>{{restaurant.description}}</div>
       </v-card-text>
 
       <v-card-actions class="justify-center">
-        <v-btn router :to="'/restaurants/'+restaurant.id" color="deep-purple lighten-2" text>Visiter</v-btn>
+        <v-btn
+          router
+          :to="{name: 'ListePlatFromRestaurant', params: {id : restaurant.id}}"
+          color="deep-purple lighten-2"
+          text
+        >Visiter</v-btn>
       </v-card-actions>
     </v-card>
   </v-col>
