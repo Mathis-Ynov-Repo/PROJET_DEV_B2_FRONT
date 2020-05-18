@@ -10,7 +10,6 @@ export const placeOrder = async (
     commit("ORDER_PLAT", price);
     commit("authentication/LOWER_BALANCE", price, { root: true });
     commit("cart/CLEAR_CART", null, { root: true });
-    console.log(cart);
 
     await User.update(user.id, user.balance);
     localStorage.setItem("user", JSON.stringify(user));
@@ -26,6 +25,7 @@ export const placeOrder = async (
         if (cartLine.product["@type"] === "Menu") {
           let commandeDetail = {
             menu: cartLine.product.id,
+            quantity: cartLine.quantity,
             commande: commande.id,
             prix: cartLine.product.prix,
           };
@@ -33,12 +33,14 @@ export const placeOrder = async (
         } else {
           let commandeDetail = {
             plat: cartLine.product.id,
+            quantity: cartLine.quantity,
             commande: commande.id,
             prix: cartLine.product.prix,
           };
           commandeArray.push(commandeDetail);
         }
       });
+      console.log(commandeArray);
       await CommandeDetails.store(commandeArray);
       dispatch(
         "notifications/addNotification",

@@ -29,9 +29,12 @@
               <v-icon v-else>mdi-alert-circle</v-icon>
             </v-col>
             <v-col cols="2" sm="1">
-              <h3 v-text="item.prix"></h3>
+              <h3>{{item.quantity}}x</h3>
             </v-col>
-            <v-col cols="8" sm="10">
+            <v-col cols="2" sm="1">
+              <h3>{{item.prix}}$</h3>
+            </v-col>
+            <v-col cols="6" sm="9">
               <p v-if="item.plat" v-text="item.plat.libelle"></p>
               <p v-else-if="item.menu" v-text="item.menu.libelle"></p>
               <p v-else>This dish / menu has been deleted by the restaurant</p>
