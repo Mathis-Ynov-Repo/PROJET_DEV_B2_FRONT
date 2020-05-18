@@ -97,10 +97,10 @@ export default {
         { text: "Email", value: "email" },
         { text: "First Name", value: "name" },
         { text: "Last Name", value: "surname" },
-        { text: "Adresse", value: "adress" },
+        { text: "Adress", value: "adress" },
         { text: "Roles", value: "roles" },
         { text: "Balance", value: "balance" },
-        { text: "Dernière connection", value: "lastConnection" },
+        { text: "Last Connection", value: "lastConnection" },
         { text: "Actions", value: "actions", sortable: false }
       ],
       editedIndex: -1,

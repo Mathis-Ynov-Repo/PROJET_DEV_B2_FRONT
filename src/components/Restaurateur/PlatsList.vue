@@ -18,7 +18,7 @@
       >
         <Plat :types="types" v-for="plat in OwnerRestaurant.plats" :key="plat.id" :plat="plat" />
       </v-row>
-      <v-row class="mb-6 flex-row" no-gutters v-else-if="loading == false">Aucun Plat</v-row>
+      <v-row class="mb-6 flex-row" no-gutters v-else-if="loading == false">No Dishes</v-row>
     </v-container>
     <v-card-text class="white" style="height: 100px; position: relative">
       <v-btn color="primary" dark absolute top right fab @click="dialog = !dialog">
@@ -29,24 +29,24 @@
       <v-form v-model="valid">
         <v-card>
           <v-card-title>
-            <span class="headline">Ajouter votre plat</span>
+            <span class="headline">Add your dish</span>
           </v-card-title>
           <v-card-text>
             <v-text-field
               v-model="platTitle"
-              :rules="[v => !!v || 'Un libelle est requis']"
-              label="Libelle du plat"
+              :rules="[v => !!v || 'A title is required']"
+              label="Dish title"
               required
             ></v-text-field>
-            <v-text-field prefix="$" v-model="platPrice" :rules="priceRules" label="Prix" required></v-text-field>
+            <v-text-field prefix="$" v-model="platPrice" :rules="priceRules" label="Price" required></v-text-field>
 
             <v-select
               v-model="platSelect"
               :items="types"
               item-text="libelle"
               item-value="@id"
-              :rules="[v => !!v || 'Ce champ est requis']"
-              label="Type de votre plat"
+              :rules="[v => !!v || 'this field is required']"
+              label="Dish type"
               required
             ></v-select>
             <v-col cols="12">
@@ -69,7 +69,7 @@
               :disabled="!valid || loadingPost"
               :loading="loadingPost"
               @click="save"
-            >Sauvegarder</v-btn>
+            >Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -93,8 +93,8 @@ export default {
       platDescription: null,
 
       priceRules: [
-        v => !!v || "Un prix est requise",
-        v => !isNaN(v) || "Veuillez entrer une valeur numérique"
+        v => !!v || "A price is required",
+        v => !isNaN(v) || "Please enter a number"
       ],
       dialog: false
     };

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Page d'adminsitration du restaurant {{restaurant.libelle}}</h1>
+    <h1>Administration page of restaurant {{restaurant.libelle}}</h1>
     <v-row>
       <v-col class="d-flex justify-center align-center">
         <restaurant-profile v-if="restaurant.id" :initialRestaurant="restaurant"></restaurant-profile>

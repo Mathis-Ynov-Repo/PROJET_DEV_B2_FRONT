@@ -2,7 +2,7 @@
   <section id="owner_plats_list" class="secondary">
     <v-container class="secondary">
       <v-row class="mb-6 flex-row" no-gutters v-if="!OwnerRestaurant.menus">
-        <v-col cols="12" md="6" lg="4" xl="3" v-for="n in 8" :key="n">
+        <v-col cols="12" md="6" lg="4" xl="3" v-for="n in 4" :key="n">
           <v-skeleton-loader
             class="mx-auto my-12"
             max-width="374"
@@ -23,7 +23,7 @@
           :plats="OwnerRestaurant.plats"
         />
       </v-row>
-      <v-row class="mb-6 flex-row" no-gutters v-else-if="loadingPost == false">Aucun Menu</v-row>
+      <v-row class="mb-6 flex-row" no-gutters v-else>No menus so far</v-row>
     </v-container>
     <v-card-text class="white" style="height: 100px; position: relative">
       <v-btn color="primary" dark absolute top right fab @click="dialog = !dialog">
@@ -34,16 +34,16 @@
       <v-form v-model="valid">
         <v-card>
           <v-card-title>
-            <span class="headline">Ajouter votre menu</span>
+            <span class="headline">Add your menu</span>
           </v-card-title>
           <v-card-text>
             <v-text-field
               v-model="menuTitle"
-              :rules="[v => !!v || 'Un libelle est requis']"
-              label="Libelle du menu"
+              :rules="[v => !!v || 'A title is required']"
+              label="Menu Title"
               required
             ></v-text-field>
-            <v-text-field prefix="$" v-model="menuPrice" :rules="priceRules" label="Prix" required></v-text-field>
+            <v-text-field prefix="$" v-model="menuPrice" :rules="priceRules" label="Price" required></v-text-field>
 
             <v-select
               v-model="menuSelect"
@@ -89,6 +89,7 @@ export default {
   data() {
     return {
       loadingPost: false,
+      loading: true,
       valid: true,
       menuSelect: "",
       menuSelect2: "",

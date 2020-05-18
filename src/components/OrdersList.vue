@@ -13,7 +13,7 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Vos commandes</v-toolbar-title>
+          <v-toolbar-title>Your Orders</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
       </template>
@@ -66,10 +66,10 @@ export default {
           sortable: false,
           value: "id"
         },
-        { text: "prix", value: "prix" },
-        { text: "frais", value: "frais" },
-        { text: "date d'achat", value: "dateAchat" },
-        { text: "statut", value: "statut" },
+        { text: "Price", value: "prix" },
+        { text: "Fees", value: "frais" },
+        { text: "Date", value: "dateAchat" },
+        { text: "Status", value: "statut" },
         { text: "", value: "data-table-expand" }
       ]
     };

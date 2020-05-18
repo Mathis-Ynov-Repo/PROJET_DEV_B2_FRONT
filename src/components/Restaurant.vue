@@ -33,7 +33,7 @@
           :to="{name: 'ListePlatFromRestaurant', params: {id : restaurant.id}}"
           color="deep-purple lighten-2"
           text
-        >Visiter</v-btn>
+        >Visit</v-btn>
       </v-card-actions>
     </v-card>
   </v-col>

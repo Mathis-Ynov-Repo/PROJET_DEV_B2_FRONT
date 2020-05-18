@@ -16,11 +16,11 @@
       <v-spacer></v-spacer>
       <div class="auth-container" v-if="!$store.getters['authentication/isLoggedIn']">
         <v-btn text color="primary" :to="{name:'Login'}">
-          <span>Connexion</span>
+          <span>LogIn</span>
           <v-icon right>mdi-exit-to-app</v-icon>
         </v-btn>
         <v-btn color="primary" :to="{name:'Register'}">
-          <span>Inscription</span>
+          <span>Register</span>
           <v-icon right>mdi-exit-to-app</v-icon>
         </v-btn>
       </div>
@@ -93,14 +93,14 @@
             <v-icon class="white--text">mdi-view-dashboard</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title class="white--text">Dashboard</v-list-item-title>
+            <v-list-item-title class="white--text">Home</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
       <v-list v-if="this.$store.getters['authentication/authUser'].roles.includes('ROLE_ADMIN')">
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title class="white--text">Accès Administrateur</v-list-item-title>
+            <v-list-item-title class="white--text">Administrator Access</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item v-for="link in AdminLinks" :key="link.route" router :to="{name:link.route}">
@@ -117,7 +117,7 @@
       >
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title class="white--text">Accès Restaurateur</v-list-item-title>
+            <v-list-item-title class="white--text">Restaurant Owner Access</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item
@@ -139,7 +139,7 @@
       >
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title class="white--text">Accès Utilisateur</v-list-item-title>
+            <v-list-item-title class="white--text">User Access</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item
@@ -163,7 +163,7 @@
             <v-icon class="white--text">mdi-logout</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title class="white--text">Se déconnecter</v-list-item-title>
+            <v-list-item-title class="white--text">Logout</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -182,46 +182,46 @@ export default {
       drawer: false,
 
       links: [
-        { icon: "mdi-home-variant", text: "ListePlats", route: "ListePlat" },
+        { icon: "mdi-home-variant", text: "Dishes List", route: "ListePlat" },
         {
           icon: "mdi-home-variant",
-          text: "ListeRestaurants",
+          text: "Restaurant List",
           route: "ListeRestaurant"
         }
       ],
       RestaurateurLinks: [
         {
           icon: "mdi-home-variant",
-          text: "Mon Restaurant",
+          text: "My Restaurant",
           route: "RestaurateurRestaurant"
         }
       ],
       AdminLinks: [
         {
-          icon: "mdi-home-variant",
-          text: "AdminDashboard",
+          icon: "mdi-view-dashboard",
+          text: "Dashboard",
           route: "AdminDashboard"
         },
         {
           icon: "mdi-home-variant",
-          text: "AdminRestaurants",
+          text: "CRUD Restaurants",
           route: "AdminRestaurants"
         },
         {
           icon: "mdi-account",
-          text: "Utilisateurs",
+          text: "CRUD Users",
           route: "AdminUsers"
         },
 
         {
           icon: "mdi-home-variant",
-          text: "AdminCommandes",
+          text: "CRUD Orders",
           route: "AdminCommandes"
         },
 
         {
           icon: "mdi-home-variant",
-          text: "AdminFeedbacks",
+          text: "CRUD Feedback",
           route: "AdminFeedbacks"
         }
       ]

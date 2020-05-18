@@ -35,7 +35,7 @@
       <v-form ref="form" v-model="validImg" :lazy-validation="false">
         <v-card>
           <v-card-title>
-            <span class="headline">Image du plat</span>
+            <span class="headline">Dish Image</span>
           </v-card-title>
           <v-col class="d-flex flex-column">
             <v-image-input
@@ -67,20 +67,20 @@
       <v-form v-model="valid">
         <v-card>
           <v-card-title>
-            <span class="headline">Mettre à jour votre plat</span>
+            <span class="headline">Update your dish</span>
           </v-card-title>
           <v-card-text>
             <v-text-field
               v-model="updatedItem.libelle"
-              :rules="[v => !!v || 'Un libelle est requis']"
-              label="Libelle du plat"
+              :rules="[v => !!v || 'A title is required']"
+              label="Dish title"
               required
             ></v-text-field>
             <v-text-field
               prefix="$"
               v-model="updatedItem.prix"
               :rules="priceRules"
-              label="Prix"
+              label="Price"
               required
             ></v-text-field>
 
@@ -89,8 +89,8 @@
               :items="this.types"
               item-text="libelle"
               item-value="@id"
-              :rules="[v => !!v || 'Ce champ est requis']"
-              label="Type de votre plat"
+              :rules="[v => !!v || 'This field is required']"
+              label="Dish type"
               required
             ></v-select>
             <v-col cols="12">
@@ -143,12 +143,12 @@ export default {
         value =>
           !value ||
           value.size < 2000000 ||
-          "plat image size should be less than 2 MB!"
+          "dish image size should be less than 2 MB!"
       ],
       valid: true,
       priceRules: [
-        v => !!v || "Un prix est requise",
-        v => !isNaN(v) || "Veuillez entrer une valeur numérique"
+        v => !!v || "A price is required",
+        v => !isNaN(v) || "Please enter a number"
       ],
       platTitle: ""
     };
@@ -209,7 +209,7 @@ export default {
       return new Blob([ab], { type: mimeString });
     },
     async deleteDish(plat) {
-      if (confirm("Supprimer ce plat ?")) {
+      if (confirm("Delete this dish ?")) {
         this.loadingDelete = true;
         await this.deletePlat(plat);
       }

@@ -21,7 +21,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import Plat from "./Plat";
+import Plat from "./FavoriteDish";
 export default {
   data() {
     return {

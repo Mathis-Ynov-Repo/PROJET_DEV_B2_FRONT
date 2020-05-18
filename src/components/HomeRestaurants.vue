@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-center font-weight-thin my-5">Nos Propositions</h1>
+    <h1 class="text-center font-weight-thin my-5">Our Picks</h1>
     <v-container class="secondary">
       <v-row class="mb-6 flex-row" no-gutters v-if="restaurants.length == 0">
         <v-col cols="12" md="6" lg="4" xl="3" v-for="n in 4" :key="n">

@@ -4,7 +4,7 @@
     <v-row class="mb-6 flex-row" no-gutters>
       <Plat v-for="boisson in boissons" :key="boisson.id" :plat="boisson" />
     </v-row>
-    <h2 v-if="boissons.length == 0">No Drinks</h2>
+    <h2 v-if="boissons.length == 0">No Drinks available in this restaurant</h2>
   </v-container>
 </template>
 

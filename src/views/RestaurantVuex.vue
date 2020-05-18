@@ -1,21 +1,18 @@
 <template>
   <div>
-      <h1>Tous les restaurants</h1>
-      <restaurant-list />
+    <h1>Every restaurant on our site</h1>
+    <restaurant-list />
   </div>
 </template>
 
 <script>
-import RestaurantList from '../components/RestaurantsList.vue';
+import RestaurantList from "../components/RestaurantsList.vue";
 export default {
-    components: {
-        RestaurantList
-    }
-  
-
-}
+  components: {
+    RestaurantList
+  }
+};
 </script>
 
 <style>
-
 </style>

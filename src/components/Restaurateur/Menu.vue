@@ -74,7 +74,7 @@
               :disabled="!valid || loadingPut"
               :loading="loadingPut"
               @click="save(updatedItem)"
-            >Sauvegarder</v-btn>
+            >Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -98,12 +98,12 @@ export default {
         value =>
           !value ||
           value.size < 2000000 ||
-          "plat image size should be less than 2 MB!"
+          "dish image size should be less than 2 MB!"
       ],
       valid: true,
       priceRules: [
-        v => !!v || "Un prix est requise",
-        v => !isNaN(v) || "Veuillez entrer une valeur numérique"
+        v => !!v || "A price is required",
+        v => !isNaN(v) || "Please enter a number"
       ],
       platTitle: ""
     };
@@ -111,7 +111,7 @@ export default {
 
   methods: {
     async deleteMenuDialog(menu) {
-      if (confirm("Supprimer ce menu ?")) {
+      if (confirm("Delete this menu ?")) {
         this.loadingDelete = true;
         await this.deleteMenu(menu);
       }

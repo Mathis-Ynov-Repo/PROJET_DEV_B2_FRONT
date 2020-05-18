@@ -13,7 +13,7 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Table des commandes</v-toolbar-title>
+          <v-toolbar-title>Orders Table</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
       </template>
@@ -67,10 +67,10 @@ export default {
           sortable: false,
           value: "id"
         },
-        { text: "prix", value: "prix" },
-        { text: "frais", value: "frais" },
-        { text: "date d'achat", value: "dateAchat" },
-        { text: "statut", value: "statut" },
+        { text: "Price", value: "prix" },
+        { text: "Fees", value: "frais" },
+        { text: "Date of order", value: "dateAchat" },
+        { text: "Status", value: "statut" },
         { text: "Actions", value: "actions", sortable: false },
         { text: "", value: "data-table-expand" }
       ]
@@ -91,7 +91,7 @@ export default {
       this.loading = false;
     },
     async AbandonCommand(item) {
-      if (confirm("Abandonner cette commande ?")) {
+      if (confirm("Abandon this order ?")) {
         this.loading = true;
         await this.$http
           .put("http://localhost:3000/api/commandes/" + item.id, {
@@ -107,7 +107,7 @@ export default {
       this.loading = false;
     },
     async confirmDelivery(item) {
-      if (confirm("Confirmer la livraison de cette commande ?")) {
+      if (confirm("Confirm the delivery of this order ?")) {
         this.loading = true;
         await this.$http
           .put("http://localhost:3000/api/commandes/" + item.id, {

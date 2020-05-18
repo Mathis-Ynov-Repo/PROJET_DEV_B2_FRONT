@@ -4,7 +4,7 @@
     <v-row class="mb-6 flex-row" no-gutters>
       <Plat v-for="dessert in desserts" :key="dessert.id" :plat="dessert" />
     </v-row>
-    <h2 v-if="desserts.length == 0">No deserts</h2>
+    <h2 v-if="desserts.length == 0">No desserts available in this restaurant</h2>
   </v-container>
 </template>
 

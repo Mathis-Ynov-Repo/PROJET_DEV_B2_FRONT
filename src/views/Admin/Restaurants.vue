@@ -27,10 +27,10 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.libelle" label="Nom"></v-text-field>
+                    <v-text-field v-model="editedItem.libelle" label="Title"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.adresse" label="Adresse"></v-text-field>
+                    <v-text-field v-model="editedItem.adresse" label="Adress"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-select
@@ -88,9 +88,9 @@ export default {
           sortable: true,
           value: "libelle"
         },
-        { text: "Adresse", value: "adresse" },
+        { text: "Adress", value: "adresse" },
         { text: "Type", value: "type.type" },
-        { text: "Date de création", value: "created" },
+        { text: "Creation Date", value: "created" },
         { text: "Actions", value: "actions", sortable: false }
       ],
       editedIndex: -1,

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-center">Votre Restaurant</h1>
+    <h1 class="text-center">Your Restaurant</h1>
     <v-row>
       <v-col>
         <restaurant-profile></restaurant-profile>
@@ -10,8 +10,9 @@
         <commandes-list />
       </v-col>
     </v-row>
-    <h1>Tous les plats de votre resto</h1>
+    <h1>Every Dish from your restaurant</h1>
     <plat-list />
+    <h1>Every Menu from your restaurant</h1>
     <menu-list />
   </div>
 </template>

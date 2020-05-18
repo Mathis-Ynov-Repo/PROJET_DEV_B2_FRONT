@@ -31,8 +31,8 @@
       <v-card-title>{{ restaurant.libelle }}</v-card-title>
       <v-card-subtitle>{{ restaurant.description }}</v-card-subtitle>
 
-      <v-card-title v-if="restaurant.adresse">Adresse : {{ restaurant.adresse }}</v-card-title>
-      <v-card-text v-else>Pas d'adresse enregistrée</v-card-text>
+      <v-card-title v-if="restaurant.adresse">Adress : {{ restaurant.adresse }}</v-card-title>
+      <v-card-text v-else>No registered adress</v-card-text>
 
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -44,7 +44,7 @@
       <v-form ref="form" v-model="validImg" :lazy-validation="false">
         <v-card>
           <v-card-title>
-            <span class="headline">Image du restaurant</span>
+            <span class="headline">Restaurant Image</span>
           </v-card-title>
           <v-col class="d-flex flex-column">
             <v-image-input
@@ -77,13 +77,13 @@
       <v-form ref="restaurantForm" v-model="validRestaurantForm">
         <v-card>
           <v-card-title>
-            <span class="headline">Informations du restaurant</span>
+            <span class="headline">Restaurant Informations</span>
           </v-card-title>
           <v-card-text>
             <v-text-field
               v-model="updatedRestaurant.libelle"
-              :rules="[(v) => !!v || 'Un nom est requis']"
-              label="libelle"
+              :rules="[(v) => !!v || 'A title is required']"
+              label="Title"
               required
             ></v-text-field>
             <v-col cols="12">
@@ -98,8 +98,8 @@
             </v-col>
             <v-text-field
               v-model="updatedRestaurant.adresse"
-              :rules="[(v) => !!v || 'Une adresse est requise']"
-              label="Adresse"
+              :rules="[(v) => !!v || 'An adress is required']"
+              label="Adress"
               required
             ></v-text-field>
           </v-card-text>

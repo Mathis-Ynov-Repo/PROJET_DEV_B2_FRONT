@@ -30,13 +30,13 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.frais" label="frais"></v-text-field>
+                    <v-text-field v-model="editedItem.frais" label="Fees"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.prix" label="prix"></v-text-field>
+                    <v-text-field v-model="editedItem.prix" label="Price"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-select :items="types" label="Statut" v-model="editedItem.statut"></v-select>
+                    <v-select :items="types" label="Status" v-model="editedItem.statut"></v-select>
                   </v-col>
                 </v-row>
               </v-container>
@@ -73,16 +73,16 @@ export default {
       loading: false,
       headers: [
         {
-          text: "IDCommande",
+          text: "ID",
           align: "start",
           sortable: true,
           value: "id"
         },
-        { text: "frais", value: "frais" },
-        { text: "prix", value: "prix" },
-        { text: "statut", value: "statut" },
-        { text: "dataAchat", value: "created" },
-        { text: "Date de reception", value: "dateReception" },
+        { text: "Fees", value: "frais" },
+        { text: "Price", value: "prix" },
+        { text: "Status", value: "statut" },
+        { text: "Order Date", value: "dateAchat" },
+        { text: "Delivered At Date", value: "dateReception" },
         { text: "Actions", value: "actions", sortable: false }
       ],
       editedIndex: -1,
@@ -123,8 +123,8 @@ export default {
 
     async getCommandes() {
       await axios
-        .get("http://localhost:8001/api/commandes")
-        .then(response => (this.commandes = response.data));
+        .get("http://localhost:3000/api/commandes?pagination=false")
+        .then(response => (this.commandes = response.data["hydra:member"]));
     },
 
     editItem(item) {
@@ -138,7 +138,7 @@ export default {
       if (confirm("Are you sure you want to delete this item?")) {
         this.loading = true;
         await axios
-          .delete("http://localhost:8001/api/commandes/" + item.id)
+          .delete("http://localhost:3000/api/commandes/" + item.id)
           .then()
           .catch(e => {
             this.errors.push(e);
@@ -177,7 +177,7 @@ export default {
       this.loading = true;
       if (this.editedIndex > -1) {
         await axios
-          .put("http://localhost:8001/api/commandes/" + this.editedItem.id, {
+          .put("http://localhost:3000/api/commandes/" + this.editedItem.id, {
             frais: this.editedItem.frais,
             prix: this.editedItem.prix,
             statut: this.editedItem.statut
@@ -189,7 +189,7 @@ export default {
         await this.getCommandes();
       } else {
         await axios
-          .post("http://localhost:8001/api/commandes", {
+          .post("http://localhost:3000/api/commandes", {
             frais: this.editedItem.frais,
             prix: this.editedItem.prix,
             statut: this.editedItem.statut

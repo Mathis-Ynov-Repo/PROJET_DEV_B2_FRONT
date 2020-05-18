@@ -1,5 +1,5 @@
 <template>
-  <h1>Nombre de restaurants : {{nbResto.length}}</h1>
+  <h1>Number of restaurants registered : {{nbResto.length}}</h1>
 </template>
 
 <script>

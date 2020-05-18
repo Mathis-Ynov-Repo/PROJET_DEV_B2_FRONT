@@ -22,10 +22,10 @@
           <v-card-title>Email</v-card-title>
           <v-card-subtitle>{{ user.email }}</v-card-subtitle>
 
-          <v-card-title v-if="user.adress">Adresse : {{ user.adress }}</v-card-title>
-          <v-card-text v-else>Pas d'adresse enregistrée</v-card-text>
+          <v-card-title v-if="user.adress">Adress : {{ user.adress }}</v-card-title>
+          <v-card-text v-else>No registered adress</v-card-text>
 
-          <v-card-text>Solde : {{ user.balance ? user.balance : 0 }} $</v-card-text>
+          <v-card-text>Balance : {{ user.balance ? user.balance : 0 }} $</v-card-text>
 
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -43,7 +43,7 @@
       <v-form ref="form" v-model="valid" :lazy-validation="false">
         <v-card>
           <v-card-title>
-            <span class="headline">Image de profil</span>
+            <span class="headline">Avatar</span>
           </v-card-title>
           <v-col class="d-flex flex-column">
             <v-image-input
@@ -76,14 +76,14 @@
       <v-form ref="userForm" v-model="validUserForm">
         <v-card>
           <v-card-title>
-            <span class="headline">Mettre à jour votre profil</span>
+            <span class="headline">Update your profile</span>
           </v-card-title>
           <v-card-text>
             <v-row>
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="updatedUser.name"
-                  :rules="[(v) => !!v || 'Un nom est requis']"
+                  :rules="[(v) => !!v || 'A last name is required']"
                   label="Last Name"
                   required
                 ></v-text-field>
@@ -91,7 +91,7 @@
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="updatedUser.surname"
-                  :rules="[(v) => !!v || 'Un prénom est requis']"
+                  :rules="[(v) => !!v || 'A first name is required']"
                   label="First Name"
                   required
                 ></v-text-field>
@@ -100,8 +100,8 @@
             <v-text-field v-model="updatedUser.email" :rules="emailRules" label="Email" required></v-text-field>
             <v-text-field
               v-model="updatedUser.adress"
-              :rules="[(v) => !!v || 'Une adresse est requise']"
-              label="Adresse"
+              :rules="[(v) => !!v || 'An adress is required']"
+              label="Adress"
               required
             ></v-text-field>
             <v-subheader>Balance</v-subheader>
@@ -150,7 +150,7 @@ export default {
     loadingImg: false,
     valid: true,
     emailRules: [
-      v => !!v || "Une adresse mail est requise",
+      v => !!v || "an email is required",
       v => /.+@.+\..+/.test(v) || "E-mail must be valid"
     ],
     updatedUser: {},
