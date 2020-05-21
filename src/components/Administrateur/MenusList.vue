@@ -64,7 +64,7 @@
               :disabled="!valid || loadingPost"
               :loading="loadingPost"
               @click="save"
-            >Sauvegarder</v-btn>
+            >Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>

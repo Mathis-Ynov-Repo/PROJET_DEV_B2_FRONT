@@ -62,20 +62,20 @@
       <v-form v-model="valid">
         <v-card>
           <v-card-title>
-            <span class="headline">Mettre à jour votre plat</span>
+            <span class="headline">Update this dish</span>
           </v-card-title>
           <v-card-text>
             <v-text-field
               v-model="updatedItem.libelle"
-              :rules="[v => !!v || 'Un libelle est requis']"
-              label="Libelle du plat"
+              :rules="[v => !!v || 'A title is required']"
+              label="Dish Title"
               required
             ></v-text-field>
             <v-text-field
               prefix="$"
               v-model="updatedItem.prix"
               :rules="priceRules"
-              label="Prix"
+              label="Price"
               required
             ></v-text-field>
 
@@ -84,8 +84,8 @@
               :items="this.types"
               item-text="libelle"
               item-value="@id"
-              :rules="[v => !!v || 'Ce champ est requis']"
-              label="Type de votre plat"
+              :rules="[v => !!v || 'This field is required']"
+              label="Dish type"
               required
             ></v-select>
             <v-col cols="12">
@@ -108,7 +108,7 @@
               :disabled="!valid || loadingPut"
               :loading="loadingPut"
               @click="save(updatedItem)"
-            >Sauvegarder</v-btn>
+            >Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -138,12 +138,12 @@ export default {
         value =>
           !value ||
           value.size < 2000000 ||
-          "plat image size should be less than 2 MB!"
+          "dish image size should be less than 2 MB!"
       ],
       valid: true,
       priceRules: [
-        v => !!v || "Un prix est requise",
-        v => !isNaN(v) || "Veuillez entrer une valeur numérique"
+        v => !!v || "A price is required",
+        v => !isNaN(v) || "Please enter a numeric value"
       ],
       platTitle: ""
     };
@@ -204,7 +204,7 @@ export default {
       return new Blob([ab], { type: mimeString });
     },
     async deleteDish(plat) {
-      if (confirm("Supprimer ce plat ?")) {
+      if (confirm("Delete this dish ?")) {
         this.loadingDelete = true;
         await this.deletePlat(plat);
       }
@@ -224,11 +224,6 @@ export default {
       await this.editPlat(plat);
       this.loadingPut = false;
       this.dialog = false;
-      // await this.$http
-      //   .get("http://localhost:3000/api/plats/" + this.plat.id)
-      //   .then(response => {
-      //     this.plat = response.data;
-      //   });
       await this.$parent.getRestaurant();
     },
     ...mapActions({

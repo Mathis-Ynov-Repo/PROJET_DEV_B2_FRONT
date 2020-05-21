@@ -74,7 +74,7 @@
               :disabled="!valid || loadingPut"
               :loading="loadingPut"
               @click="save(updatedItem)"
-            >Sauvegarder</v-btn>
+            >Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -102,8 +102,8 @@ export default {
       ],
       valid: true,
       priceRules: [
-        v => !!v || "Un prix est requise",
-        v => !isNaN(v) || "Veuillez entrer une valeur numérique"
+        v => !!v || "A price is required",
+        v => !isNaN(v) || "Please enter a numeric value"
       ],
       platTitle: ""
     };
@@ -111,7 +111,7 @@ export default {
 
   methods: {
     async deleteMenuDialog(menu) {
-      if (confirm("Supprimer ce menu ?")) {
+      if (confirm("Delete this menu ?")) {
         this.loadingDelete = true;
         await this.deleteMenu(menu);
       }

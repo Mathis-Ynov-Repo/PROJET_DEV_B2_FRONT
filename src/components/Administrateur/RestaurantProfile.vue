@@ -111,7 +111,7 @@
               :disabled="!validRestaurantForm || loadingPut"
               :loading="loadingPut"
               @click="updateRestaurant(updatedRestaurant)"
-            >Sauvegarder</v-btn>
+            >Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>

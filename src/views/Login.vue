@@ -2,7 +2,7 @@
   <v-container fluid fill-height>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4>
-        <v-alert v-if="this.authStatus == 'error'" dense outlined type="error">Crédentiels invalides</v-alert>
+        <v-alert v-if="this.authStatus == 'error'" dense outlined type="error">Invalid credentials</v-alert>
         <v-card class="elevation-12">
           <v-toolbar color="primary" dark flat>
             <v-toolbar-title>Login form</v-toolbar-title>
@@ -13,7 +13,7 @@
             <v-form v-model="valid">
               <v-text-field
                 label="Login"
-                :rules="[v => !!v || 'Mail requis']"
+                :rules="[v => !!v || 'E-mail required']"
                 v-model="email"
                 name="login"
                 prepend-icon="mdi-account"
@@ -23,7 +23,7 @@
 
               <v-text-field
                 id="password"
-                :rules="[v => !!v || 'Mot de passe requis']"
+                :rules="[v => !!v || 'Password required']"
                 label="Password"
                 v-model="password"
                 name="password"

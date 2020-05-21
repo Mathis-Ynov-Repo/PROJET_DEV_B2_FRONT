@@ -24,24 +24,24 @@
       <v-form v-model="valid">
         <v-card>
           <v-card-title>
-            <span class="headline">Ajouter votre plat</span>
+            <span class="headline">Add a Dish</span>
           </v-card-title>
           <v-card-text>
             <v-text-field
               v-model="platTitle"
-              :rules="[v => !!v || 'Un libelle est requis']"
-              label="Libelle du plat"
+              :rules="[v => !!v || 'A title is required']"
+              label="Dish Title"
               required
             ></v-text-field>
-            <v-text-field prefix="$" v-model="platPrice" :rules="priceRules" label="Prix" required></v-text-field>
+            <v-text-field prefix="$" v-model="platPrice" :rules="priceRules" label="Price" required></v-text-field>
 
             <v-select
               v-model="platSelect"
               :items="types"
               item-text="libelle"
               item-value="@id"
-              :rules="[v => !!v || 'Ce champ est requis']"
-              label="Type de votre plat"
+              :rules="[v => !!v || 'This field is required']"
+              label="Dish Type"
               required
             ></v-select>
             <v-col cols="12">
@@ -64,7 +64,7 @@
               :disabled="!valid || loadingPost"
               :loading="loadingPost"
               @click="save"
-            >Sauvegarder</v-btn>
+            >Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -88,8 +88,8 @@ export default {
       platDescription: null,
 
       priceRules: [
-        v => !!v || "Un prix est requise",
-        v => !isNaN(v) || "Veuillez entrer une valeur numérique"
+        v => !!v || "A price is required",
+        v => !isNaN(v) || "Please enter a numeric value"
       ],
       dialog: false
     };
@@ -102,19 +102,9 @@ export default {
       .get("http://localhost:3000/api/plats_types")
       .then(response => (this.types = response.data["hydra:member"]));
   },
-  // watch: {
-  //   restaurant: function(newVal) {
-  //     this.restaurant = newVal;
-  //     console.log("ccdd");
-  //   }
-  // },
+
   methods: {
     async getRestaurant() {
-      // await this.$http
-      //   .get("http://localhost:3000/api/restaurants/" + this.restaurant.id)
-      //   .then(response => {
-      //     this.restaurant = response.data;
-      //   });
       await this.$parent.getRestaurant(this.$route.params.id);
     },
     async save() {

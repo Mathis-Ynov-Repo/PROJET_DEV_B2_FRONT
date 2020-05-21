@@ -10,7 +10,7 @@
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-toolbar-title>CRUD Utilisateurs</v-toolbar-title>
+        <v-toolbar-title>CRUD Users</v-toolbar-title>
 
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
@@ -182,7 +182,6 @@ export default {
     },
 
     async save() {
-      console.log(this.editedItem);
       this.loading = true;
       if (this.editedIndex > -1) {
         await axios
@@ -192,7 +191,7 @@ export default {
             surname: this.editedItem.surname,
             roles: [this.editedItem.roles],
             email: this.editedItem.email,
-            balance: this.editedItem.balance
+            balance: parseFloat(this.editedItem.balance)
           })
           .then()
           .catch(e => {
@@ -207,7 +206,7 @@ export default {
             surname: this.editedItem.surname,
             roles: [this.editedItem.roles],
             email: this.editedItem.email,
-            balance: this.editedItem.balance,
+            balance: parseFloat(this.editedItem.balance),
             password: "motdepasses"
           })
           .then()

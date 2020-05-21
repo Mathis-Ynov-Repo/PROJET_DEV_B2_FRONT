@@ -1,11 +1,16 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation>
-    <v-text-field v-model="name" :rules="[v => !!v || 'Un nom est requis']" label="Nom" required></v-text-field>
+    <v-text-field
+      v-model="name"
+      :rules="[v => !!v || 'A last name is required']"
+      label="Last Name"
+      required
+    ></v-text-field>
 
     <v-text-field
       v-model="surname"
-      :rules="[v => !!v || 'Un prénom est requis']"
-      label="Prénom"
+      :rules="[v => !!v || 'A first name is required']"
+      label="First Name"
       required
     ></v-text-field>
 
@@ -16,7 +21,7 @@
       :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
       :rules="[rules.required, rules.min]"
       :type="show1 ? 'text' : 'password'"
-      label="Entrez votre mot de passe"
+      label="Enter your password"
       class="input-group--focused"
       @click:append="show1 = !show1"
     ></v-text-field>
@@ -26,7 +31,7 @@
       :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
       :rules="[rules.required, passwordMatch]"
       :type="show2 ? 'text' : 'password'"
-      label="Confirmez le mot de passe"
+      label="Confirm password"
       class="input-group--focused"
       @click:append="show2 = !show2"
     ></v-text-field>
@@ -34,15 +39,15 @@
     <v-select
       v-model="select"
       :items="items"
-      :rules="[v => !!v || 'Ce champ est requis']"
-      label="Je souhaite utiliser l'application en tant que"
+      :rules="[v => !!v || 'This field is required']"
+      label="I wish to use this website as a"
       item-disabled="customDisabled"
       required
     ></v-select>
 
     <v-card v-if="select == 'ROLE_RESTAURATEUR'">
       <v-card-title>
-        <span class="headline">Entrez les informations de votre restaurant</span>
+        <span class="headline">Enter your restaurant's informations</span>
       </v-card-title>
       <v-card-text>
         <v-container>
@@ -50,16 +55,16 @@
             <v-col cols="12" sm="6">
               <v-text-field
                 v-model="restaurantTitle"
-                :rules="[v => !!v || 'Un libelle est requis']"
-                label="Libelle du restaurant*"
+                :rules="[v => !!v || 'A title is required']"
+                label="Restaurant Title*"
                 required
               ></v-text-field>
             </v-col>
             <v-col cols="12">
               <v-text-field
                 v-model="restaurantAdress"
-                :rules="[v => !!v || 'Une adresse est requise']"
-                label="Adresse*"
+                :rules="[v => !!v || 'An adress is required']"
+                label="Adress*"
                 required
               ></v-text-field>
             </v-col>
@@ -69,8 +74,8 @@
                 :items="types"
                 item-text="type"
                 item-value="@id"
-                :rules="[v => !!v || 'Ce champ est requis']"
-                label="Type de votre restaurant*"
+                :rules="[v => !!v || 'This field is required']"
+                label="Restaurant Type*"
                 required
               ></v-select>
             </v-col>
@@ -99,71 +104,6 @@
     <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Validate</v-btn>
 
     <v-btn color="error" class="mr-4" @click="reset">Reset Form</v-btn>
-    <!-- <v-dialog
-      v-if="select == 'ROLE_RESTAURATEUR'"
-      v-model="dialog"
-      persistent
-      :rules="[v => !!v || 'Un libelle est requis']"
-      max-width="600px"
-      required
-    >
-      <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on">Votre restaurant</v-btn>
-      </template>
-      <v-card>
-        <v-card-title>
-          <span class="headline">Entrez les informations</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="restaurantTitle"
-                  :rules="[v => !!v || 'Un libelle est requis']"
-                  label="Libelle du restaurant*"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="restaurantAdress"
-                  :rules="[v => !!v || 'Une adresse est requise']"
-                  label="Adresse*"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-select
-                  v-model="restaurantSelect"
-                  :items="types"
-                  :rules="[v => !!v || 'Ce champ est requis']"
-                  label="Type de votre restaurant*"
-                  required
-                ></v-select>
-              </v-col>
-              <v-col cols="12">
-                <v-textarea color="teal" v-model="restaurantDescription">
-                  <template v-slot:label>
-                    <div>
-                      Description
-                      <small>(optional)</small>
-                    </div>
-                  </template>
-                </v-textarea>
-              </v-col>
-            </v-row>
-          </v-container>
-
-          <small>*indicates required field</small>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="validateRestaurant()">Save</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>-->
   </v-form>
 </template>
 <script>
@@ -181,24 +121,24 @@ export default {
     restaurantTitle: "",
     email: "",
     emailRules: [
-      v => !!v || "Une adresse mail est requise",
+      v => !!v || "an e-mail is required",
       v => /.+@.+\..+/.test(v) || "E-mail must be valid"
     ],
     checkbox: false,
     password: "",
     password_confirmation: "",
     rules: {
-      required: value => !!value || "Requis.",
-      min: v => v.length >= 8 || "Min 8 caractères"
+      required: value => !!value || "Required.",
+      min: v => v.length >= 8 || "Min 8 characters"
     },
     show1: true,
     show2: false,
     select: null,
     items: [
       { text: "Client", value: "ROLE_USER" },
-      { text: "Restaurateur", value: "ROLE_RESTAURATEUR" },
+      { text: "Restaurant Owner", value: "ROLE_RESTAURATEUR" },
       {
-        text: "Livreur (Coming soon)",
+        text: "Delivery man (Coming soon)",
         value: "ROLE_LIVREUR",
         customDisabled: true
       }

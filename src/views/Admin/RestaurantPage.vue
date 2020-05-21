@@ -45,7 +45,6 @@ export default {
   },
   methods: {
     async getRestaurant(id) {
-      console.log("xd");
       await this.$http
         .get("http://localhost:3000/api/restaurants/" + id)
         .then(response => {

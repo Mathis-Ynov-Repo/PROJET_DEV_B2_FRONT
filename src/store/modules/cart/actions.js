@@ -68,11 +68,3 @@ export const clearCart = ({ commit, dispatch }) => {
     { root: true }
   );
 };
-
-// export const getCartItems = ({ commit }) => {
-//   // Panier.all().then((response) => {
-//   //   commit("SET_PANIER", response.data);
-//   // });
-//   // commit("SET_CART");
-//   // commit("SET_PANIER", localStorage.getItem("panier"));
-// };

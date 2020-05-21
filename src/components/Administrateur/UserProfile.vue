@@ -127,7 +127,7 @@
               color="primary"
               :disabled="!validUserForm"
               @click="updateUser(updatedUser)"
-            >Sauvegarder</v-btn>
+            >Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>

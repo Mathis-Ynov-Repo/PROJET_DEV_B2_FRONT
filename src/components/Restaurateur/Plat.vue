@@ -113,7 +113,7 @@
               :disabled="!valid || loadingPut"
               :loading="loadingPut"
               @click="save(updatedItem)"
-            >Sauvegarder</v-btn>
+            >Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
