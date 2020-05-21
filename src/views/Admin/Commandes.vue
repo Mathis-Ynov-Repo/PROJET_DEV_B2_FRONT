@@ -81,6 +81,8 @@ export default {
         { text: "Fees", value: "frais" },
         { text: "Price", value: "prix" },
         { text: "Status", value: "statut" },
+        { text: "User", value: "user.email" },
+        { text: "Adress", value: "user.adress" },
         { text: "Order Date", value: "dateAchat" },
         { text: "Delivered At Date", value: "dateReception" },
         { text: "Actions", value: "actions", sortable: false }

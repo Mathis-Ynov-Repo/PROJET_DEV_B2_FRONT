@@ -145,7 +145,7 @@ export default {
 
     async getUsers() {
       await axios
-        .get("http://localhost:3000/api/users")
+        .get("http://localhost:3000/api/users?pagination=false")
         .then(response => (this.users = response.data["hydra:member"]));
     },
 
