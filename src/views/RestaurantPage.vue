@@ -26,7 +26,7 @@
       </v-row>
       <v-row>
         <v-col class="text-center" cols="6" md="2" lg="2" xl="2">
-          <v-btn @click="view = 0" dark color="blue" v-if="plats.length">Everything</v-btn>
+          <v-btn @click="view = 0" dark color="blue" v-if="plats.length">Every Item</v-btn>
         </v-col>
         <v-col class="text-center" cols="6" md="2" lg="2" xl="2">
           <v-btn @click="view = 1" dark color="pink" v-if="plats.length">Desserts</v-btn>
@@ -56,6 +56,9 @@
     <boissons-list :plats="plats" v-if="view == 3" />
 
     <menus-list :menus="menus" v-if="view == 4" />
+
+    <feedback-list :restaurant="restaurant" v-if="loading === false"></feedback-list>
+    <feedback-form :restaurant="restaurant" v-if="loading === false"></feedback-form>
   </div>
 </template>
 
@@ -66,6 +69,8 @@ import DessertsList from "../components/DessertFromRestaurantList";
 import BoissonsList from "../components/BoissonFromRestaurantList";
 import MenusList from "../components/MenusFromRestaurantList";
 import RestaurantInfo from "../components/RestaurantInfo.vue";
+import FeedbackForm from "../components/FeedbackForm.vue";
+import FeedbackList from "../components/FeedbackList.vue";
 
 export default {
   data() {
@@ -85,8 +90,9 @@ export default {
     DessertsList,
     MenusList,
     DishesList,
-    BoissonsList
-    // RestaurantInfoV2
+    BoissonsList,
+    FeedbackForm,
+    FeedbackList
   },
   async mounted() {
     this.loading = true;

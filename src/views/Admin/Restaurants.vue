@@ -132,7 +132,7 @@ export default {
 
     async getRestaurants() {
       await axios
-        .get("http://localhost:3000/api/restaurants")
+        .get("http://localhost:3000/api/restaurants?pagination=false")
         .then(response => (this.restaurants = response.data["hydra:member"]));
     },
 

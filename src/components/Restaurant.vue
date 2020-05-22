@@ -19,7 +19,7 @@
             size="14"
           ></v-rating>
 
-          <div class="grey--text ml-4">{{restaurant.rating}} (413)</div>
+          <div class="grey--text ml-4">{{restaurant.rating}} ({{restaurant.numberOfRatings}})</div>
         </v-row>
 
         <div class="my-4 subtitle-1">{{restaurant.adresse}} • {{restaurant.type.type}}</div>

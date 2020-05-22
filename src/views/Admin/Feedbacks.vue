@@ -26,7 +26,10 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col>
+                  <v-col cols="12">
+                    <v-rating v-model="editedItem.rating" label="Rating"></v-rating>
+                  </v-col>
+                  <v-col cols="12">
                     <v-textarea v-model="editedItem.message" label="Message"></v-textarea>
                   </v-col>
                 </v-row>
@@ -68,18 +71,23 @@ export default {
           sortable: true,
           value: "id"
         },
+        { text: "User", value: "user.email" },
+        { text: "Restaurant", value: "restaurant.libelle" },
         { text: "Message", value: "message" },
+        { text: "Rating", value: "rating" },
         { text: "Date de création", value: "created" },
         { text: "Actions", value: "actions", sortable: false }
       ],
       editedIndex: -1,
       editedItem: {
         id: 1,
-        message: ""
+        message: "",
+        rating: 0
       },
       defaultItem: {
         id: 1,
-        message: ""
+        message: "",
+        rating: 0
       }
     };
   },
@@ -108,8 +116,8 @@ export default {
 
     async getFeedbacks() {
       await axios
-        .get("http://localhost:8001/api/feedbacks")
-        .then(response => (this.feedbacks = response.data));
+        .get("http://localhost:3000/api/feedback?pagination=false")
+        .then(response => (this.feedbacks = response.data["hydra:member"]));
     },
 
     editItem(item) {
@@ -123,7 +131,7 @@ export default {
       if (confirm("Are you sure you want to delete this item?")) {
         this.loading = true;
         await axios
-          .delete("http://localhost:8001/api/feedbacks/" + item.id)
+          .delete("http://localhost:3000/api/feedback/" + item.id)
           .then()
           .catch(e => {
             this.errors.push(e);
@@ -146,8 +154,9 @@ export default {
       this.loading = true;
       if (this.editedIndex > -1) {
         await axios
-          .put("http://localhost:8001/api/feedbacks/" + this.editedItem.id, {
-            message: this.editedItem.message
+          .put("http://localhost:3000/api/feedback/" + this.editedItem.id, {
+            message: this.editedItem.message,
+            rating: this.editedItem.rating
           })
           .then()
           .catch(e => {
@@ -156,8 +165,9 @@ export default {
         await this.getFeedbacks();
       } else {
         await axios
-          .post("http://localhost:8001/api/feedbacks", {
-            message: this.editedItem.message
+          .post("http://localhost:3000/api/feedback", {
+            message: this.editedItem.message,
+            rating: this.editedItem.rating
           })
           .then()
           .catch(e => {
