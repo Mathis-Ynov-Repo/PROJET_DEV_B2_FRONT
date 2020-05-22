@@ -20,7 +20,13 @@
           </v-textarea>
         </v-col>
       </v-row>
-      <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Send Review</v-btn>
+      <v-btn
+        :disabled="!valid"
+        color="success"
+        class="mr-4"
+        :loading="loadingPost"
+        @click="validate"
+      >Send Review</v-btn>
     </v-form>
   </v-container>
 </template>
@@ -31,6 +37,7 @@ export default {
   data() {
     return {
       valid: true,
+      loadingPost: false,
       feedbackDescription: null,
       feedbackRating: 4
     };
@@ -42,6 +49,7 @@ export default {
       }
     },
     async send() {
+      this.loadingPost = true;
       let data = {
         rating: this.feedbackRating,
         message: this.feedbackDescription,
@@ -51,7 +59,16 @@ export default {
         .post("http://localhost:3000/api/feedback", data)
         .then()
         .catch(err => console.log(err));
-      this.$parent.getRestaurantWithId(this.$route.params.id);
+      await this.$parent.getRestaurantWithId(this.$route.params.id);
+      (this.loadingPost = false),
+        this.$store.dispatch(
+          "notifications/addNotification",
+          {
+            type: "success",
+            message: "Your Feedback has been saved"
+          },
+          { root: true }
+        );
     }
   }
 };

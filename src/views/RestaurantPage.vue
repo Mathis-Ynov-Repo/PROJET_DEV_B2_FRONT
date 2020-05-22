@@ -116,14 +116,18 @@ export default {
     },
     async getPlatsWithRestaurantId(id) {
       await this.$http
-        .get("http://localhost:3000/api/plats?restaurant.id=" + id)
+        .get(
+          "http://localhost:3000/api/plats?pagination=false&restaurant.id=" + id
+        )
         .then(response => {
           this.plats = response.data["hydra:member"];
         });
     },
     async getMenusWithRestaurantId(id) {
       await this.$http
-        .get("http://localhost:3000/api/menus?restaurant=" + id)
+        .get(
+          "http://localhost:3000/api/menus?pagination=false&restaurant=" + id
+        )
         .then(response => {
           this.menus = response.data["hydra:member"];
         });

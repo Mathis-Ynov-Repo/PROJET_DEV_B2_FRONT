@@ -89,12 +89,12 @@ export default {
       ],
       editedIndex: -1,
       editedItem: {
-        frais: 2.99,
+        frais: 2.5,
         prix: 0,
         statut: ""
       },
       defaultItem: {
-        frais: 2.99,
+        frais: 2.5,
         prix: 0,
         statut: ""
       }

@@ -88,7 +88,12 @@
       v-if="$store.getters['authentication/isLoggedIn']"
     >
       <v-list>
-        <v-list-item :exact="true" router :to="{name:'Home'}">
+        <v-list-item
+          v-if="!this.$store.getters['authentication/isRestaurateur']"
+          :exact="true"
+          router
+          :to="{name:'Home'}"
+        >
           <v-list-item-action>
             <v-icon class="white--text">mdi-view-dashboard</v-icon>
           </v-list-item-action>
@@ -97,7 +102,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-list v-if="this.$store.getters['authentication/authUser'].roles.includes('ROLE_ADMIN')">
+      <v-list v-if="this.$store.getters['authentication/isAdmin']">
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title class="white--text">Administrator Access</v-list-item-title>
@@ -112,9 +117,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-list
-        v-if="this.$store.getters['authentication/authUser'].roles.includes('ROLE_RESTAURATEUR')"
-      >
+      <v-list v-if="this.$store.getters['authentication/isRestaurateur']">
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title class="white--text">Restaurant Owner Access</v-list-item-title>

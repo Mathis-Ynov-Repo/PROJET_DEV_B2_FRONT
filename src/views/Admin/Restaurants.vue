@@ -145,8 +145,6 @@ export default {
     editItem(item) {
       this.editedIndex = this.restaurants.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      console.log(this.editedItem);
-      // this.editedItem.type = this.types.find(x => x.type == item.type.type);
 
       this.dialog = true;
     },

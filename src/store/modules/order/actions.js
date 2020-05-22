@@ -16,7 +16,7 @@ export const placeOrder = async (
     await Commande.store({
       prix: price,
       statut: "en cours",
-      frais: 2.99,
+      frais: 2.5,
       restaurant: "api/restaurants/" + cart[0].product.restaurant.id,
     }).then(async (response) => {
       let commande = response.data;

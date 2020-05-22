@@ -1,42 +1,42 @@
 <template>
-  <div class="home">
-    <h1>homepâge</h1>
-    <v-btn class="pink white--text">CLICK ME</v-btn>
-    <v-btn depressed class="pink hidden-md-and-down">Pelo</v-btn>
-    <v-btn color="purple" small fab>
-      <v-icon>mdi-heart</v-icon>
-    </v-btn>
+  <div class="dashboard">
+    <v-parallax dark src="/images/mike-dorner-sf_1ZDA1YFw-unsplash.jpg">
+      <v-row align="center" justify="center">
+        <v-col class="text-center" cols="12">
+          <h1 class="display-1 font-weight-thin mb-4">Hey Admin</h1>
+          <h4 class="subheading">Start administrating now!</h4>
+        </v-col>
+      </v-row>
+    </v-parallax>
     <restaurants-info :nbResto="restaurants"></restaurants-info>
-    <h1>Statistiques de commandes</h1>
+    <h1>Orders Statistics</h1>
     <v-row>
       <v-col cols="12" sm="6" lg="3">
         <stats-card
-          :data="NbOrdersDelivered * 2.99 +' $'"
-          domain="Revenus"
+          :data="DelivedredOrders * 2.5 +' $'"
+          domain="All Time Income"
           icon="mdi-cash-usd-outline"
           color="success"
         />
       </v-col>
       <v-col cols="12" sm="6" lg="3">
         <stats-card
-          :data="NbOrdersDelivered"
-          domain="Livrées"
+          :data="DelivedredOrders"
+          domain="Delivered"
           icon="mdi-food-fork-drink"
           color="primary"
         />
       </v-col>
       <v-col cols="12" sm="6" lg="3">
-        <stats-card
-          :data="NbAbandonnedOrders"
-          domain="Abandonnées"
-          icon="mdi-delete"
-          color="error"
-        />
+        <stats-card :data="AbandonnedOrders" domain="Abandonned" icon="mdi-delete" color="error" />
       </v-col>
       <v-col cols="12" sm="6" lg="3">
-        <stats-card :data="NbOrdersPending" domain="En cours" icon="mdi-bike" color="warning" />
+        <stats-card :data="InProgressOrders" domain="In Progress" icon="mdi-bike" color="warning" />
       </v-col>
     </v-row>
+    <v-overlay :value="loading">
+      <v-progress-circular indeterminate size="64" color="primary"></v-progress-circular>
+    </v-overlay>
   </div>
 </template>
 
@@ -46,10 +46,9 @@ import RestaurantsInfo from "@/components/Administrateur/RestaurantsInfo";
 export default {
   data() {
     return {
-      NbOrdersDelivered: null,
-      NbOrdersPending: null,
-      NbAbandonnedOrders: null,
-      restaurants: []
+      loading: true,
+      restaurants: [],
+      orders: []
     };
   },
   components: {
@@ -58,33 +57,37 @@ export default {
   },
   name: "AdminDashboard",
   async mounted() {
-    this.getRestaurants();
-    this.getCommandesDelivered();
-    this.getCommandes();
-    this.getCommandesAbandonnée();
+    this.loading = true;
+    await this.getRestaurants();
+    await this.getCommandes();
+    this.loading = false;
+  },
+  computed: {
+    DelivedredOrders() {
+      return this.orders.filter(function(order) {
+        return order.statut.match("livrée");
+      }).length;
+    },
+    AbandonnedOrders() {
+      return this.orders.filter(function(order) {
+        return order.statut.match("abandonnée");
+      }).length;
+    },
+    InProgressOrders() {
+      return this.orders.filter(function(order) {
+        return order.statut.match("en cours");
+      }).length;
+    }
   },
   methods: {
-    async getCommandesDelivered() {
-      await this.$http
-        .get("http://localhost:3000/api/commandes?statut=livrée")
-        .then(response => {
-          this.NbOrdersDelivered = response.data["hydra:totalItems"];
-        });
-    },
     async getCommandes() {
       await this.$http
-        .get("http://localhost:3000/api/commandes?statut=en cours")
+        .get("http://localhost:3000/api/commandes?pagination=false")
         .then(response => {
-          this.NbOrdersPending = response.data["hydra:totalItems"];
+          this.orders = response.data["hydra:member"];
         });
     },
-    async getCommandesAbandonnée() {
-      await this.$http
-        .get("http://localhost:3000/api/commandes?statut=abandonnée")
-        .then(response => {
-          this.NbAbandonnedOrders = response.data["hydra:totalItems"];
-        });
-    },
+
     async getRestaurants() {
       await this.$http
         .get("http://localhost:3000/api/restaurants?pagination=false")

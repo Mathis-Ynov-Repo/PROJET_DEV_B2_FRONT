@@ -27,17 +27,29 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="6">
-                    <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.name"
+                      label="Name"
+                      :rules="[(v) => !!v || 'A last name is required']"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="6">
-                    <v-text-field v-model="editedItem.surname" label="Last Name"></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.surname"
+                      :rules="[(v) => !!v || 'A first name is required']"
+                      label="Last Name"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="12" md="12">
-                    <v-text-field v-model="editedItem.adress" label="Adress"></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.adress"
+                      :rules="[(v) => !!v || 'An adress is required']"
+                      label="Adress"
+                    ></v-text-field>
                   </v-col>
 
                   <v-col cols="12" sm="8" md="8">
-                    <v-text-field v-model="editedItem.email" label="Email"></v-text-field>
+                    <v-text-field v-model="editedItem.email" :rules="emailRules" label="Email"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="6">
                     <v-text-field v-model="editedItem.balance" label="Balance"></v-text-field>
@@ -87,6 +99,10 @@ export default {
       users: [],
       dialog: false,
       loading: false,
+      emailRules: [
+        v => !!v || "An email is required",
+        v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+      ],
       headers: [
         {
           text: "ID",

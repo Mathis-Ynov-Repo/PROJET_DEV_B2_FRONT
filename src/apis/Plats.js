@@ -5,10 +5,10 @@ const FAVORITES_END_POINT = "users";
 
 export default {
   all() {
-    return Api.get(END_POINT);
+    return Api.get(END_POINT + "?pagination=false");
   },
   allPlatsFromRestaurant(id) {
-    return Api.get(END_POINT + "?restaurant.id=" + id);
+    return Api.get(END_POINT + "?pagination=false&restaurant.id=" + id);
   },
   delete(id) {
     return Api.delete(END_POINT + "/" + id);

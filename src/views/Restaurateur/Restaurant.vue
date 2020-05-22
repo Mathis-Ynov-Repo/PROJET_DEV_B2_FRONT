@@ -6,7 +6,6 @@
         <restaurant-profile></restaurant-profile>
       </v-col>
       <v-col align-self="center">
-        <!-- <commandes-list v-if="OwnerRestaurant.id" /> -->
         <commandes-list />
       </v-col>
     </v-row>
@@ -14,7 +13,7 @@
     <plat-list />
     <h1>Every Menu from your restaurant</h1>
     <menu-list />
-    <feedback-list :restaurant="OwnerRestaurant"></feedback-list>
+    <feedback-list :restaurant="OwnerRestaurant" v-if="OwnerRestaurant.id"></feedback-list>
   </div>
 </template>
 
