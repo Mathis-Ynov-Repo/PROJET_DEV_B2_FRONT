@@ -17,7 +17,7 @@
 
           <v-row row wrap align="center" v-for="item in cart" :key="item.product['@id']">
             <v-col cols="12" md="4">
-              <div class="caption grey--text">Plat</div>
+              <div class="caption grey--text">Item</div>
 
               <div>{{item.product.libelle}}</div>
             </v-col>

@@ -5,9 +5,9 @@
         @click="drawer = !drawer"
         v-if="$store.getters['authentication/isLoggedIn']"
       ></v-app-bar-nav-icon>
-      <v-toolbar-title class="d-none d-sm-flex">
+      <!-- <v-toolbar-title class="d-none d-sm-flex">
         <v-img src="/images/logo.jpg" width="70"></v-img>
-      </v-toolbar-title>
+      </v-toolbar-title>-->
 
       <Searchbar
         v-if="$store.getters['authentication/isLoggedIn'] && !$store.getters['authentication/isRestaurateur']"
@@ -95,7 +95,7 @@
           :to="{name:'Home'}"
         >
           <v-list-item-action>
-            <v-icon class="white--text">mdi-view-dashboard</v-icon>
+            <v-icon class="white--text">mdi-home-variant</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title class="white--text">Home</v-list-item-title>
@@ -185,16 +185,20 @@ export default {
       drawer: false,
 
       links: [
-        { icon: "mdi-home-variant", text: "Dishes List", route: "ListePlat" },
         {
-          icon: "mdi-home-variant",
+          icon: "mdi-silverware-fork",
+          text: "Dishes List",
+          route: "ListePlat"
+        },
+        {
+          icon: "mdi-silverware",
           text: "Restaurant List",
           route: "ListeRestaurant"
         }
       ],
       RestaurateurLinks: [
         {
-          icon: "mdi-home-variant",
+          icon: "mdi-table-chair",
           text: "My Restaurant",
           route: "RestaurateurRestaurant"
         }
@@ -206,7 +210,7 @@ export default {
           route: "AdminDashboard"
         },
         {
-          icon: "mdi-home-variant",
+          icon: "mdi-silverware",
           text: "CRUD Restaurants",
           route: "AdminRestaurants"
         },
@@ -217,13 +221,13 @@ export default {
         },
 
         {
-          icon: "mdi-home-variant",
+          icon: "mdi-moped",
           text: "CRUD Orders",
           route: "AdminCommandes"
         },
 
         {
-          icon: "mdi-home-variant",
+          icon: "mdi-comment",
           text: "CRUD Feedback",
           route: "AdminFeedbacks"
         }
@@ -233,19 +237,7 @@ export default {
   computed: {
     ...mapGetters("cart", ["cartItemCount"])
   },
-  // async created() {
-  //   this.unwatch = this.$store.watch(
-  //     (state, getters) => getters["authentication/isLoggedIn"],
-  //     (newValue, oldValue) => {
-  //       console.log(`Updating from ${oldValue} to ${newValue}`);
 
-  //       // Do whatever makes sense now
-  //       if (newValue === true) {
-  //         this.initialize();
-  //       }
-  //     }
-  //   );
-  // },
   methods: {
     ...mapActions("authentication", ["logout"])
   }
