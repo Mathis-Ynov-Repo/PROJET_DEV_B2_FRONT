@@ -46,7 +46,7 @@
                   v-for="item in item.product.menuDetails"
                   :key="item.plat.id"
                 >
-                  <v-col cols="12" sm="8" md="6">
+                  <v-col cols="8" md="6">
                     <div class="caption grey--text">Dish in menu</div>
                     <div class="d-flex align-center">
                       <v-avatar class="mr-5">
@@ -58,7 +58,7 @@
                     </div>
                   </v-col>
 
-                  <v-col cols="12" sm="6">
+                  <v-col cols="4">
                     <div class="caption grey--text">Unit Price</div>
 
                     <div>{{item.plat.prix}} $</div>
@@ -107,13 +107,16 @@
         <h2>Total : {{price + 2.5}}$</h2>
 
         <v-row justify="center">
-          <v-btn color="success" class="my-2" @click.prevent="passerCommande({price, cart, user})">
+          <v-btn color="success" class="my-2" @click.prevent="order({price, cart, user})">
             Place Order
             <v-icon>mdi-map-marker-check</v-icon>
           </v-btn>
         </v-row>
       </div>
     </v-card>
+    <v-overlay :value="loading">
+      <v-progress-circular indeterminate size="64" color="primary"></v-progress-circular>
+    </v-overlay>
   </v-container>
 </template>
 
@@ -122,7 +125,8 @@ import { mapState, mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
-      expand: false
+      expand: false,
+      loading: false
     };
   },
   computed: {
@@ -134,8 +138,13 @@ export default {
     })
   },
   methods: {
+    async order({ price, cart, user }) {
+      this.loading = true;
+      await this.PlaceOrder({ price, cart, user });
+      this.loading = false;
+    },
     ...mapActions({
-      passerCommande: "order/placeOrder"
+      PlaceOrder: "order/placeOrder"
     })
   }
 };

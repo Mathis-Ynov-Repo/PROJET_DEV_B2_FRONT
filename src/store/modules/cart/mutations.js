@@ -1,5 +1,3 @@
-// let cart = window.localStorage.getItem("cart");
-
 export const ADD_TO_CART = (state, { product, quantity }) => {
   state.cart.push({
     product,

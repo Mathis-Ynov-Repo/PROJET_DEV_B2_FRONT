@@ -177,7 +177,6 @@ export default {
             "restaurant/updateRestaurant",
             this.newRestaurant
           );
-          //localStorage.setItem("user", JSON.stringify(this.updatedUser));
         });
       this.dialog = false;
     },

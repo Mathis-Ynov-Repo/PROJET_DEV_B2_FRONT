@@ -1,27 +1,5 @@
 import axios from "axios";
 
-// export const AUTH_REQUEST = ({ commit, dispatch }, user) => {
-//   return new Promise((resolve, reject) => {
-//     // The Promise used for router redirect in login
-//     commit("AUTH_REQUEST");
-//     axios({ url: "auth", data: user, method: "POST" })
-//       .then(resp => {
-//         const token = resp.data.token;
-//         localStorage.setItem("user-token", token); // store the token in localstorage
-//         axios.defaults.headers.common["Authorization"] = token;
-//         commit("AUTH_SUCCESS", token);
-//         // you have your token, now log in your user :)
-//         dispatch("USER_REQUEST");
-//         resolve(resp);
-//       })
-//       .catch(err => {
-//         commit("AUTH_ERROR", err);
-//         localStorage.removeItem("user-token"); // if the request fails, remove any possible user token if possible
-//         reject(err);
-//       });
-//   });
-// };
-
 export const login = async ({ commit }, user) => {
   return new Promise((resolve, reject) => {
     commit("AUTH_REQUEST");
