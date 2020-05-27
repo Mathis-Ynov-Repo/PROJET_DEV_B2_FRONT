@@ -88,38 +88,6 @@ export default {
           .then(response => (this.commandes = response.data["hydra:member"]));
       this.loading = false;
     },
-    // async AbandonCommand(item) {
-    //   if (confirm("Abandonner cette commande ?")) {
-    //     this.loading = true;
-    //     await this.$http
-    //       .put("http://localhost:3000/api/commandes/" + item.id, {
-    //         statut: "abandonnée"
-    //       })
-    //       .then()
-    //       .catch(e => {
-    //         this.errors.push(e);
-    //         console.log(this.errors);
-    //       });
-    //   }
-    //   await this.getCommandes();
-    //   this.loading = false;
-    // },
-    // async confirmDelivery(item) {
-    //   if (confirm("Confirmer la livraison de cette commande ?")) {
-    //     this.loading = true;
-    //     await this.$http
-    //       .put("http://localhost:3000/api/commandes/" + item.id, {
-    //         statut: "livrée"
-    //       })
-    //       .then()
-    //       .catch(e => {
-    //         this.errors.push(e);
-    //         console.log(this.errors);
-    //       });
-    //   }
-    //   await this.getCommandes();
-    //   this.loading = false;
-    // },
     getColor(statut) {
       if (statut == "abandonnée") return "red";
       else if (statut == "en cours") return "orange";

@@ -169,7 +169,6 @@ export default {
       this.editedIndex = this.users.indexOf(item);
       this.editedItem = Object.assign({}, item);
       console.log(this.editedItem);
-      // this.editedItem.type = this.types.find(x => x.type == item.type.type);
 
       this.dialog = true;
     },

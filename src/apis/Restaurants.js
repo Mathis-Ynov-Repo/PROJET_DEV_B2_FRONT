@@ -21,9 +21,6 @@ export default {
   get(id) {
     return Api.get(END_POINT + "/" + id);
   },
-  // RestaurantWithUser(id) {
-  //   return Api.get(END_POINT + "?user.id=" + id);
-  // }
   RestaurantWithUser() {
     return Api.get(END_POINT);
   },

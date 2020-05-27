@@ -85,7 +85,6 @@
 import { mapState, mapActions } from "vuex";
 import Menu from "./Menu";
 export default {
-  //   props: ["plats"],
   data() {
     return {
       loadingPost: false,
@@ -109,12 +108,6 @@ export default {
   computed: {
     ...mapState("restaurant", ["OwnerRestaurant"])
   },
-  //   async mounted() {
-  //     this.loading = true;
-
-  //     await this.getRestaurant(this.$store.getters["authentication/authUser"].id);
-  //     this.loading = false;
-  //   },
   methods: {
     async save() {
       this.loadingPost = true;

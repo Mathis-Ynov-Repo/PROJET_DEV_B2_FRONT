@@ -81,7 +81,6 @@ export default {
       loadingPost: false,
       valid: true,
       menuSelect: "",
-      // restaurant: this.initialRestaurant,
       menuSelect2: "",
       menuTitle: "",
       menuPrice: "",
@@ -98,21 +97,9 @@ export default {
   },
   methods: {
     async getRestaurant() {
-      // await this.$http
-      //   .get("http://localhost:3000/api/restaurants/" + this.restaurant.id)
-      //   .then(response => {
-      //     this.restaurant = response.data;
-      //   });
       await this.$parent.getRestaurant(this.$route.params.id);
     },
-    // async getRestaurant() {
-    //   console.log("dc");
-    //   await this.$http
-    //     .get("http://localhost:3000/api/restaurants/" + this.restaurant.id)
-    //     .then(response => {
-    //       this.restaurant = response.data;
-    //     });
-    // },
+
     async save() {
       this.loadingPost = true;
       await this.$http
@@ -135,11 +122,6 @@ export default {
         .catch(e => {
           this.errors.push(e);
         });
-      // await this.$http
-      //   .get("http://localhost:3000/api/restaurants/" + this.restaurant.id)
-      //   .then(response => {
-      //     this.restaurant = response.data;
-      //   });
       await this.getRestaurant();
       this.$store.dispatch(
         "notifications/addNotification",

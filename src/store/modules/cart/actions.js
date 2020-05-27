@@ -2,8 +2,6 @@ export const addProductToCart = async (
   { commit, getters, dispatch },
   { product, quantity }
 ) => {
-  // console.log(product);
-  // console.log(getters.getCart);
   let productInCart = getters.getCart.find((item) => {
     return item.product["@id"] === product["@id"];
   });

@@ -221,15 +221,12 @@ export default {
     async postAvatar() {
       this.loadingImg = true;
       let file = this.dataURItoBlob(this.avatar);
-      // console.log(v2);
-      // let formData = new FormData();
+
       let formData = new FormData(document.forms[0]);
-      // console.log(this.avatar);
-      // console.log(this.avatar2);
-      // formData.append("file", this.avatar);
+
       formData.append("file", file, "custom.image");
       this;
-      // console.log(formData);
+
       await this.$http
         .post("http://localhost:3000/api/images", formData, {
           headers: {

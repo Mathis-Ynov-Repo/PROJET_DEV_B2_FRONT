@@ -16,21 +16,12 @@ export const getRestaurantsWithType = async ({ commit }, type) => {
 export const clearRestaurants = ({ commit }) => {
   commit("CLEAR_RESTAURANTS");
 };
-// export const getRestaurantWithOwner = async ({ commit }, id) => {
-//   await Restaurants.RestaurantWithUser(id).then((response) => {
-//     commit("SET_OWNER_RESTAURANT", response.data["hydra:member"][0]);
-//   });
-// };
 
 export const getRestaurantWithOwner = async ({ commit }) => {
   await Restaurants.RestaurantWithUser().then((response) => {
     commit("SET_OWNER_RESTAURANT", response.data["hydra:member"][0]);
   });
 };
-
-// export const getRestaurant = async (id) => {
-//   await Restaurants.get(id);
-// };
 
 export const createRestaurant = async ({ commit }, restaurant) => {
   await Restaurants.store(restaurant).then((response) => {

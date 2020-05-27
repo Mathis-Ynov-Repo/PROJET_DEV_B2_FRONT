@@ -81,7 +81,6 @@ export default {
       loadingPost: false,
       valid: true,
       types: [],
-      // restaurant: this.initialRestaurant,
       platSelect: "",
       platTitle: "",
       platPrice: "",

@@ -46,7 +46,6 @@ export const editPlat = async ({ dispatch }, plat) => {
 };
 
 export const updatePlat = ({ dispatch }) => {
-  // commit("SET_OWNER_RESTAURANT", plat);
   dispatch(
     "notifications/addNotification",
     {

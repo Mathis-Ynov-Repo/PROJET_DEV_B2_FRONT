@@ -163,13 +163,13 @@ export default {
       switch (statut) {
         case "en cours":
           return "orange";
-        //   break;
+
         case "livrée":
           return "green";
-        //   break;
+
         case "abandonnée":
           return "red";
-        //   break;
+
         default:
           return "orange";
       }
