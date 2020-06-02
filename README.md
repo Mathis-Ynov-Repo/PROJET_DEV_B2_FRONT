@@ -57,3 +57,16 @@ Il à aussi accès au **CRUD des commandes et du feedback**
 Enfin, il à accès au **CRUD des utilisateur**. Chaque utilisateur aura comme mot de passe par défaut à sa création : 'motdepasses'.
 C'est ici qu'un autre administrateur peut-être créé.
 Comme pour le CRUD des restaurants, l'administrateur peut accéder au profil de l'utilisateur pour modifer ses informations et consulter ses commandes.
+
+### Comptes utiles
+compte restaurateur : 
+email : resto@resto.resto
+mot de passe : restaurant
+
+compte utilisateur : 
+email : client@client.client
+mot de passe : motdepasses
+
+compte administrateur :
+email : admin@admin.admin
+mot de passe : motdepasses
