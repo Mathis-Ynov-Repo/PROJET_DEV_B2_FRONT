@@ -6,7 +6,7 @@ export const deleteMenu = async ({ dispatch }, menu) => {
     "notifications/addNotification",
     {
       type: "error",
-      message: "Menu supprimé",
+      message: "Menu deleted",
     },
     { root: true }
   );

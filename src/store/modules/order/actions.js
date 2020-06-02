@@ -56,7 +56,7 @@ export const placeOrder = async (
       "notifications/addNotification",
       {
         type: "error",
-        message: "Le prix de cette commande est supérieur à votre solde",
+        message: "The price of this order is greater than your current balance",
       },
       { root: true }
     );

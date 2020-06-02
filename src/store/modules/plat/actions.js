@@ -22,7 +22,7 @@ export const deletePlat = async ({ dispatch }, plat) => {
     "notifications/addNotification",
     {
       type: "error",
-      message: "Plat supprimé",
+      message: "Dish deleted",
     },
     { root: true }
   );

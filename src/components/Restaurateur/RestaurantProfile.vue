@@ -31,7 +31,18 @@
               </v-btn>
             </v-card-text>
 
-            <v-card-title>{{ OwnerRestaurant.libelle }}</v-card-title>
+            <v-card-title>
+              {{ OwnerRestaurant.libelle }}
+              <v-spacer></v-spacer>
+              <v-rating
+                :value="OwnerRestaurant.rating"
+                color="amber"
+                dense
+                half-increments
+                readonly
+                size="14"
+              ></v-rating>
+            </v-card-title>
             <v-card-subtitle>{{ OwnerRestaurant.description }}</v-card-subtitle>
 
             <v-card-title v-if="OwnerRestaurant.adresse">Adress : {{ OwnerRestaurant.adresse }}</v-card-title>

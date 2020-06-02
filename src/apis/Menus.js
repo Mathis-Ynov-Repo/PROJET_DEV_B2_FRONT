@@ -1,11 +1,11 @@
 import Api from "./Api";
 
-const END_POINT = "menus?pagination=false";
+const END_POINT = "menus";
 const DETAILS_END_POINT = "menu_details";
 
 export default {
   all() {
-    return Api.get(END_POINT);
+    return Api.get(END_POINT + "?pagination=false");
   },
   allMenusFromRestaurant(id) {
     return Api.get(END_POINT + "&restaurant.id=" + id);
